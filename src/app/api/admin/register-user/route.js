@@ -3,13 +3,9 @@ import admin from "@/lib/firebaseAdmin";
 
 export async function POST(req) {
   try {
-    const body = await req.json
-      ? await req.json()
-      : {};
+    const { email, password, role, name } = await req.json();
 
-    const { email, password, role, name } = body;
-
-    // 🔴 Basic validation
+    // 🔴 Validation
     if (!email || !password || !role) {
       return NextResponse.json(
         { error: "Missing required fields" },
@@ -17,7 +13,6 @@ export async function POST(req) {
       );
     }
 
-    // 🔐 ROLE VALIDATION (CC > OC)
     if (!["cc", "oc"].includes(role)) {
       return NextResponse.json(
         { error: "Invalid role. Only cc or oc allowed." },
@@ -31,25 +26,19 @@ export async function POST(req) {
       password,
     });
 
-    const uid = userRecord.uid;
-
-    // 2️⃣ Create Firestore user document (UID = doc ID)
-    await admin.firestore().collection("users").doc(uid).set({
+    // 2️⃣ Create Firestore document
+    await admin.firestore().collection("users").doc(userRecord.uid).set({
       email,
       name: name || "",
-      role, // cc or oc
+      role,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     });
 
-    return NextResponse.json({
-      success: true,
-      uid,
-      role,
-    });
+    return NextResponse.json({ success: true });
   } catch (err) {
     console.error("REGISTER USER API ERROR:", err);
 
-    // 🔍 Helpful error messages
+    // 🔍 Common Firebase errors
     if (err.code === "auth/email-already-exists") {
       return NextResponse.json(
         { error: "Email already exists" },
@@ -63,3 +52,4 @@ export async function POST(req) {
     );
   }
 }
+

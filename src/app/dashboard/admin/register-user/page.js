@@ -7,7 +7,7 @@ export default function CreateUserPage() {
     name: "",
     email: "",
     password: "",
-    role: "ot",
+    role: "oc",
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -17,7 +17,7 @@ export default function CreateUserPage() {
     setLoading(true);
     setMessage("");
 
-    const res = await fetch("/api/admin/create-user", {
+    const res = await fetch("/api/admin/register-user", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
@@ -27,8 +27,8 @@ export default function CreateUserPage() {
     setLoading(false);
 
     if (res.ok) {
-      setMessage("User created successfully ✅");
-      setForm({ name: "", email: "", password: "", role: "ot" });
+      setMessage("User created successfully ");
+      setForm({ name: "", email: "", password: "", role: "oc" });
     } else {
       setMessage(data.error || "Something went wrong");
     }
@@ -36,7 +36,7 @@ export default function CreateUserPage() {
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 border rounded">
-      <h1 className="text-xl font-bold mb-4">Create OT / OC User</h1>
+      <h1 className="text-xl font-bold mb-4">Create CC / OC User</h1>
 
       {message && (
         <p className="mb-3 text-sm text-center">{message}</p>
@@ -73,7 +73,7 @@ export default function CreateUserPage() {
           value={form.role}
           onChange={(e) => setForm({ ...form, role: e.target.value })}
         >
-          <option value="ot">Organizing Team (OT)</option>
+          <option value="cc">Core Committee (CC)</option>
           <option value="oc">Organizing Committee (OC)</option>
         </select>
 

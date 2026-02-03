@@ -10,7 +10,7 @@ export default function CCPage() {
           <LogoutButton />
         </div>
 
-        <p>Welcome, OT</p>
+        <p>Welcome, CC</p>
       </div>
     </ProtectedRoute>
   );

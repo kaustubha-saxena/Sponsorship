@@ -1,7 +1,7 @@
 import ProtectedRoute from "@/components/ProtectedRoute";
 import LogoutButton from "@/components/LogoutButton";
 
-export default function CCPage() {
+export default function OCPage() {
   return (
     <ProtectedRoute allowedRole="oc">
       <div className="p-6">
@@ -10,7 +10,7 @@ export default function CCPage() {
           <LogoutButton />
         </div>
 
-        <p>Welcome, OT</p>
+        <p>Welcome, OC</p>
       </div>
     </ProtectedRoute>
   );
