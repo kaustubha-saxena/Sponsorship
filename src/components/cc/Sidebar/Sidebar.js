@@ -1,11 +1,11 @@
-"use client";
+// "use client";
 
 import { useEffect, useState } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import LogoutButton from "@/components/LogoutButton";
 import OCbox from "./OCbox";
-
+import AddContactBtn from "@/components/AddContactBtn";
 export default function Sidebar() {
   const [ocs, setOcs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,6 +40,7 @@ export default function Sidebar() {
     <aside className="w-64 relative bg-[#0B1324] text-white min-h-screen p-4">
       <h2 className="text-xl font-semibold mb-6">Sponsorship</h2>
 
+{/* <AddContactBtn /> */}
       <nav className="space-y-4 ">
         <p className="text-gray-400 text-xs">ORGANIZING COMMITTEES</p>
 
@@ -57,7 +58,6 @@ export default function Sidebar() {
           ))}
       </nav>
       <div className="absolute bottom-0 left-0 right-0  w-full h-12">
-
       <LogoutButton  />
       </div>
     </aside>
