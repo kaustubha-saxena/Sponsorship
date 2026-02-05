@@ -37,7 +37,7 @@ export default function Sidebar() {
   }, []);
 
   return (
-    <aside className="w-64 relative bg-[#0B1324] text-white min-h-screen p-4">
+    <aside className="w-1/6 relative bg-[#0B1324] text-white min-h-screen p-4">
       <h2 className="text-xl font-semibold mb-6">Sponsorship</h2>
 
       <nav className="space-y-4 ">
