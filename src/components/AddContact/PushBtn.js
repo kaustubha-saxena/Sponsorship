@@ -4,7 +4,7 @@ import React from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import InputForm from "./InputForm";
-export default function PushBtn({contactForm}) {
+export default function PushBtn({contactForm, toggleForm}) {
   // console.log("Contact Form Data in AddContactBtn:", new Date(contactForm.followUpAt));
 
   const handleAddContact = async () => {
@@ -36,7 +36,10 @@ export default function PushBtn({contactForm}) {
   return (
     
     <button
-      onClick={handleAddContact}
+      onClick={() => {
+        handleAddContact();
+        toggleForm(); // Close the form after saving
+      }}
       className="px-4 py-2 bg-amber-600 text-white rounded-md cursor-pointer  hover:bg-amber-700"
     >
       Save Contact

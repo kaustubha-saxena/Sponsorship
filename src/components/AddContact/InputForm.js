@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PushBtn from "./PushBtn";
 import { useUser } from "@/app/context/UserContext"; 
-export default function InputForm() {
+export default function InputForm({ toggleForm }) {
   const { user } = useUser(); 
 
   const [form, setForm] = useState({
@@ -173,10 +173,8 @@ export default function InputForm() {
 
         
         <div className="flex justify-end gap-3">
-         <PushBtn contactForm={form}/>
-          {/* <button className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700">
-            Add Contact
-          </button> */}
+         <PushBtn contactForm={form} toggleForm={toggleForm}/>
+          
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import InputForm from "@/components/AddContact/InputForm";
 import AddBtn from "@/components/AddBtn";
-
+import DataBlock from "@/components/DataBlock";
 const Right = () => {
   const [openForm, setOpenForm] = useState(false);
 
@@ -16,8 +16,8 @@ const Right = () => {
     <div className="bg-red-500 w-5/6 min-h-full">
       <AddBtn toggleForm={toggleForm} />
 
-      {openForm && <InputForm />}
-      {/* <InputForm    />   */}
+      {openForm && <InputForm toggleForm={toggleForm}/>}
+<DataBlock/>
     </div>
   );
 };

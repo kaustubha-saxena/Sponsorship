@@ -3,7 +3,9 @@ import React from 'react'
 
 import DataRow from './DataRow';
 
-export default function Data() {
+export default function Data({contacts}) {
+  console.log(contacts);
+  
   const data = [
   {
     assignedTo: "SOME_OC_UID",
@@ -91,7 +93,7 @@ export default function Data() {
         </thead>
 
         <tbody>
-          {data.map((item, index) => (
+          {contacts.map((item, index) => (
 
             <DataRow key={index} item={item}  />
            
