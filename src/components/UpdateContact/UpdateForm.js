@@ -1,22 +1,23 @@
 import { useState } from "react";
-import PushBtn from "./PushBtn";
+import PushBtn from "../AddContact/PushBtn";
 import Image from "next/image";
 import { useUser } from "@/app/context/UserContext"; 
-export default function InputForm({ toggleForm }) {
+import Updatebtn from "./Updatebtn";
+export default function UpdateForm ({ toggleForm, contact }) {
   const { user } = useUser(); 
 
   const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    gender: "",
-    companyName: "",
-    role: "",
-    location: "",
-    linkedin: "",
-    callMade: false,
-    emailSent: false,
-    followUpDate: "",
+    name: contact?.name || "",
+    email: contact?.email || "",
+    phone: contact?.phone || "",
+    gender: contact?.gender || "",
+    companyName: contact?.companyName || "",
+    role: contact?.role || "",
+    location: contact?.location || "",
+    linkedin: contact?.linkedin || "",
+    callMade: contact?.callMade || false,
+    emailSent: contact?.emailSent || false,
+    followUpDate: contact?.followUpDate || "",
     assignedTo: user ? user.uid : "",
     notes: "",
   });
@@ -27,25 +28,7 @@ export default function InputForm({ toggleForm }) {
       ...form,
       [name]: type === "checkbox" ? checked : value,
     });
-  };
-
-  const handleClear = () => {
-    setForm({
-      name: "",
-      email: "",
-      phone: "",
-      gender: "",
-      companyName: "",
-      role: "",
-      location: "",
-      linkedin: "",
-      callMade: false,
-      emailSent: false,
-      followUpDate: "",
-      assignedTo: "",
-      notes: "",
-    });
-  };
+  }; 
 
   return (
     <>
@@ -58,7 +41,7 @@ export default function InputForm({ toggleForm }) {
       {/* Header */}
       <div className="flex  justify-between items-center bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-4">
         <h2 className="text-white text-lg font-semibold flex items-center gap-2">
-          Add New Contact
+          Update Contact
         </h2>
         <div>
           <button className="cursor-pointer"
@@ -183,8 +166,10 @@ export default function InputForm({ toggleForm }) {
         
         <div className="flex justify-end gap-3">
           
-         <PushBtn contactForm={form} toggleForm={toggleForm}/>
+         {/* <PushBtn contactForm={form} toggleForm={toggleForm}/> */}
+         <Updatebtn contactForm={form} toggleForm={toggleForm}/>
           
+
         </div>
             </div>
       </div>
@@ -194,7 +179,6 @@ export default function InputForm({ toggleForm }) {
   );
 }
 
-/* Reusable Components */
 
 function Input({ label, required, ...props }) {
   return (

@@ -1,24 +1,47 @@
 import React from "react";
 import Link from "next/link";
+import { useState } from "react";
+import UpdateForm from "./UpdateContact/UpdateForm";
 const DataRow = ({ item }) => {
+
+  const [showUpdateForm, setshowUpdateForm] = useState(false);
+
+  const toggleUpdateForm = () => {
+    setshowUpdateForm(prev => !prev);
+    console.log(showUpdateForm);
+  }
+
   const formatDate = (date) => {
-    if (!date) return "-";
+ 
+  if (!date) return "-";
 
-    // Firestore Timestamp
-    if (typeof date.toDate === "function") {
-      return date.toDate().toLocaleDateString();
-    }
+  // STRING date (YYYY-MM-DD)
+  if (typeof date === "string") {
+    const parsed = new Date(date);
+    return isNaN(parsed) ? "-" : parsed.toLocaleDateString();
+  }
 
-    // JS Date
-    if (date instanceof Date) {
-      return date.toLocaleDateString();
-    }
+  // Firestore Timestamp
+  if (typeof date.toDate === "function") {
+    return date.toDate().toLocaleDateString();
+  }
 
-    return "-";
-  };
+  // JS Date
+  if (date instanceof Date) {
+    return date.toLocaleDateString();
+  }
+
+  return "-";
+};
 
   return (
-    <tr className="border-b text-sm text-green-500">
+    <tr className="border-b text-sm text-black min-w-max">
+    <td>
+      <div className="flex justify-center items-center w-full ">
+
+      <button className="cursor-pointer">X</button>
+      </div>
+    </td>
       <td  title={item.companyName}  className="p-4 font-medium whitespace-nowrap max-w-40 overflow-hidden text-ellipsis cursor-help">  {item.companyName}</td>
       {/* <td className="p-4 font-medium">{item.companyName}</td> */}
       <td className="p-4 font-medium">{item.name}</td>
@@ -26,6 +49,7 @@ const DataRow = ({ item }) => {
       <Link href={item.linkedin} target="_blank">
         {item.linkedin || "-"}
       </Link>
+      
       }</td>
       
       <td className="p-4 font-medium">{item.email}</td>

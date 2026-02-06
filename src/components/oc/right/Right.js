@@ -13,7 +13,7 @@ const Right = () => {
   };
 
   return (
-    <div className="bg-red-500 w-5/6 min-h-full">
+    <div className="bg-gray-100 w-5/6 min-h-full">
       <AddBtn toggleForm={toggleForm} />
 
       {openForm && <InputForm toggleForm={toggleForm}/>}

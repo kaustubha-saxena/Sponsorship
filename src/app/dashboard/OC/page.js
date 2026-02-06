@@ -5,7 +5,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import Sidebar from "@/components/oc/sidebar/Sidebar";
 import Right from "@/components/oc/right/Right";
 import { useUser } from "@/app/context/UserContext";
-
+import UpdateForm from "@/components/UpdateContact/UpdateForm";
 export default function OCPage() {
   const { user } = useUser();
   
@@ -16,7 +16,7 @@ export default function OCPage() {
         <Sidebar />
         
           <Right />
-    
+    <UpdateForm />
     
         {/* <div className="flex-1 p-6">
           <p className="text-lg font-medium">

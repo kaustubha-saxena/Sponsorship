@@ -38,7 +38,10 @@ const DataBlock = () => {
 
     return (
         <>
+        <div className=' relative h-full w-full p-4'>
+
             <Data contacts={assignedContacts} />
+        </div>
         </>
     )
 }

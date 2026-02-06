@@ -5,10 +5,12 @@ import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import InputForm from "./InputForm";
 export default function PushBtn({contactForm, toggleForm}) {
-  // console.log("Contact Form Data in AddContactBtn:", new Date(contactForm.followUpAt));
+
 
   const handleAddContact = async () => {
     try {
+
+      if(contactForm.name!="" && contactForm.companyName!="" && contactForm.role!="" && contactForm.linkedin!="") {
       await addDoc(collection(db, "contacts"), {
         name: contactForm.name,
         email: contactForm.email,
@@ -24,7 +26,12 @@ export default function PushBtn({contactForm, toggleForm}) {
         note: contactForm.notes,
         assignedTo: contactForm.assignedTo, 
 
+      
       });
+    } else {
+      alert("Please fill in the required fields: Name, Company Name, Role");
+      return;
+    }
 
       // alert("Contact added successfully ");
     } catch (error) {
