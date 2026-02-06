@@ -5,7 +5,7 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import LogoutButton from "@/components/LogoutButton";
 import OCbox from "./OCbox";
-import AddContactBtn from "@/components/AddContactBtn";
+import AddContactBtn from "@/components/AddContact/PushBtn";
 export default function Sidebar() {
   const [ocs, setOcs] = useState([]);
   const [loading, setLoading] = useState(true);
