@@ -10,31 +10,31 @@ export default function Sidebar() {
   const [ocs, setOcs] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // const fetchOCs = async () => {
-    //   try {
-    //     const q = query(
-    //       collection(db, "users"),
-    //       where("role", "==", "oc") 
-    //     );
+  // useEffect(() => {
+  //   const fetchOCs = async () => {
+  //     try {
+  //       const q = query(
+  //         collection(db, "users"),
+  //         where("role", "==", "oc") 
+  //       );
 
-    //     const snapshot = await getDocs(q);
+  //       const snapshot = await getDocs(q);
 
-    //     const ocList = snapshot.docs.map(doc => ({
-    //       uid: doc.id,
-    //       ...doc.data(),
-    //     }));
+  //       const ocList = snapshot.docs.map(doc => ({
+  //         uid: doc.id,
+  //         ...doc.data(),
+  //       }));
 
-    //     setOcs(ocList);
-    //   } catch (error) {
-    //     console.error("Error fetching OCs:", error);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
+  //       setOcs(ocList);
+  //     } catch (error) {
+  //       console.error("Error fetching OCs:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    // fetchOCs();
-  }, []);
+  //   fetchOCs();
+  // }, []);
 
   return (
     <aside className="w-1/6 relative bg-[#0B1324] text-white min-h-screen p-4">
