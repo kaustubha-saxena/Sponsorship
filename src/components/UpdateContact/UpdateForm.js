@@ -1,8 +1,8 @@
 import { useState } from "react";
 import PushBtn from "../AddContact/PushBtn";
-import Image from "next/image";
+
 import { useUser } from "@/app/context/UserContext"; 
-import Updatebtn from "./Updatebtn";
+
 export default function UpdateForm ({ toggleForm, contact }) {
   const { user } = useUser(); 
 
@@ -167,7 +167,7 @@ export default function UpdateForm ({ toggleForm, contact }) {
         <div className="flex justify-end gap-3">
           
          {/* <PushBtn contactForm={form} toggleForm={toggleForm}/> */}
-         <Updatebtn contactForm={form} toggleForm={toggleForm}/>
+         {/* <Updatebtn contactForm={form} toggleForm={toggleForm}/> */}
           
 
         </div>

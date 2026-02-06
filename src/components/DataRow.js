@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { useState } from "react";
-import UpdateForm from "./UpdateContact/UpdateForm";
 const DataRow = ({ item }) => {
 
   const [showUpdateForm, setshowUpdateForm] = useState(false);
@@ -49,7 +48,7 @@ const DataRow = ({ item }) => {
       <Link href={item.linkedin} target="_blank">
         {item.linkedin || "-"}
       </Link>
-      
+
       }</td>
       
       <td className="p-4 font-medium">{item.email}</td>

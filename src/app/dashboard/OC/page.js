@@ -16,7 +16,7 @@ export default function OCPage() {
         <Sidebar />
         
           <Right />
-    <UpdateForm />
+    {/* <UpdateForm /> */}
     
         {/* <div className="flex-1 p-6">
           <p className="text-lg font-medium">
