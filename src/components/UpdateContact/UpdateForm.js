@@ -1,10 +1,13 @@
+
 import { useState } from "react";
-import PushBtn from "../AddContact/PushBtn";
+import Updatebtn from "./Updatebtn";
 
 import { useUser } from "@/app/context/UserContext"; 
 
 export default function UpdateForm ({ toggleForm, contact }) {
   const { user } = useUser(); 
+;
+  
 
   const [form, setForm] = useState({
     name: contact?.name || "",
@@ -28,6 +31,8 @@ export default function UpdateForm ({ toggleForm, contact }) {
       ...form,
       [name]: type === "checkbox" ? checked : value,
     });
+    console.log(form);
+    
   }; 
 
   return (
@@ -167,7 +172,7 @@ export default function UpdateForm ({ toggleForm, contact }) {
         <div className="flex justify-end gap-3">
           
          {/* <PushBtn contactForm={form} toggleForm={toggleForm}/> */}
-         {/* <Updatebtn contactForm={form} toggleForm={toggleForm}/> */}
+         <Updatebtn contactForm={form} uid={contact.uid} toggleForm={toggleForm}/>
           
 
         </div>

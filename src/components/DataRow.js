@@ -1,13 +1,16 @@
 import React from "react";
 import Link from "next/link";
 import { useState } from "react";
+import UpdateForm from "./UpdateContact/UpdateForm";
+import Image from "next/image";
 const DataRow = ({ item }) => {
+
 
   const [showUpdateForm, setshowUpdateForm] = useState(false);
 
   const toggleUpdateForm = () => {
     setshowUpdateForm(prev => !prev);
-    console.log(showUpdateForm);
+   
   }
 
   const formatDate = (date) => {
@@ -38,7 +41,13 @@ const DataRow = ({ item }) => {
     <td>
       <div className="flex justify-center items-center w-full ">
 
-      <button className="cursor-pointer">X</button>
+      <button onClick={toggleUpdateForm} className="cursor-pointer">
+        <Image src="/edit.png" alt="Edit" width={15} height={20} />
+      </button>
+       {
+      
+       
+       showUpdateForm && <UpdateForm toggleForm={toggleUpdateForm} contact={item}/>}
       </div>
     </td>
       <td  title={item.companyName}  className="p-4 font-medium whitespace-nowrap max-w-40 overflow-hidden text-ellipsis cursor-help">  {item.companyName}</td>
