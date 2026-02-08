@@ -3,15 +3,21 @@
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-
 import { db } from "@/lib/firebase";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Sidebar from "@/components/cc/Sidebar/Sidebar";
+import Right from "@/components/cc/right/Right";
+import { useUser } from "@/app/context/UserContext";
 
 export default function CCPage() {
+
+  const [selectedOCid, setSelectedOCid] = useState("");
   const [userName, setUserName] = useState("");
+const {user} = useUser();
 
   useEffect(() => {
+   
+    
     const auth = getAuth();
 
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -28,16 +34,46 @@ export default function CCPage() {
     return () => unsubscribe();
   }, []);
 
+  // use  
+  //     const fetchOCs = async () => {
+  //       try {
+  //         const q = query(
+  //           collection(db, "users"),
+  //           where("role", "==", "oc") // 🔴 must match Firestore exactly
+  //         );
+  
+  //         const snapshot = await getDocs(q);
+  
+  //         const ocList = snapshot.docs.map(doc => ({
+  //           uid: doc.id,
+  //           ...doc.data(),
+  //         }));
+  
+  //         setOcs(ocList);
+  //         console.log("list", ocList);
+          
+  //       } catch (error) {
+  //         console.error("Error fetching OCs:", error);
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     };
+  
+  //     fetchOCs();
+  //   }, []);
+
   return (
     <ProtectedRoute allowedRole="cc">
       <div className="flex min-h-screen bg-zinc-50 font-sans dark:bg-black">
-        <Sidebar />
+        <Sidebar selectedOCid={selectedOCid} setSelectedOCid={setSelectedOCid } />
 
-        <div className="p-6">
+<Right selectedOCid={selectedOCid} />
+
+        {/* <div className="p-6">
           <p className="text-lg">
             Welcome{userName ? `, ${userName}` : ""} 👋
           </p>
-        </div>
+        </div> */}
       </div>
     </ProtectedRoute>
   );
