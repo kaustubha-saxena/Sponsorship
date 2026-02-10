@@ -1,22 +1,17 @@
 "use client";
 import React, { useState } from "react";
 import InputForm from "@/components/AddContact/InputForm";
-import AddBtn from "@/components/AddBtn";
+
 import DataBlock from "@/components/DataBlock";
+import UpdateForm from "@/components/UpdateContact/UpdateForm";
+
 const Right = () => {
-  const [openForm, setOpenForm] = useState(false);
-
-  const toggleForm = () => {
-    setOpenForm(prev => !prev);
-    console.log(openForm);
-    
-  };
-
+ 
   return (
-    <div className="bg-gray-100 w-5/6 min-h-full">
-      <AddBtn toggleForm={toggleForm} />
+    <div className="bg-gray-50 w-5/6 min-h-full absolute right-0">
+    
 
-      {openForm && <InputForm toggleForm={toggleForm}/>}
+    
 <DataBlock/>
     </div>
   );

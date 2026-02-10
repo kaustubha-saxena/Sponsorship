@@ -37,7 +37,7 @@ export default function UpdateForm ({ toggleForm, contact }) {
 
   return (
     <>
-    <div className="w-full h-full absolute top-0 left-0 bg-white/60 flex items-center justify-center z-50">
+    <div className="w-full h-full  absolute top-0 left-0 bg-white/60 flex justify-center items-center z-50">
 
     <div className="w-[40%]   rounded-xl max-h-[80vh] overflow-y-scroll  no-scrollbar">
 
@@ -48,12 +48,11 @@ export default function UpdateForm ({ toggleForm, contact }) {
         <h2 className="text-white text-lg font-semibold flex items-center gap-2">
           Update Contact
         </h2>
-        <div>
-          <button className="cursor-pointer"
+         <button className=" text-white cursor-pointer"
             onClick={toggleForm}>
               X
             </button>
-        </div>
+       
       </div>
 
       <div className="p-6 space-y-8">
