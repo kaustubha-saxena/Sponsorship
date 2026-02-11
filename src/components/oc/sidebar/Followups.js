@@ -37,7 +37,7 @@ const Followups = () => {
     }, []);
 
   return (
-    <div>
+    <div className='bg-[#15213c]  rounded-lg px-4 py-2'>
       <h3 className="text-lg font-semibold mb-2">Follow-ups Today</h3>
       {loading ? (
         <p>Loading...</p>
@@ -49,7 +49,7 @@ const Followups = () => {
           ))}
         </ul>
       ) : (
-        <p>No follow-ups scheduled for today.</p>
+        <p className='text-sm'>No follow-ups scheduled for today.</p>
       )}
     </div>
   )

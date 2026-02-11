@@ -49,14 +49,14 @@ export default function InputForm({ toggleForm }) {
 
   return (
     <>
-    <div className="w-full h-full absolute top-0 left-0 bg-white/60 flex items-center justify-center z-50">
+    <div className="w-full h-full absolute rounded-20ox top-0 left-0 bg-white/60 flex items-center justify-center z-50">
 
     <div className="w-[40%]   rounded-xl max-h-[80vh] overflow-y-scroll  no-scrollbar">
 
 
     <div className="max-w-dull mx-auto bg-white rounded-xl shadow-md overflow-hidden">
       {/* Header */}
-      <div className="flex  justify-between items-center bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-4">
+      <div className="flex  justify-between  items-center bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-4">
         <h2 className="text-white text-lg font-semibold flex items-center gap-2">
           Add New Contact
         </h2>

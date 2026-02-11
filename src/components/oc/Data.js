@@ -1,13 +1,13 @@
-import DataRow from "./DataRow";
-export default function Data({ contacts, setshowUpdateForm }) {
-  console.log(contacts);
+import DataRow from "@/components/oc/DataRow";
+export default function Data({ contacts }) {
+
   
   return (
-    <div className="bg-white  shadow w-full  top-0 left-0 border-none ">
-          <div className="max-h-[400px] overflow-y-auto overflow-x-auto">
+    <div className="  shadow w-full h-[90%]  bg-white  top-0 left-0 border-none ">
+          <div className="h-full  overflow-y-auto overflow-x-auto no-scrollbar">
         <table className=" min-w-max w-full border-2 ">
           <thead className="sticky top-0 bg-white z-10">
-            <tr className="text-left text-md  text-gray-500 bg-gray-100 ">
+            <tr className="text-left text-sm  text-gray-500 bg-gray-100 ">
               <th className="p-4">Company</th>
               <th className="p-4">Contact Person</th>
               <th className="p-4 w-fit">LinkedIn</th>
@@ -23,8 +23,9 @@ export default function Data({ contacts, setshowUpdateForm }) {
           </thead>
 
           <tbody className="">
+            {contacts.length === 0 ? <tr><td colSpan="11" className="text-center p-4">No contacts available</td></tr>:<></>}
             {contacts.map((item, index) => (
-              <DataRow key={index} item={item} setshowUpdateForm={setshowUpdateForm} />
+              <DataRow key={index} item={item}  />
             ))}
           </tbody>
         </table>

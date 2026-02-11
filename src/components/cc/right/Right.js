@@ -1,14 +1,47 @@
 import React from 'react'
+import { useEffect, useState } from "react";
 import Report from './Report'
 import AddContactBtn from '@/components/AddContact/PushBtn';
+import DataBlock from './DataBlock';
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 const Right = ({selectedOCid}) => {
-  console.log("aslfhjskfn ksajfalksfakl",selectedOCid);
-  
+ console.log("start",selectedOCid,"end");
+ 
+  const [assignedContacts, setassignedContacts] = useState([]);
+      const [loading, setLoading] = useState(true);
+      useEffect(() => {
+              const fetchassignedContacts = async () => {
+                  try {
+                      const q = query(
+                          collection(db, "contacts"),
+                          where("assignedTo", "==", selectedOCid)
+                      );
+      
+                      const snapshot = await getDocs(q);
+      
+                      const contacts = snapshot.docs.map(doc => ({
+                          uid: doc.id,
+                          ...doc.data(),
+                      }));
+      
+                      setassignedContacts(contacts);
+                     
+                  } catch (error) {
+                      console.error("Error fetching assignedContacts:", error);
+                  } finally {
+                      setLoading(false);
+                  }
+              };
+      
+              fetchassignedContacts();
+          }, [selectedOCid]);
   
   return (
-    <div className='bg-red-500 w-full min-h-full'>
+    <div className='bg-red-500 relative w-full min-h-full'>
       <Report ocId={selectedOCid} />
       <AddContactBtn />
+      <DataBlock assignedContacts={assignedContacts} />
     </div>
   )
 }

@@ -8,10 +8,13 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import Sidebar from "@/components/cc/Sidebar/Sidebar";
 import Right from "@/components/cc/right/Right";
 import { useUser } from "@/app/context/UserContext";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 export default function CCPage() {
 
   const [selectedOCid, setSelectedOCid] = useState("");
+  const [ocs, setOcs] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState("");
 const {user} = useUser();
 
@@ -34,33 +37,33 @@ const {user} = useUser();
     return () => unsubscribe();
   }, []);
 
-  // use  
-  //     const fetchOCs = async () => {
-  //       try {
-  //         const q = query(
-  //           collection(db, "users"),
-  //           where("role", "==", "oc") // 🔴 must match Firestore exactly
-  //         );
+ useEffect(() => { 
+      const fetchOCs = async () => {
+        try {
+          const q = query(
+            collection(db, "users"),
+            where("role", "==", "oc") 
+          );
   
-  //         const snapshot = await getDocs(q);
+          const snapshot = await getDocs(q);
   
-  //         const ocList = snapshot.docs.map(doc => ({
-  //           uid: doc.id,
-  //           ...doc.data(),
-  //         }));
+          const ocList = snapshot.docs.map(doc => ({
+            uid: doc.id,
+            ...doc.data(),
+          }));
   
-  //         setOcs(ocList);
-  //         console.log("list", ocList);
+          setOcs(ocList);
+          console.log("list", ocList);
           
-  //       } catch (error) {
-  //         console.error("Error fetching OCs:", error);
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     };
+        } catch (error) {
+          console.error("Error fetching OCs:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
   
-  //     fetchOCs();
-  //   }, []);
+      fetchOCs();
+      }, []);
 
   return (
     <ProtectedRoute allowedRole="cc">

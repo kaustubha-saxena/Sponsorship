@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import InputForm from "@/components/AddContact/InputForm";
 
-import DataBlock from "@/components/DataBlock";
+import DataBlock from "@/components/oc/DataBlock";
 import UpdateForm from "@/components/UpdateContact/UpdateForm";
 
 const Right = () => {

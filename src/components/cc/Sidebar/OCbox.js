@@ -3,8 +3,9 @@ import React from 'react'
 const OCbox = ({item,  setSelectedOCid}) => {
   
 
+
   const handleClick = () => {
-    // console.log(item.uid);
+   
     
     setSelectedOCid(item.uid);
   };
