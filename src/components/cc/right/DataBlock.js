@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 
 
 const DataBlock = ({ assignedContacts }) => {
-    console.log("assignedContacts", assignedContacts);
+    
     const [search, setSearch] = useState("")
 
     const { user } = useUser();
@@ -77,7 +77,7 @@ const DataBlock = ({ assignedContacts }) => {
 
     return (
         <>
-            <div className='  bottom-0 absolute  h-[70%] w-full p-5 bg-green-200  '>
+            <div className='  bottom-0 absolute  h-[70%] w-full p-5   '>
                 <div className='flex justify-between items-center rounded-lg px-4'>
                     
                     <div className='flex items-center justify-start gap-2  w-[60%] text-black'>

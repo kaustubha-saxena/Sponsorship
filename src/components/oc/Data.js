@@ -1,6 +1,6 @@
 import DataRow from "@/components/oc/DataRow";
 export default function Data({ contacts }) {
-console.log(" ", contacts);
+
 
   
   return (

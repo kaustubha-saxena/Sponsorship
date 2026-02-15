@@ -29,6 +29,8 @@ const Right = ({selectedOCid}) => {
                       }));
       
                       setassignedContacts(contacts);
+                    //   console.log(assignedContacts, "asiufhsifuh sifhsihf");
+                      
                      
                   } catch (error) {
                       console.error("Error fetching assignedContacts:", error);
