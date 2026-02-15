@@ -17,7 +17,6 @@
 
 // export default Updatebtn
 
-"use client";
 
 import React from "react";
 import { db } from "@/lib/firebase";
@@ -40,6 +39,8 @@ const Updatebtn = ({ contactForm,uid, toggleForm }) => {
         callMade: contactForm.callMade,
         emailSent: contactForm.emailSent,
         followUpAt: contactForm.followUpDate,
+        callDate: contactForm.callDate,
+        emailDate: contactForm.emailDate,
         note: contactForm.notes,
         assignedTo: contactForm.assignedTo, 
 

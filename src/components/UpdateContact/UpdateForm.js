@@ -1,13 +1,52 @@
 
 import { useState } from "react";
-import Updatebtn from "./Updatebtn";
+// import Updatebtn from "./Updatebtn";
 
-import { useUser } from "@/app/context/UserContext"; 
+import { useUser } from "@/app/context/UserContext";
+import { db } from "@/lib/firebase";
+import { doc, updateDoc } from "firebase/firestore";
+export default function UpdateForm({ toggleForm, contact }) {
+  const { user } = useUser();
+  ;
 
-export default function UpdateForm ({ toggleForm, contact }) {
-  const { user } = useUser(); 
-;
-  
+  const handleUpdate = async () => {
+ if (form.callMade && !form.callDate) {
+    alert("Please select Call Date when Call Made is checked.");
+    return;
+  }
+
+  if (form.emailSent && !form.emailDate) {
+    alert("Please select Email Date when Email Sent is checked.");
+    return;
+  }
+
+    try {
+      await updateDoc(doc(db, "contacts", contact?.uid), {
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        gender: form.gender,
+        companyName: form.companyName,
+        location: form.location,
+        linkedin: form.linkedin,
+        role: form.role,
+        callMade: form.callMade,
+        emailSent: form.emailSent,
+        followUpAt: form.followUpDate,
+        callDate: form.callDate,
+        emailDate: form.emailDate,
+        note: form.notes,
+        assignedTo: form.assignedTo,
+
+      });
+
+      toggleForm?.();
+      console.log("Updated successfully");
+    } catch (error) {
+      console.error("Update failed:", error);
+    }
+  };
+
 
   const [form, setForm] = useState({
     name: contact?.name || "",
@@ -21,8 +60,10 @@ export default function UpdateForm ({ toggleForm, contact }) {
     callMade: contact?.callMade || false,
     emailSent: contact?.emailSent || false,
     followUpDate: contact?.followUpDate || "",
+    callDate: contact?.callDate || "",
+    emailDate: contact?.emailDate || "",
     assignedTo: user ? user.uid : "",
-    notes: "",
+    notes: contact?.notes||"",
   });
 
   const handleChange = (e) => {
@@ -31,155 +72,178 @@ export default function UpdateForm ({ toggleForm, contact }) {
       ...form,
       [name]: type === "checkbox" ? checked : value,
     });
-    console.log(form);
-    
-  }; 
+    // console.log(form);
+
+  };
 
   return (
     <>
-    <div className="w-full h-full  absolute top-0 left-0 bg-white/60 flex justify-center items-center z-50">
+      <div className="w-full h-full  absolute top-0 left-0 bg-white/60 flex justify-center items-center z-50">
 
-    <div className="w-[40%]   rounded-xl max-h-[80vh] overflow-y-scroll  no-scrollbar">
+        <div className="w-[40%]   rounded-xl max-h-[80vh] overflow-y-scroll  no-scrollbar">
 
 
-    <div className="max-w-dull mx-auto bg-white rounded-xl shadow-md overflow-hidden">
-      {/* Header */}
-      <div className="flex  justify-between items-center bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-4">
-        <h2 className="text-white text-lg font-semibold flex items-center gap-2">
-          Update Contact
-        </h2>
-         <button className=" text-white cursor-pointer"
-            onClick={toggleForm}>
-              X
-            </button>
-       
-      </div>
+          <div className="max-w-dull mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+            {/* Header */}
+            <div className="flex  justify-between items-center bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-4">
+              <h2 className="text-white text-lg font-semibold flex items-center gap-2">
+                Update Contact
+              </h2>
+              <button className=" text-white cursor-pointer"
+                onClick={toggleForm}>
+                X
+              </button>
 
-      <div className="p-6 space-y-8">
-        {/* PERSONAL INFO */}
-        <section>
-          <h3 className="text-sm font-semibold text-gray-500 mb-4">
-            PERSONAL INFORMATION
-          </h3>
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Input label="Name" name="name" value={form.name} onChange={handleChange} required />
-            <Input label="Email" name="email" value={form.email} onChange={handleChange} required />
-            <Input label="Phone" name="phone" value={form.phone} onChange={handleChange} />
-            <Select
-              label="Gender"
-              name="gender"
-              value={form.gender}
-              onChange={handleChange}
-              options={["Male", "Female"]}
-              />
-          </div>
-        </section>
+            <div className="p-6 space-y-8">
+              {/* PERSONAL INFO */}
+              <section>
+                <h3 className="text-sm font-semibold text-gray-500 mb-4">
+                  PERSONAL INFORMATION
+                </h3>
 
-        <section>
-          <h3 className="text-sm font-semibold text-gray-500 mb-4">
-            COMPANY INFORMATION
-          </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Input label="Name" name="name" value={form.name} onChange={handleChange} required />
+                  <Input label="Email" name="email" value={form.email} onChange={handleChange} required />
+                  <Input label="Phone" name="phone" value={form.phone} onChange={handleChange} />
+                  <Select
+                    label="Gender"
+                    name="gender"
+                    value={form.gender}
+                    onChange={handleChange}
+                    options={["Male", "Female"]}
+                  />
+                </div>
+              </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Input
-              label="Company Name"
-              name="companyName"
-              value={form.companyName}
-              onChange={handleChange}
-              required
-              />
-            <Input
-              label="Role"
-              name="role"
-              value={form.role}
-              onChange={handleChange}
-              placeholder="e.g., Manager, Director"
-              />
-            <Input
-              label="Location"
-              name="location"
-              value={form.location}
-              onChange={handleChange}
-              placeholder="City, Country"
-            />
-            <Input
-              label="LinkedIn"
-              name="linkedin"
-              value={form.linkedin}
-              onChange={handleChange}
-              placeholder="https://linkedin.com/in/..."
-              />
-          </div>
-        </section>
+              <section>
+                <h3 className="text-sm font-semibold text-gray-500 mb-4">
+                  COMPANY INFORMATION
+                </h3>
 
-  
-        <section>
-          <h3 className="text-sm font-semibold text-gray-500 mb-4">
-            OUTREACH STATUS
-          </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Input
+                    label="Company Name"
+                    name="companyName"
+                    value={form.companyName}
+                    onChange={handleChange}
+                    required
+                  />
+                  <Input
+                    label="Role"
+                    name="role"
+                    value={form.role}
+                    onChange={handleChange}
+                    placeholder="e.g., Manager, Director"
+                  />
+                  <Input
+                    label="Location"
+                    name="location"
+                    value={form.location}
+                    onChange={handleChange}
+                    placeholder="City, Country"
+                  />
+                  <Input
+                    label="LinkedIn"
+                    name="linkedin"
+                    value={form.linkedin}
+                    onChange={handleChange}
+                    placeholder="https://linkedin.com/in/..."
+                  />
+                </div>
+              </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <Checkbox
-              label="Call Made"
-              name="callMade"
-              checked={form.callMade}
-              onChange={handleChange}
-              />
-            <Checkbox
-              label="Email Sent"
-              name="emailSent"
-              checked={form.emailSent}
-              onChange={handleChange}
-              />
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Input
-              label="Follow Up Date"
-              type="date"
-              name="followUpDate"
-              value={form.followUpDate}
-              onChange={handleChange}
-              />
-            {/* <Select
+              <section>
+                <h3 className="text-sm font-semibold text-gray-500 mb-4">
+                  OUTREACH STATUS
+                </h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <Checkbox
+                    label="Call Made"
+                    name="callMade"
+                    checked={form.callMade}
+                    onChange={handleChange}
+                  />
+                  <Checkbox
+                    label="Email Sent"
+                    name="emailSent"
+                    checked={form.emailSent}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Input
+                    label="Call Date"
+                    type="date"
+                    name="callDate"
+                    value={form.callDate}
+                    onChange={handleChange}
+                    required={form.callMade}
+                      disabled={!form.callMade}
+                  />
+                  <Input
+                    label="Email Date"
+                    type="date"
+                    name="emailDate"
+                    value={form.emailDate}
+                    onChange={handleChange}
+                    required={form.emailSent}
+                      disabled={!form.emailSent}
+                  />
+                  <Input
+                    label="Follow Up Date"
+                    type="date"
+                    name="followUpDate"
+                    value={form.followUpDate}
+                    onChange={handleChange}
+                  />
+                  {/* <Select
               label="Assigned To"
               name="assignedTo"
               value={form.assignedTo}
               onChange={handleChange}
               options={["Member 1", "Member 2", "Member 3"]}
               /> */}
-          </div>
-        </section>
+                </div>
+              </section>
 
-        {/* NOTES */}
-        <section>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Notes
-          </label>
-          <textarea
-            name="notes"
-            value={form.notes}
-            onChange={handleChange}
-            rows={2}
-            placeholder="Add any additional notes about this sponsor..."
-            className="w-full rounded-lg border border-gray-300 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            />
-        </section>
+              {/* NOTES */}
+              <section>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Notes
+                </label>
+                <textarea
+                  name="notes"
+                  value={form.notes}
+                  onChange={handleChange}
+                  rows={2}
+                  placeholder="Add any additional notes about this sponsor..."
+                  className="w-full rounded-lg border border-gray-300 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                />
+              </section>
 
-        
-        <div className="flex justify-end gap-3">
-          
-         {/* <PushBtn contactForm={form} toggleForm={toggleForm}/> */}
-         <Updatebtn contactForm={form} uid={contact.uid} toggleForm={toggleForm}/>
-          
 
-        </div>
+              <div className="flex justify-end gap-3">
+
+                {/* <PushBtn contact={form} toggleForm={toggleForm}/> */}
+                {/* <Updatebtn contact={form} uid={contact.uid} toggleForm={toggleForm}/> */}
+                <button
+                  onClick={handleUpdate}
+                  className="px-4 py-2 bg-amber-600 text-white rounded-md cursor-pointer hover:bg-amber-700"
+                >
+                  Update
+                </button>
+               
+              </div>
             </div>
+          </div>
+        </div>
       </div>
-    </div>
-</div>
-            </>
+    </>
   );
 }
 

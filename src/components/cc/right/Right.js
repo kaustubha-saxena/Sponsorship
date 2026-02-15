@@ -42,8 +42,8 @@ const Right = ({selectedOCid}) => {
   
   return (
     <div className=' relative w-full min-h-full bg-gray-50'>
-      <Report ocId={selectedOCid} />
-      <AddContactBtn />
+      <Report assignedContacts={assignedContacts} />
+      {/* <AddContactBtn /> */}
       <DataBlock assignedContacts={assignedContacts} />
     </div>
   )

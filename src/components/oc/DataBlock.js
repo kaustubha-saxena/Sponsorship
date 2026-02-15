@@ -3,18 +3,17 @@ import Data from "@/components/oc/Data";
 import { useUser } from "@/app/context/UserContext";
 import Image from 'next/image';
 import { useEffect, useState } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+
 import AddBtn from "@/components/AddBtn";
 import InputForm from "@/components/AddContact/InputForm";
-const DataBlock = ({ setshowUpdateForm }) => {
+const DataBlock = ({ setshowUpdateForm, assignedContacts, loading }) => {
     const { user } = useUser();
-    const [assignedContacts, setassignedContacts] = useState([]);
+    // const [assignedContacts, setassignedContacts] = useState([]);
     const [search, setSearch] = useState("")
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
     const [emailSend, setEmailSend] = useState(null);
     const [callDone, setCallDone] = useState(null);
-    const [emailFilterCounter, setEmailFilterCounter] = useState(0);
+
     const handleToggleEmail = () => {
         setEmailSend(prev =>
             prev === true ? false :
@@ -33,31 +32,31 @@ const DataBlock = ({ setshowUpdateForm }) => {
 
 
 
-    useEffect(() => {
-        const fetchassignedContacts = async () => {
-            try {
-                const q = query(
-                    collection(db, "contacts"),
-                    where("assignedTo", "==", `${user ? user.uid : ""}`)
-                );
+    // useEffect(() => {
+    //     const fetchassignedContacts = async () => {
+    //         try {
+    //             const q = query(
+    //                 collection(db, "contacts"),
+    //                 where("assignedTo", "==", `${user ? user.uid : ""}`)
+    //             );
 
-                const snapshot = await getDocs(q);
+    //             const snapshot = await getDocs(q);
 
-                const ocList = snapshot.docs.map(doc => ({
-                    uid: doc.id,
-                    ...doc.data(),
-                }));
+    //             const ocList = snapshot.docs.map(doc => ({
+    //                 uid: doc.id,
+    //                 ...doc.data(),
+    //             }));
 
-                setassignedContacts(ocList);
-            } catch (error) {
-                console.error("Error fetching assignedContacts:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
+    //             setassignedContacts(ocList);
+    //         } catch (error) {
+    //             console.error("Error fetching assignedContacts:", error);
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     };
 
-        fetchassignedContacts();
-    }, []);
+    //     fetchassignedContacts();
+    // }, []);
 
     const [openForm, setOpenForm] = useState(false);
 
@@ -104,44 +103,40 @@ const DataBlock = ({ setshowUpdateForm }) => {
     const handleSearchChange = (e) => {
         setSearch(e.target.value)
     }
-    const fetchSearchContacts = (assignedContacts) => {
-
-    }
+    
 
     return (
         <>
-            <div className='  bottom-0 absolute  h-[70%] w-full p-5 '>
+            <div className='  bottom-0 relative  h-[70%] w-full p-5 '>
                 <div className='flex justify-between items-center rounded-lg px-4'>
                     <div className='flex items-center justify-start gap-2  w-[60%] text-black'>
-                        <input value={search} onChange={handleSearchChange} className=" text-black m-2 px-1 py-2 w-[60%] rounded-md border-none bg-white " type="text" placeholder='Search by company, name or email' />
-                        {/* <button className=''>
-                            <Image src="/filter.png" alt="Search" width={20} height={20} />
-                        </button> */}
+                        <input value={search} onChange={handleSearchChange} className=" text-black m-2 px-1 py-2 w-[60%] rounded-md border-none bg-white " type="text" placeholder='Search by company, name, email or phone number' />
+                       
                         <button
                             onClick={handleToggleEmail}
-                            className={`font-semibold text-sm cursor-pointer border-none rounded-2xl px-3 py-1 transition-colors duration-200
+                            className={`font-semibold text-sm cursor-pointer border-none shadow-sm border rounded-2xl px-3 py-1 transition-colors duration-200
     ${emailSend === true
                                     ? "bg-green-300 text-black"
                                     : emailSend === false
                                         ? "bg-red-300 text-black"
-                                        : "bg-gray-200 hover:bg-gray-200"
+                                        : "bg-white hover:bg-gray-100"
                                 }`}
                         >
                             Email
                         </button>
                         <button
                             onClick={handleToggleCall}
-                            className={` font-semibold text-sm cursor-pointer border-none rounded-2xl px-3 py-1 transition-colors duration-200
+                            className={` font-semibold text-sm cursor-pointer border-none  shadow-sm border rounded-2xl px-3 py-1 transition-colors duration-200
     ${callDone === true
-                                   ? "bg-green-300 text-black"
+                                    ? "bg-green-300 text-black"
                                     : callDone === false
                                         ? "bg-red-300 text-black"
-                                        : "bg-gray-200 hover:bg-gray-200"   
+                                        : "bg-white hover:bg-gray-100"
                                 }`}
                         >
                             Call
                         </button>
-                        
+
 
                     </div>
                     <div>
