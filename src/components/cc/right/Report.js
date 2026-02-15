@@ -41,7 +41,7 @@ const Report = ({ocId}) => {
 //     }, []);
 
   return (
-    <div className='w-full min-h-50 h-fit bg-green-500'>
+    <div className='w-full min-h-50 h-fit bg-gray-50'>
       report for OC ID: {ocId}
       {loading ? (
       <></>

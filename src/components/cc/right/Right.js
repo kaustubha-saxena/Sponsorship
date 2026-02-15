@@ -10,6 +10,9 @@ const Right = ({selectedOCid}) => {
  
   const [assignedContacts, setassignedContacts] = useState([]);
       const [loading, setLoading] = useState(true);
+      const [noOfCalls, setNoOfCalls] = useState(0);
+      const [noOfEmails, setNoOfEmails] = useState(0);
+      const [noOfInterestedContact, setnoOfInterestedContact] = useState(0);
       useEffect(() => {
               const fetchassignedContacts = async () => {
                   try {
@@ -38,7 +41,7 @@ const Right = ({selectedOCid}) => {
           }, [selectedOCid]);
   
   return (
-    <div className='bg-red-500 relative w-full min-h-full'>
+    <div className=' relative w-full min-h-full bg-gray-50'>
       <Report ocId={selectedOCid} />
       <AddContactBtn />
       <DataBlock assignedContacts={assignedContacts} />

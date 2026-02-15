@@ -47,7 +47,7 @@ const DataBlock = ({ assignedContacts }) => {
 
     return (
         <>
-            <div className='  bottom-0 absolute  h-[70%] w-full p-5 '>
+            <div className='  bottom-0 absolute  h-[70%] w-full p-5  '>
                 <div className='flex justify-between items-center rounded-lg px-4'>
                     <div className='flex items-center justify-start gap-5  w-[60%]'>
                         <input value={searchContact} onChange={handleChange} className=" text-black m-2 px-1 py-2 w-[60%] rounded-md border-none bg-white " type="text" placeholder='Search by company, name or email' />
