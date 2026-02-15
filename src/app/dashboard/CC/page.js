@@ -5,8 +5,8 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import Sidebar from "@/components/cc/Sidebar/Sidebar";
-import Right from "@/components/cc/right/Right";
+import Sidebar from "@/components/CC/Sidebar/Sidebar";
+import Right from "@/components/CC/right/Right";
 import { useUser } from "@/app/context/UserContext";
 import { collection, query, where, getDocs } from "firebase/firestore";
 

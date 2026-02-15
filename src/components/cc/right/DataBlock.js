@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Data from "@/components/oc/Data";
+import Data from "@/components/OC/Data";
 import { useUser } from "@/app/context/UserContext";
 
 import { useEffect, useState } from "react";
@@ -84,24 +84,24 @@ const DataBlock = ({ assignedContacts }) => {
                         <input value={search} onChange={handleSearchChange} className=" text-black m-2 px-1 py-2 w-[60%] rounded-md border-none bg-white " type="text" placeholder='Search by company, name, email or phone number' />
                         <button
                             onClick={handleToggleEmail}
-                            className={`font-semibold text-sm cursor-pointer border-none rounded-2xl px-3 py-1 transition-colors duration-200
+                            className={`font-semibold text-sm cursor-pointer border-none shadow-sm border rounded-2xl px-3 py-1 transition-colors duration-200
     ${emailSend === true
                                     ? "bg-green-300 text-black"
                                     : emailSend === false
                                         ? "bg-red-300 text-black"
-                                        : "bg-gray-200 hover:bg-gray-200"
+                                        : "bg-white hover:bg-gray-100"
                                 }`}
                         >
                             Email
                         </button>
                         <button
                             onClick={handleToggleCall}
-                            className={` font-semibold text-sm cursor-pointer border-none rounded-2xl px-3 py-1 transition-colors duration-200
+                            className={`font-semibold text-sm cursor-pointer border-none shadow-sm border rounded-2xl px-3 py-1 transition-colors duration-200
     ${callDone === true
                                     ? "bg-green-300 text-black"
                                     : callDone === false
                                         ? "bg-red-300 text-black"
-                                        : "bg-gray-200 hover:bg-gray-200"
+                                        : "bg-white hover:bg-gray-100"
                                 }`}
                         >
                             Call
