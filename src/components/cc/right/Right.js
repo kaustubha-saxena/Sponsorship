@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect, useState } from "react";
-import Report from './Report'
+import Report from './Report';
 import AddContactBtn from '@/components/AddContact/PushBtn';
 import DataBlock from './DataBlock';
 import { collection, query, where, getDocs } from "firebase/firestore";
