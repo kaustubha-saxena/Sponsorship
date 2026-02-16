@@ -44,12 +44,12 @@ console.log("item",item);
  
       <td className="p-4 font-medium">{item.name}</td>
       <td className="p-4 w-fit font-medium">
-        {/* {
+        {
       <Link href={item.linkedin} target="_blank">
         Profile
       </Link>
-    } */}
-      {item.linkedin}
+    }
+      {/* {item.linkedin} */}
 
       </td>
       
