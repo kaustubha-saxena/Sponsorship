@@ -43,12 +43,15 @@ console.log("item",item);
       <td  title={item.companyName}  className="p-4 font-medium whitespace-nowrap max-w-40 overflow-hidden text-ellipsis cursor-help">  {item.companyName}</td>
  
       <td className="p-4 font-medium">{item.name}</td>
-      <td className="p-4 w-fit font-medium">{
+      <td className="p-4 w-fit font-medium">
+        {/* {
       <Link href={item.linkedin} target="_blank">
         Profile
       </Link>
+    } */}
+      {item.linkedin}
 
-      }</td>
+      </td>
       
       <td className="p-4 font-medium flex justify-center ">{item.email}</td>
       <td className="p-4 font-medium">{item.phone || "-"}</td>
