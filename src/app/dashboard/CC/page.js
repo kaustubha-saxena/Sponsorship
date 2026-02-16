@@ -8,6 +8,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import Sidebar from "@/components/cc/Sidebar/Sidebar";
 import { useUser } from "@/app/context/UserContext";
 import { collection, query, where, getDocs } from "firebase/firestore";
+import Right from "@/components/cc/right/Right";
 
 export default function CCPage() {
 
@@ -15,11 +16,11 @@ export default function CCPage() {
   const [ocs, setOcs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState("");
-const {user} = useUser();
+  const { user } = useUser();
 
   useEffect(() => {
-   
-    
+
+
     const auth = getAuth();
 
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -36,40 +37,40 @@ const {user} = useUser();
     return () => unsubscribe();
   }, []);
 
- useEffect(() => { 
-      const fetchOCs = async () => {
-        try {
-          const q = query(
-            collection(db, "users"),
-            where("role", "==", "oc") 
-          );
-  
-          const snapshot = await getDocs(q);
-  
-          const ocList = snapshot.docs.map(doc => ({
-            uid: doc.id,
-            ...doc.data(),
-          }));
-  
-          setOcs(ocList);
-          console.log("list", ocList);
-          
-        } catch (error) {
-          console.error("Error fetching OCs:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
-  
-      fetchOCs();
-      }, []);
+  useEffect(() => {
+    const fetchOCs = async () => {
+      try {
+        const q = query(
+          collection(db, "users"),
+          where("role", "==", "oc")
+        );
+
+        const snapshot = await getDocs(q);
+
+        const ocList = snapshot.docs.map(doc => ({
+          uid: doc.id,
+          ...doc.data(),
+        }));
+
+        setOcs(ocList);
+        console.log("list", ocList);
+
+      } catch (error) {
+        console.error("Error fetching OCs:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOCs();
+  }, []);
 
   return (
     <ProtectedRoute allowedRole="cc">
       <div className="flex min-h-screen bg-zinc-500 font-sans dark:bg-black">
-        <Sidebar selectedOCid={selectedOCid} setSelectedOCid={setSelectedOCid } />
+        <Sidebar selectedOCid={selectedOCid} setSelectedOCid={setSelectedOCid} />
 
-<Right selectedOCid={selectedOCid} />
+        <Right selectedOCid={selectedOCid} />
 
         {/* <div className="p-6">
           <p className="text-lg">
