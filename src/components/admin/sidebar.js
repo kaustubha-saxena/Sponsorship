@@ -9,7 +9,7 @@ import AddContactBtn from "@/components/AddContact/PushBtn";
 import { useUser } from "@/app/context/UserContext";
 
 export default function Sidebar({selectedOCid, setSelectedOCid}) {
-console.log("selectedOCid",selectedOCid);
+
 
 const {user}= useUser();
   const [ocs, setOcs] = useState([]);

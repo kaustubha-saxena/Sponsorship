@@ -6,7 +6,7 @@ import DataBlock from './DataBlock';
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 const Right = ({selectedOCid}) => {
- console.log("start",selectedOCid,"end");
+
  
   const [assignedContacts, setassignedContacts] = useState([]);
       const [loading, setLoading] = useState(true);
@@ -29,7 +29,7 @@ const Right = ({selectedOCid}) => {
                       }));
       
                       setassignedContacts(contacts);
-                    //   console.log(assignedContacts, "asiufhsifuh sifhsihf");
+                   
                       
                      
                   } catch (error) {

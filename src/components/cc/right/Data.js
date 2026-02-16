@@ -1,6 +1,6 @@
 import DataRow from "@/components/oc/DataRow";
 export default function Data({ contacts, setshowUpdateForm }) {
-  console.log(contacts);
+ 
   
   return (
     <div className="  shadow w-full h-[90%]  bg-white  top-0 left-0 border-none ">

@@ -4,7 +4,6 @@ import { useState } from "react";
 import UpdateForm from "../UpdateContact/UpdateForm";
 import Image from "next/image";
 const DataRow = ({ item }) => {
-console.log("item",item);
 
 
   const [showUpdateForm, setshowUpdateForm] = useState(false);

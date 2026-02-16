@@ -102,7 +102,6 @@ export default function LoginPage() {
             {loading ? "Signing in..." : "Login"}
           </button>
         </form>
-
       </div>
     </div>
   );

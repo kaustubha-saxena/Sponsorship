@@ -6,7 +6,7 @@ import { Calendar } from "lucide-react";
 import { useUser } from "@/app/context/UserContext";
 
 const Report = ({assignedContacts}) => {
-  console.log(assignedContacts,"asidufhpppp");
+ 
   
 const today = new Date().toISOString().split("T")[0];
   const { user } = useUser();
