@@ -65,7 +65,7 @@ const {user}= useUser();
 
         {!loading &&
           ocs.map((item) => (
-            <OCbox key={item.uid} item={item} setSelectedOCid={setSelectedOCid} />
+            <OCbox key={item.uid} item={item} setSelectedOCid={setSelectedOCid} selectedOCid={selectedOCid} />
           ))}
       </nav>
       <div className="absolute bottom-0  left-0 right-0  w-full h-12">
