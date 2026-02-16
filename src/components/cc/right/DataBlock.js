@@ -20,7 +20,7 @@ const DataBlock = ({ assignedContacts }) => {
     const [callDone, setCallDone] = useState(null);
     const handleChange = (e) => {
         setsearchContact(e.target.value)
-        // filterContacts();
+        
     }
 
     const searchContacts = (search, emailSend, callDone, assignedContacts) => {
@@ -32,8 +32,7 @@ const DataBlock = ({ assignedContacts }) => {
             filtered = filtered.filter((contact) =>
                 contact.name?.toLowerCase().includes(searchLower) ||
                 contact.email?.toLowerCase().includes(searchLower) ||
-                contact.companyName?.toLowerCase().includes(searchLower) ||
-                contact.phone?.toLowerCase().includes(searchLower)
+                contact.companyName?.toLowerCase().includes(searchLower) 
             );
         }
 
@@ -81,7 +80,7 @@ const DataBlock = ({ assignedContacts }) => {
                 <div className='flex justify-between items-center rounded-lg px-4'>
                     
                     <div className='flex items-center justify-start gap-2  w-[60%] text-black'>
-                        <input value={search} onChange={handleSearchChange} className=" text-black m-2 px-1 py-2 w-[60%] rounded-md border-none bg-white " type="text" placeholder='Search by company, name, email or phone number' />
+                        <input value={search} onChange={handleSearchChange} className=" text-black m-2 px-1 py-2 w-[60%] rounded-md border-none bg-white " type="text" placeholder='Search by company, name or email r' />
                         <button
                             onClick={handleToggleEmail}
                             className={`font-semibold text-sm cursor-pointer border-none shadow-sm border rounded-2xl px-3 py-1 transition-colors duration-200
