@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Data from "@/components/OC/Data";
+import Data from "@/components/oc/Data";
 import { useUser } from "@/app/context/UserContext";
 
 import { useEffect, useState } from "react";

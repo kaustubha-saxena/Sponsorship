@@ -1,4 +1,4 @@
-import DataRow from "@/components/OC/DataRow";
+import DataRow from "@/components/oc/DataRow";
 export default function Data({ contacts }) {
 
 

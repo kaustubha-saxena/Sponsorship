@@ -1,5 +1,5 @@
 import React from 'react'
-import Data from "@/components/OC/Data";
+import Data from "@/components/oc/Data";
 import { useUser } from "@/app/context/UserContext";
 import Image from 'next/image';
 import { useEffect, useState } from "react";
@@ -110,7 +110,7 @@ const DataBlock = ({ setshowUpdateForm, assignedContacts, loading }) => {
             <div className='  bottom-0 relative  h-[70%] w-full p-5 '>
                 <div className='flex justify-between items-center rounded-lg px-4'>
                     <div className='flex items-center justify-start gap-2  w-[60%] text-black'>
-                        <input value={search} onChange={handleSearchChange} className=" text-black m-2 px-1 py-2 w-[60%] rounded-md border-none bg-white " type="text" placeholder='Search by company, name, email or phone number' />
+                        <input value={search} onChange={handleSearchChange} className=" text-black m-2 px-1 py-2 w-[60%] rounded-md border-none bg-white  " type="text" placeholder='Search by company, name, email or phone number' />
                        
                         <button
                             onClick={handleToggleEmail}

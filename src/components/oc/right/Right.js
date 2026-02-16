@@ -4,7 +4,7 @@ import { useUser } from "@/app/context/UserContext";
 import WelcomeDashboard from "./WelcomeDashboard";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import DataBlock from "@/components/OC/DataBlock";
+import DataBlock from "@/components/oc/DataBlock";
 
 
 const Right = () => {
