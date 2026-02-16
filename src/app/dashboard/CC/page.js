@@ -66,7 +66,7 @@ const {user} = useUser();
 
   return (
     <ProtectedRoute allowedRole="cc">
-      <div className="flex min-h-screen bg-zinc-50 font-sans dark:bg-black">
+      <div className="flex min-h-screen bg-zinc-500 font-sans dark:bg-black">
         <Sidebar selectedOCid={selectedOCid} setSelectedOCid={setSelectedOCid } />
 
 <Right selectedOCid={selectedOCid} />
