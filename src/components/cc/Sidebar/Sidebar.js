@@ -48,11 +48,11 @@ const {user}= useUser();
    
 
   return (
-    <aside className="w-64 relative bg-[#0B1324] text-white min-h-screen p-4">
+    <aside className="w-64 relative max-h-screen bg-[#0B1324] text-white min-h-screen p-4">
       <h2 className="text-xl font-semibold mb-6">{user?.name || "User"}</h2>
 
 
-      <nav className="space-y-4 ">
+      <nav className="space-y-4   max-h-[70%] overflow-y-scroll no-scrollbar">
         <p className="text-gray-400 text-xs">ORGANIZING COMMITTEES</p>
 
         {loading && (

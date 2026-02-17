@@ -54,7 +54,7 @@ export default function InputForm({ toggleForm }) {
 
   return (
     <>
-      <div className="w-full h-full absolute rounded-20ox top-0 left-0 bg-white/60 flex items-center justify-center z-50">
+      <div className="w-full h-full absolute  rounded-20ox top-0 left-0 bg-gray-100/60 flex items-center justify-center z-50">
 
         <div className="w-[40%]   rounded-xl max-h-[80vh] overflow-y-scroll  no-scrollbar">
 
