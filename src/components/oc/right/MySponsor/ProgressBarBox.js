@@ -1,0 +1,46 @@
+import React from 'react'
+import ProgressBar from './ProgressBar';
+import AddProgressForm from './AddProgressForm';
+import { useState } from 'react';
+
+
+
+
+ 
+
+
+const ProgressBarBox = ({sponsor}) => {
+
+ const nodes = (sponsor.progressHeading || []).map((heading, index) => ({
+    heading,
+    notes: sponsor.progressNotes?.[index] || "",
+    date: sponsor.progressDates?.[index] || "",
+  }));
+const [toggleForm, setToggleForm] = useState(false);
+const handleToggle=()=>{
+    setToggleForm(!toggleForm);
+}
+
+
+  return (
+     <div className='relative w-full shadow-sm  bg-white p-4 rounded-xl hover:shadow-md transition '>
+          <div className='w-full flex justify-between items-center'>
+    
+    <h3 className='font-semibold text-xl' >{sponsor.company}</h3>
+    <h6>Alloted to: {sponsor.assignedOC}</h6>
+          </div>
+    <ProgressBar steps={nodes}
+ currentStep={1} />
+    <div  className='w-full flex justify-end mt-3'>
+    
+    <button onClick={handleToggle} className='  p-3 bg-green-400 rounded-xl cursor-pointer'>
+      Add Progress
+    </button>
+
+    </div>
+    {toggleForm?<AddProgressForm setToggleForm={setToggleForm} toggleForm={toggleForm}/>: <></>}
+        </div>
+  )
+}
+
+export default ProgressBarBox

@@ -44,7 +44,7 @@ const Followups = () => {
   return (
     <div className="bg-[#15213c] rounded-lg px-4 py-3 text-white">
 
-      {/* Header with Count Badge */}
+
       <div
         onClick={() => setShowFollowups(!showFollowups)}
         className="flex justify-between items-center cursor-pointer"
