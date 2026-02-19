@@ -33,8 +33,8 @@ const handleToggle=()=>{
  currentStep={1} />
     <div  className='w-full flex justify-end mt-3'>
     
-    <button onClick={handleToggle} className='  p-3 bg-green-400 rounded-xl cursor-pointer'>
-      Add Progress
+    <button onClick={handleToggle} className='  px-3 py-2 font-semibold text-white bg-green-400 rounded-lg cursor-pointer'>
+      + Add Progress
     </button>
 
     </div>

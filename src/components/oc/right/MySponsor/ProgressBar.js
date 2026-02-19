@@ -16,7 +16,7 @@ export default function ProgressBar({ steps = [], currentStep = 0 }) {
             : `${(currentStep / (steps.length - 1)) * 100}%`;
 
     return (
-         <div className="w-full bg-gray-100 p-4 rounded-xl shadow">
+         <div className="w-full bg-gray-100 p-4 rounded-xl shadow-sm hover:shadow-md transition">
       <div className="relative flex justify-between items-center">
 
                 {/* Background Line */}
