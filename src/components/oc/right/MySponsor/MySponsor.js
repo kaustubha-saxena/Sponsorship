@@ -53,6 +53,12 @@ const MySponsor = () => {
   return (
     <div className="bg-gray-50 w-5/6 min-h-full absolute right-0 p-5 text-black flex gap-5 flex-col">
       
+      <div  className="flex justify-end items-center ">
+
+      <button className="px-3 py-2 font-semibold text-white bg-[#0B1324] rounded-lg cursor-pointer">
+        Add Sponsor
+      </button>
+      </div>
       {mySponsors.length === 0 ? (
         <div className="text-gray-500">No Sponsors Assigned</div>
       ) : (
@@ -66,7 +72,7 @@ const MySponsor = () => {
      
 
     </div>
-    
+
   );
 };
 

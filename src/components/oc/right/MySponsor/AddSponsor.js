@@ -4,8 +4,11 @@ import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 
 import { useState } from "react";
 
-export default function AddProgressForm({id, setToggleForm, toggleForm }) {
+export default function AddSponsor({id, setToggleForm, toggleForm }) {
   const [formData, setFormData] = useState({
+    company:"",
+    assignedTo:"",
+    assignedOC:"",
     heading: "",
     notes: "",
     date: "",

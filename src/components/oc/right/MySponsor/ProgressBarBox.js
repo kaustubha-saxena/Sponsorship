@@ -11,6 +11,7 @@ import { useState } from 'react';
 
 const ProgressBarBox = ({sponsor}) => {
 
+
  const nodes = (sponsor.progressHeading || []).map((heading, index) => ({
     heading,
     notes: sponsor.progressNotes?.[index] || "",
@@ -33,12 +34,12 @@ const handleToggle=()=>{
  currentStep={1} />
     <div  className='w-full flex justify-end mt-3'>
     
-    <button onClick={handleToggle} className='  px-3 py-2 font-semibold text-white bg-green-400 rounded-lg cursor-pointer'>
+    <button onClick={handleToggle} className='  px-3 py-2 font-semibold text-white bg-[#0B1324] rounded-lg cursor-pointer'>
       + Add Progress
     </button>
 
     </div>
-    {toggleForm?<AddProgressForm setToggleForm={setToggleForm} toggleForm={toggleForm}/>: <></>}
+    {toggleForm?<AddProgressForm id={sponsor.id} setToggleForm={setToggleForm} toggleForm={toggleForm}/>: <></>}
         </div>
   )
 }

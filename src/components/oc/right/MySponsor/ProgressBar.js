@@ -115,7 +115,7 @@ export default function ProgressBar({ steps = [], currentStep = 0 }) {
                     {/* Circle */}
                     <div
                         className={`w-8 h-8 rounded-full flex items-center bg-green-500 border-green-500 text-white justify-center border-2 transition-all duration-300 cursor-pointer`}>
-                        1
+                        
                     </div>
 
                     {/* Label Below Circle */}
