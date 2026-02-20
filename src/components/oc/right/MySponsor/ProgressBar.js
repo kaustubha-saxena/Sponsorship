@@ -1,7 +1,8 @@
 "use client";
 
-export default function ProgressBar({ steps = [], currentStep = 0 }) {
+export default function ProgressBar({ steps = [] }) {
 
+    
     if (!steps || steps.length === 0) {
         return (
             <div className="text-gray-400 text-sm">
@@ -12,8 +13,8 @@ export default function ProgressBar({ steps = [], currentStep = 0 }) {
 
     const progressWidth =
         steps.length === 1
-            ? "0%"
-            : `${(currentStep / (steps.length - 1)) * 100}%`;
+            ? "50%"
+            : `${(steps.length / (steps.length+1 )) * 100}%`;
 
     return (
          <div className="w-full bg-gray-100 p-4 rounded-xl shadow-sm hover:shadow-md transition">
@@ -55,7 +56,7 @@ export default function ProgressBar({ steps = [], currentStep = 0 }) {
 
 
                 {steps.map((step, index) => {
-                    const isActive = index <= currentStep;
+                    const isActive =false;
 
                     return (
                         <div
@@ -64,11 +65,8 @@ export default function ProgressBar({ steps = [], currentStep = 0 }) {
                         >
                             {/* Circle */}
                             <div
-                                className={`w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all duration-300 cursor-pointer
-                  ${isActive
-                                        ? "bg-green-500 border-green-500 text-white"
-                                        : "bg-white border-gray-300 text-gray-400"
-                                    }
+                                className={`w-8 h-8 rounded-full flex items-center bg-green-500 border-green-500 text-white justify-center border-2 transition-all duration-300 cursor-pointer
+                  
                 `}
                             >
                                 {index + 1}
@@ -100,10 +98,7 @@ export default function ProgressBar({ steps = [], currentStep = 0 }) {
 
                             {/* Label Below Circle */}
                             <span
-                                className={`mt-2 text-sm whitespace-nowrap ${isActive
-                                        ? "text-black font-medium"
-                                        : "text-gray-400"
-                                    }`}
+                                className={`mt-2 text-sm whitespace-nowrap text-black font-medium `}
                             >
                                 {step.heading}
                             </span>

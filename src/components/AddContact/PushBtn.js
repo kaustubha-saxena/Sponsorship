@@ -3,7 +3,6 @@
 import React from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import InputForm from "./InputForm";
 export default function PushBtn({contactForm, toggleForm}) {
 
 

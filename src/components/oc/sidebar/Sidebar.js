@@ -5,12 +5,13 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import LogoutButton from "@/components/LogoutButton";
 import Followups from "./Followups";
+import { useRouter } from "next/navigation";  
 import { useUser } from "@/app/context/UserContext";
 
 export default function Sidebar({setMenu}) {
   
   const {user } = useUser();
-
+const router = useRouter();
   const selectMenu = (menuName) => {
     setMenu(menuName);
   };
@@ -23,13 +24,19 @@ export default function Sidebar({setMenu}) {
       </nav>
 <ul className="flex  gap-5 flex-col w-full ">
   <li>
-    <button onClick={() => selectMenu("contacts")} className="w-full h-10  bg-[#15213c] rounded-lg ">
+    <button onClick={() => {
+  setMenu("sponsors");
+  router.push("/dashboard/oc");
+}} className="w-full h-10  bg-[#15213c] rounded-lg ">
    
 <Followups/>  
     </button>
   </li>
   <li>
-    <button onClick={() => setMenu("sponsors")} className=" cursor-pointer w-full h-13 flex justify-start items-center text-lg font-semibold hover:text-blue-400 transition px-4 py-3 bg-[#15213c] rounded-lg ">
+    <button onClick={() => {
+  setMenu("sponsors");
+  router.push("/dashboard/oc/mysponsors");
+}} className=" cursor-pointer w-full h-13 flex justify-start items-center text-lg font-semibold hover:text-blue-400 transition px-4 py-3 bg-[#15213c] rounded-lg ">
       My Sponsors
     </button>
   </li>

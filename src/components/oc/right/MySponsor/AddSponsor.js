@@ -1,19 +1,24 @@
 "use client";
+import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { doc, updateDoc, arrayUnion } from "firebase/firestore";
-
+import { useUser } from "@/app/context/UserContext";
 import { useState } from "react";
 
-export default function AddSponsor({id, setToggleForm, toggleForm }) {
+export default function AddSponsor({ handleToggle }) {
+
+    const { user } = useUser();
   const [formData, setFormData] = useState({
     company:"",
-    assignedTo:"",
-    assignedOC:"",
+    assignedTo:user ? user.uid : "",
+    assignedOC:user ? user.name : "" ,
     heading: "",
     notes: "",
     date: "",
-    dealCompleted: false,
+   
   });
+
+
+
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -25,42 +30,66 @@ export default function AddSponsor({id, setToggleForm, toggleForm }) {
   };
 
 
- const handleUpdate = async (e) => {
+const addSponsor = async (e) => {
   e.preventDefault();
 
+  if (!user) return;
+
   try {
-    await updateDoc(doc(db, "sponsorProgress", id), {
-      progressHeading: arrayUnion(formData.heading),
-      progressNotes: arrayUnion(formData.notes),
-      progressDates: arrayUnion(formData.date),
+     await addDoc(collection(db, "sponsorProgress"), {
+      company: formData.company,
+      assignedTo: user.uid,
+      assignedOC: user.name,
+
+      progressHeading: [formData.heading],   // store as array
+      progressNotes: [formData.notes],
+      progressDates: [formData.date],
+      dealCompleted: false,
+      
     });
 
-    console.log("Updated successfully");
+    console.log("Sponsor added successfully ✅");
 
+    // Reset form
     setFormData({
+      company: "",
       heading: "",
       notes: "",
       date: "",
       dealCompleted: false,
     });
 
-    setToggleForm(false);
+    handleToggle(); // close modal
 
   } catch (error) {
-    console.error("Update failed:", error);
+    console.error("Error adding sponsor:", error);
   }
 };
 
-  const handleToggle = () => {
-    setToggleForm(!toggleForm);
-  }
+ 
   return (
-    <div className="absolute z-20 right-0 mt-6 bg-white p-6 rounded-xl shadow-md border">
-      <h3 className="text-lg font-semibold mb-4">Add Progress Update</h3>
+    <div className="absolute top-0 w-full h-full bg-white/60 left-0 flex justify-center items-center
+    ">
+    <div className="relative z-20 w-[30%]  mt-6 bg-white p-6 rounded-xl shadow-md border">
+      <h3 className="text-lg font-semibold mb-4">Add Sponsor</h3>
 
-     <form onSubmit={handleUpdate} className="space-y-4">
+     <form onSubmit={addSponsor} className="space-y-4">
 
         {/* Heading */}
+        <div>
+          <label className="block text-sm font-medium mb-1">
+            Company
+          </label>
+          <input
+            type="text"
+            name="company"
+            value={formData.company}
+            onChange={handleChange}
+            required
+            className="w-full border rounded-lg p-2  "
+            placeholder="Enter sponsor name"
+          />
+        </div>
         <div>
           <label className="block text-sm font-medium mb-1">
             Heading
@@ -102,25 +131,12 @@ export default function AddSponsor({id, setToggleForm, toggleForm }) {
             name="date"
             value={formData.date}
             onChange={handleChange}
-            required={!formData.dealCompleted}
-            disabled={formData.dealCompleted}
+            required
+            
             className="w-full border rounded-lg p-2    disabled:bg-gray-100"
           />
         </div>
 
-        {/* Deal Completed Checkbox */}
-        <div className="flex items-center gap-3 pt-2">
-          <input
-            type="checkbox"
-            name="dealCompleted"
-            checked={formData.dealCompleted}
-            onChange={handleChange}
-            className="w-4 h-4 accent-green-500"
-          />
-          <label className="text-sm font-medium">
-            Mark Deal as Completed
-          </label>
-        </div>
 
         {/* Buttons */}
         <div className="flex justify-end gap-3 pt-4">
@@ -136,10 +152,11 @@ export default function AddSponsor({id, setToggleForm, toggleForm }) {
             type="submit"
             className="px-4 py-2 rounded-lg bg-green-500 text-white hover:bg-green-600 transition"
           >
-            Save Progress
+            Save 
           </button>
         </div>
       </form>
+    </div>
     </div>
   );
 }
