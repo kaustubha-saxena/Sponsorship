@@ -11,26 +11,27 @@ export default function OCPage() {
   const { user } = useUser();
   const [menu, setMenu] = useState("contacts");
 
-  const renderContent = () => {
-    console.log(menu);
+  // const renderContent = () => {
+  //   console.log(menu);
     
-    switch (menu) {
-      case "contacts":
-        return <Right />;
+  //   switch (menu) {
+  //     case "contacts":
+  //       return <Right />;
 
-      case "sponsors":
-        return <MySponosr/>
+  //     case "sponsors":
+  //       return <MySponosr/>
 
-      default:
-        return <Right />;
-    }
-  };
+  //     default:
+  //       return <Right />;
+  //   }
+  
+  
 
   return (
     <ProtectedRoute allowedRole="oc">
       <div className="flex min-h-screen bg-zinc-50 font-sans dark:bg-black">
         <Sidebar setMenu={setMenu} />
-        {renderContent()}
+       <Right/>
       </div>
     </ProtectedRoute>
   );

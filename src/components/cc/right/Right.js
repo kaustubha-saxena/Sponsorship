@@ -8,6 +8,7 @@ import { db } from "@/lib/firebase";
 const Right = ({selectedOCid}) => {
 
  
+
   const [assignedContacts, setassignedContacts] = useState([]);
       const [loading, setLoading] = useState(true);
       const [noOfCalls, setNoOfCalls] = useState(0);
@@ -43,7 +44,7 @@ const Right = ({selectedOCid}) => {
           }, [selectedOCid]);
   
   return (
-    <div className=' relative w-full min-h-full bg-gray-50'>
+    <div className='bg-gray-50 w-5/6 min-h-full h-full absolute right-0'>
       <Report assignedContacts={assignedContacts} />
       {/* <AddContactBtn /> */}
       <DataBlock assignedContacts={assignedContacts} />

@@ -19,9 +19,7 @@ const router = useRouter();
     <aside className="w-1/6  bg-[#0B1324] fixed top-0 text-white min-h-screen p-4">
       <h2 className="text-xl font-semibold mb-6">Welcome {user ? user.name : "Guest"}</h2>
 
-      <nav className="space-y-4 ">
-        
-      </nav>
+      
 <ul className="flex  gap-5 flex-col w-full ">
   <li>
     <button onClick={() => {
@@ -33,6 +31,7 @@ const router = useRouter();
     </button>
   </li>
   <li>
+    
     <button onClick={() => {
   setMenu("sponsors");
   router.push("/dashboard/oc/mysponsors");

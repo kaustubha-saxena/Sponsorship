@@ -1,6 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import ProgressBarBox from "./ProgressBarBox";
+
+import ProgressBarBox2 from "./ProgressBarBox2";
 
 import { db } from "@/lib/firebase";
 import { useUser } from "@/app/context/UserContext";
@@ -21,8 +24,7 @@ const MySponsor = () => {
     const fetchAssignedSponsors = async () => {
       try {
         const q = query(
-          collection(db, "sponsorProgress"),
-          where("assignedTo", "==", user.uid)
+          collection(db, "sponsorProgress")
         );
 
         const snapshot = await getDocs(q);
@@ -57,8 +59,8 @@ const MySponsor = () => {
   return (
     <div className="bg-gray-50 w-5/6 min-h-full absolute right-0 p-5 text-black flex gap-5 flex-col">
       
-      <div  className="flex justify-end items-center ">
-
+      <div  className="flex justify-between items-center ">
+      <h3 className="font-bold text-2xl">Sponsor Progress</h3>
       <button onClick={handleToggle}  className="px-3 py-2 font-semibold text-white bg-[#0B1324] rounded-lg cursor-pointer">
         Add Sponsor
       </button>
@@ -69,8 +71,11 @@ const MySponsor = () => {
         <div className="text-gray-500">No Sponsors Assigned</div>
       ) : (
         mySponsors.map((sponsor) => (
-          <ProgressBarBox 
-
+          // <ProgressBarBox 
+          // key={sponsor.company}
+          // sponsor={sponsor}
+          // />
+          <ProgressBarBox2 
           key={sponsor.company}
           sponsor={sponsor}
           />

@@ -10,6 +10,8 @@ import { useUser } from "@/app/context/UserContext";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import Right from "@/components/cc/right/Right";
 
+
+
 export default function CCPage() {
 
   const [selectedOCid, setSelectedOCid] = useState("");
@@ -65,6 +67,7 @@ export default function CCPage() {
     fetchOCs();
   }, []);
 
+
   return (
     <ProtectedRoute allowedRole="cc">
       <div className="flex min-h-screen bg-zinc-500 font-sans dark:bg-black">
@@ -72,11 +75,6 @@ export default function CCPage() {
 
         <Right selectedOCid={selectedOCid} />
 
-        {/* <div className="p-6">
-          <p className="text-lg">
-            Welcome{userName ? `, ${userName}` : ""} 👋
-          </p>
-        </div> */}
       </div>
     </ProtectedRoute>
   );
