@@ -1,262 +1,153 @@
+"use client";
 
 import { useState } from "react";
+import { supabase } from "@/lib/supabase";
 
-import { useUser } from "@/app/context/UserContext";
-import { db } from "@/lib/firebase";
-import { doc, updateDoc } from "firebase/firestore";
 export default function UpdateForm({ toggleForm, contact }) {
-  const { user } = useUser();
-  ;
-
-  const handleUpdate = async () => {
- if (form.callMade && !form.callDate) {
-    alert("Please select Call Date when Call Made is checked.");
-    return;
-  }
-
-  if (form.emailSent && !form.emailDate) {
-    alert("Please select Email Date when Email Sent is checked.");
-    return;
-  }
-
-    try {
-      await updateDoc(doc(db, "contacts", contact?.uid), {
-        name: form.name,
-        email: form.email,
-        phone: form.phone,
-        gender: form.gender,
-        companyName: form.companyName,
-        location: form.location,
-        linkedin: form.linkedin,
-        role: form.role,
-        callMade: form.callMade,
-        emailSent: form.emailSent,
-        followUpAt: form.followUpDate,
-        callDate: form.callDate,
-        emailDate: form.emailDate,
-        note: form.notes,
-        assignedTo: form.assignedTo,
-
-      });
-
-      toggleForm?.();
-      console.log("Updated successfully");
-    } catch (error) {
-      console.error("Update failed:", error);
-    }
-  };
-
 
   const [form, setForm] = useState({
     name: contact?.name || "",
     email: contact?.email || "",
     phone: contact?.phone || "",
     gender: contact?.gender || "",
-    companyName: contact?.companyName || "",
+    company: contact?.company || "",
     role: contact?.role || "",
     location: contact?.location || "",
     linkedin: contact?.linkedin || "",
-    callMade: contact?.callMade || false,
-    emailSent: contact?.emailSent || false,
-    followUpDate: contact?.followUpDate || "",
+    callMade: contact?.callMade ?? false,
+    emailSent: contact?.emailSent ?? false,
+    followUpDate: contact?.followUpAt || "",
     callDate: contact?.callDate || "",
     emailDate: contact?.emailDate || "",
-    assignedTo: user ? user.uid : "",
-    notes: contact?.notes||"",
+    assignedTo: contact?.assignedTo || "",
+    notes: contact?.note || "",
   });
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setForm({
-      ...form,
+    setForm((prev) => ({
+      ...prev,
       [name]: type === "checkbox" ? checked : value,
-    });
-    // console.log(form);
+    }));
+  };
 
+  const handleUpdate = async () => {
+
+    if (form.callMade && !form.callDate) {
+      alert("Please select Call Date when Call Made is checked.");
+      return;
+    }
+
+    if (form.emailSent && !form.emailDate) {
+      alert("Please select Email Date when Email Sent is checked.");
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from("contacts")
+        .update({
+          name: form.name || null,
+          email: form.email || null,
+          phone: form.phone || null,
+          gender: form.gender || null,
+          company: form.company || null,
+          role: form.role || null,
+          location: form.location || null,
+          linkedin: form.linkedin || null,
+
+          // 🔥 EXACT schema names
+          assignedTo: form.assignedTo || "",
+          callMade: form.callMade ?? false,
+          emailSent: form.emailSent ?? false,
+          followUpAt: form.followUpDate || null,
+          callDate: form.callDate || null,
+          emailDate: form.emailDate || null,
+
+          note: form.notes || null,
+        })
+        .eq("id", contact.id)
+        .select();
+
+      if (error) {
+        console.error("Supabase Update Error:", error);
+        return;
+      }
+
+      console.log("Updated successfully ✅", data);
+      toggleForm?.();
+
+    } catch (err) {
+      console.error("Unexpected Error:", err);
+    }
   };
 
   return (
-    <>
-      <div className="w-full h-full  absolute top-0 left-0 bg-white/60 flex justify-center items-center z-50">
+    <div className="w-full h-full absolute top-0 left-0 bg-white/60 flex justify-center items-center z-50">
+      <div className="w-[40%] rounded-xl max-h-[80vh] overflow-y-scroll no-scrollbar bg-white shadow-md">
 
-        <div className="w-[40%]   rounded-xl max-h-[80vh] overflow-y-scroll  no-scrollbar">
+        <div className="flex justify-between items-center bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-4">
+          <h2 className="text-white text-lg font-semibold">Update Contact</h2>
+          <button className="text-white" onClick={toggleForm}>X</button>
+        </div>
 
+        <div className="p-6 space-y-6">
 
-          <div className="max-w-dull mx-auto bg-white rounded-xl shadow-md overflow-hidden">
-            {/* Header */}
-            <div className="flex  justify-between items-center bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-4">
-              <h2 className="text-white text-lg font-semibold flex items-center gap-2">
-                Update Contact
-              </h2>
-              <button className=" text-white cursor-pointer"
-                onClick={toggleForm}>
-                X
-              </button>
-
-            </div>
-
-            <div className="p-6 space-y-8">
-              {/* PERSONAL INFO */}
-              <section>
-                <h3 className="text-sm font-semibold text-gray-500 mb-4">
-                  PERSONAL INFORMATION
-                </h3>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Input label="Name" name="name" value={form.name} onChange={handleChange} required />
-                  <Input label="Email" name="email" value={form.email} onChange={handleChange} required />
-                  <Input label="Phone" name="phone" value={form.phone} onChange={handleChange} />
-                  <Select
-                    label="Gender"
-                    name="gender"
-                    value={form.gender}
-                    onChange={handleChange}
-                    options={["Male", "Female"]}
-                  />
-                </div>
-              </section>
-
-              <section>
-                <h3 className="text-sm font-semibold text-gray-500 mb-4">
-                  COMPANY INFORMATION
-                </h3>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Input
-                    label="Company Name"
-                    name="companyName"
-                    value={form.companyName}
-                    onChange={handleChange}
-                    required
-                  />
-                  <Input
-                    label="Role"
-                    name="role"
-                    value={form.role}
-                    onChange={handleChange}
-                    placeholder="e.g., Manager, Director"
-                  />
-                  <Input
-                    label="Location"
-                    name="location"
-                    value={form.location}
-                    onChange={handleChange}
-                    placeholder="City, Country"
-                  />
-                  <Input
-                    label="LinkedIn"
-                    name="linkedin"
-                    value={form.linkedin}
-                    onChange={handleChange}
-                    placeholder="https://linkedin.com/in/..."
-                  />
-                </div>
-              </section>
-
-
-              <section>
-                <h3 className="text-sm font-semibold text-gray-500 mb-4">
-                  OUTREACH STATUS
-                </h3>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                  <Checkbox
-                    label="Call Made"
-                    name="callMade"
-                    checked={form.callMade}
-                    onChange={handleChange}
-                  />
-                  <Checkbox
-                    label="Email Sent"
-                    name="emailSent"
-                    checked={form.emailSent}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Input
-                    label="Call Date"
-                    type="date"
-                    name="callDate"
-                    value={form.callDate}
-                    onChange={handleChange}
-                    required={form.callMade}
-                      disabled={!form.callMade}
-                  />
-                  <Input
-                    label="Email Date"
-                    type="date"
-                    name="emailDate"
-                    value={form.emailDate}
-                    onChange={handleChange}
-                    required={form.emailSent}
-                      disabled={!form.emailSent}
-                  />
-                  <Input
-                    label="Follow Up Date"
-                    type="date"
-                    name="followUpDate"
-                    value={form.followUpDate}
-                    onChange={handleChange}
-                  />
-                  {/* <Select
-              label="Assigned To"
-              name="assignedTo"
-              value={form.assignedTo}
-              onChange={handleChange}
-              options={["Member 1", "Member 2", "Member 3"]}
-              /> */}
-                </div>
-              </section>
-
-              {/* NOTES */}
-              <section>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Notes
-                </label>
-                <textarea
-                  name="notes"
-                  value={form.notes}
-                  onChange={handleChange}
-                  rows={2}
-                  placeholder="Add any additional notes about this sponsor..."
-                  className="w-full rounded-lg border border-gray-300 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                />
-              </section>
-
-
-              <div className="flex justify-end gap-3">
-
-                {/* <PushBtn contact={form} toggleForm={toggleForm}/> */}
-                {/* <Updatebtn contact={form} uid={contact.uid} toggleForm={toggleForm}/> */}
-                <button
-                  onClick={handleUpdate}
-                  className="px-4 py-2 bg-amber-600 text-white rounded-md cursor-pointer hover:bg-amber-700"
-                >
-                  Update
-                </button>
-               
-              </div>
-            </div>
+          <div className="grid grid-cols-2 gap-4">
+            <Input label="Name" name="name" value={form.name} onChange={handleChange} />
+            <Input label="Email" name="email" value={form.email} onChange={handleChange} />
+            <Input label="Phone" name="phone" value={form.phone} onChange={handleChange} />
+            <Select label="Gender" name="gender" value={form.gender} onChange={handleChange} options={["Male", "Female"]} />
           </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <Input label="Company" name="company" value={form.company} onChange={handleChange} />
+            <Input label="Role" name="role" value={form.role} onChange={handleChange} />
+            <Input label="Location" name="location" value={form.location} onChange={handleChange} />
+            <Input label="LinkedIn" name="linkedin" value={form.linkedin} onChange={handleChange} />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <Checkbox label="Call Made" name="callMade" checked={form.callMade} onChange={handleChange} />
+            <Checkbox label="Email Sent" name="emailSent" checked={form.emailSent} onChange={handleChange} />
+            <Input type="date" label="Call Date" name="callDate" value={form.callDate} onChange={handleChange} disabled={!form.callMade} />
+            <Input type="date" label="Email Date" name="emailDate" value={form.emailDate} onChange={handleChange} disabled={!form.emailSent} />
+            <Input type="date" label="Follow Up Date" name="followUpDate" value={form.followUpDate} onChange={handleChange} />
+          </div>
+
+          <div>
+            <label className="block text-sm mb-1">Notes</label>
+            <textarea
+              name="notes"
+              value={form.notes}
+              onChange={handleChange}
+              rows={3}
+              className="w-full border rounded-lg p-2"
+            />
+          </div>
+
+          <div className="flex justify-end">
+            <button
+              onClick={handleUpdate}
+              className="px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700"
+            >
+              Update
+            </button>
+          </div>
+
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
+/* ---------- UI Components ---------- */
 
-function Input({ label, required, ...props }) {
+function Input({ label, ...props }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">
-        {label} {required && <span className="text-red-500">*</span>}
-      </label>
-      <input
-        {...props}
-        className="w-full rounded-lg border border-gray-300 p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-      />
+      <label className="block text-sm mb-1">{label}</label>
+      <input {...props} className="w-full border rounded-lg p-2" />
     </div>
   );
 }
@@ -264,18 +155,11 @@ function Input({ label, required, ...props }) {
 function Select({ label, options, ...props }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">
-        {label}
-      </label>
-      <select
-        {...props}
-        className="w-full rounded-lg border border-gray-300 p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-      >
+      <label className="block text-sm mb-1">{label}</label>
+      <select {...props} className="w-full border rounded-lg p-2">
         <option value="">Select</option>
         {options.map((opt) => (
-          <option key={opt} value={opt}>
-            {opt}
-          </option>
+          <option key={opt} value={opt}>{opt}</option>
         ))}
       </select>
     </div>
@@ -284,9 +168,9 @@ function Select({ label, options, ...props }) {
 
 function Checkbox({ label, ...props }) {
   return (
-    <label className="flex items-center gap-3 border rounded-lg p-3 cursor-pointer">
-      <input type="checkbox" {...props} className="h-4 w-4 text-blue-600" />
-      <span className="text-sm font-medium">{label}</span>
+    <label className="flex items-center gap-2 border rounded-lg p-2">
+      <input type="checkbox" {...props} />
+      {label}
     </label>
   );
 }

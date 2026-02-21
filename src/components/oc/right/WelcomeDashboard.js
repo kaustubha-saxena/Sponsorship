@@ -21,7 +21,7 @@ useEffect(() => {
   assignedContacts.filter(contact => contact.emailSent === true).length
 );
 setfollowUpsleft(
-  assignedContacts.filter(contact => contact.followUpAt != "").length
+  assignedContacts.filter(contact => contact.followUpAt != null && contact.followUpAt != "").length
 );
 
   
