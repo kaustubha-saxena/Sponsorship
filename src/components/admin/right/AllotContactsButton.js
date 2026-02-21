@@ -1,7 +1,3 @@
-
-
-
-
 "use client";
 
 import { useState } from "react";
@@ -10,10 +6,9 @@ import {
   query,
   where,
   getDocs,
-  writeBatch,
-  doc,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { supabase } from "@/lib/supabase";
 
 export default function AllotContactsButton() {
   const [loading, setLoading] = useState(false);
@@ -24,7 +19,7 @@ export default function AllotContactsButton() {
     setMessage("");
 
     try {
-      // 🔥 Fetch OCs
+      // 🔥 1️⃣ Fetch OCs from Firebase
       const ocQuery = query(
         collection(db, "users"),
         where("role", "==", "oc")
@@ -43,42 +38,36 @@ export default function AllotContactsButton() {
         return;
       }
 
-      // 🔥 Fetch All Contacts
-      const contactSnapshot = await getDocs(
-        collection(db, "contacts")
-      );
+      // 🔥 2️⃣ Fetch ONLY unassigned contacts from Supabase
+      const { data: contacts, error } = await supabase
+        .from("contacts")
+        .select("id")
+        .is("assignedTo", null); // 👈 important
 
-      const contacts = contactSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      if (error) throw error;
 
-      if (contacts.length === 0) {
-        setMessage("No contacts found");
+      if (!contacts || contacts.length === 0) {
+        setMessage("No unassigned contacts found");
         setLoading(false);
         return;
       }
 
-      // 🔥 Round Robin Distribution
-      const batch = writeBatch(db);
-
-      contacts.forEach((contact, index) => {
+      // 🔥 3️⃣ Round Robin Distribution
+      const updatePromises = contacts.map((contact, index) => {
         const ocIndex = index % ocs.length;
         const assignedOC = ocs[ocIndex];
 
-        const contactRef = doc(db, "contacts", contact.id);
-
-        batch.update(contactRef, {
-          assignedTo: assignedOC.uid,
-         
-        });
+        return supabase
+          .from("contacts")
+          .update({ assignedTo: assignedOC.uid }) // must match column case
+          .eq("id", contact.id);
       });
 
-      await batch.commit();
+      await Promise.all(updatePromises);
 
       setMessage("Contacts allotted successfully 🎉");
     } catch (error) {
-      console.error(error);
+      console.error("Allotment Error:", error);
       setMessage("Something went wrong");
     }
 

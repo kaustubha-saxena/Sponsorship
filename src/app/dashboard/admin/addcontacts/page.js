@@ -2,21 +2,22 @@
 
 import { useState } from "react";
 import * as XLSX from "xlsx";
-import { writeBatch, collection, doc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { supabase } from "@/lib/supabase";
+import { useUser } from "@/app/context/UserContext";
 
 export default function AddContact() {
+  const { user } = useUser(); // Firebase Auth
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
   const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];
     if (!file) return;
 
     setLoading(true);
     setMessage("");
 
-    const reader = new FileReader(); // ✅ create here (browser only)
+    const reader = new FileReader();
 
     reader.onload = async (evt) => {
       try {
@@ -28,36 +29,47 @@ export default function AddContact() {
 
         const jsonData = XLSX.utils.sheet_to_json(worksheet);
 
-        const batch = writeBatch(db);
-        const contactsRef = collection(db, "contacts");
+        if (!jsonData.length) {
+          setMessage("Excel file is empty.");
+          setLoading(false);
+          return;
+        }
 
-        jsonData.forEach((row) => {
-          const newDocRef = doc(contactsRef);
+        // 🔥 Transform Excel rows safely
+        const contactsToInsert = jsonData.map((row) => ({
+          name: row.name?.toString().trim() || "",
+          email: row.email?.toString().trim() || "",
+          phone: row.phone?.toString().trim() || "",
+          gender: row.gender?.toString().trim() || "",
+          company: row.company?.toString().trim() || "",
+          location: row.location?.toString().trim() || "",
+          linkedin: row.linkedin?.toString().trim() || "",
+          role: row.role?.toString().trim() || "",
+          callMade: false,
+          emailSent: false,
+          followUpAt: null,
+          note: "",
+          callDate: null,
+          emailDate: null,
+          assignedTo: null, // intentionally null
+        }));
 
-          batch.set(newDocRef, {
-            name: row.name || "",
-            email: row.email || "",
-            phone: row.phone || "",
-            gender: row.gender || "",
-            companyName: row.companyName || "",
-            location: row.location || "",
-            linkedin: row.linkedin || "",
-            role: row.role || "",
-            callMade: false,
-            emailSent: false,
-            followUpAt: "",
-            note:"",
-            callDate: "",
-            emailDate:"",
-          });
-        });
+        // 🔥 Insert into Supabase
+        const { error } = await supabase
+          .from("contacts")
+          .insert(contactsToInsert, { returning: "minimal" });
 
-        await batch.commit();
+        if (error) {
+          console.error("SUPABASE ERROR:", error);
+          throw error;
+        }
 
-        setMessage(`${jsonData.length} contacts uploaded successfully 🎉`);
-      } catch (error) {
-        console.error(error);
-        setMessage("Error uploading file");
+        setMessage(
+          `${contactsToInsert.length} contacts uploaded successfully 🎉`
+        );
+      } catch (err) {
+        console.error("Upload Error:", err);
+        setMessage("Error uploading file. Check console.");
       }
 
       setLoading(false);
@@ -72,7 +84,13 @@ export default function AddContact() {
         <h1 className="text-xl font-semibold mb-4">Upload Contacts</h1>
 
         {message && (
-          <div className="mb-4 text-sm bg-green-100 text-green-600 px-4 py-2 rounded-lg">
+          <div
+            className={`mb-4 text-sm px-4 py-2 rounded-lg ${
+              message.includes("Error")
+                ? "bg-red-100 text-red-600"
+                : "bg-green-100 text-green-600"
+            }`}
+          >
             {message}
           </div>
         )}
