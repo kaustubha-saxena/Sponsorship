@@ -33,6 +33,7 @@ export default function OCPage() {
         <Sidebar setMenu={setMenu} />
        <Right/>
       </div>
+      
     </ProtectedRoute>
   );
 }

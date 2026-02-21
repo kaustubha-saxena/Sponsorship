@@ -3,12 +3,6 @@ import ProgressBar from './ProgressBar';
 import AddProgressForm from './AddProgressForm';
 import { useState } from 'react';
 
-
-
-
- 
-
-
 const ProgressBarBox = ({sponsor}) => {
 
 

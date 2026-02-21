@@ -9,7 +9,7 @@ import Sidebar from "@/components/cc/Sidebar/Sidebar";
 import { useUser } from "@/app/context/UserContext";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import Right from "@/components/cc/right/Right";
-
+import TimeTableApp from "@/components/TimeTable/TimeTableApp";
 
 
 export default function CCPage() {
@@ -74,7 +74,7 @@ export default function CCPage() {
         <Sidebar selectedOCid={selectedOCid} setSelectedOCid={setSelectedOCid} />
 
         <Right selectedOCid={selectedOCid} />
-
+{/* <TimeTableApp /> */}
       </div>
     </ProtectedRoute>
   );
