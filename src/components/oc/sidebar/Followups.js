@@ -1,49 +1,45 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "@/lib/firebase";
 import { useUser } from "@/app/context/UserContext";
+import { supabase } from "@/lib/supabase";
 
 const Followups = () => {
   const { user } = useUser();
 
-  const [FollowToday, setFollowToday] = useState([]);
+  const [followToday, setFollowToday] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showFollowups, setShowFollowups] = useState(false);
-
+const today = new Date();
+const formattedToday = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
   useEffect(() => {
-    const todayISO = new Date().toISOString().split("T")[0];
-
     const fetchFollowToday = async () => {
-      try {
-        const q = query(
-          collection(db, "contacts"),
-          where("assignedTo", "==", user?.uid || ""),
-          where("followUpAt", "==", todayISO)
-        );
+      if (!user?.uid) return;
 
-        const snapshot = await getDocs(q);
+      setLoading(true);
 
-        const ocList = snapshot.docs.map((doc) => ({
-          uid: doc.id,
-          ...doc.data(),
-        }));
+      const todayISO = new Date().toISOString().split("T")[0];
 
-        setFollowToday(ocList);
-      } catch (error) {
-        console.error("Error fetching FollowToday:", error);
-      } finally {
-        setLoading(false);
+      const { data, error } = await supabase
+        .from("contacts")
+        .select("*")
+        .eq("assignedTo", user.uid)
+        .eq("followUpAt", formattedToday);
+
+      if (error) {
+        console.error("Error fetching follow-ups:", error);
+      } else {
+        setFollowToday(data);
       }
+
+      setLoading(false);
     };
 
-    if (user) {
-      fetchFollowToday();
-    }
+    fetchFollowToday();
   }, [user]);
 
   return (
     <div className="bg-[#15213c] rounded-lg px-4 py-3 text-white">
-
 
       <div
         onClick={() => setShowFollowups(!showFollowups)}
@@ -53,25 +49,28 @@ const Followups = () => {
           Follow-ups Today
         </h3>
 
-        {/* 🔥 Count Badge */}
+        {/* Count Badge */}
         <span className="bg-blue-500 text-xs px-2 py-1 rounded-full">
-          {FollowToday.length}
+          {followToday.length}
         </span>
       </div>
 
-      {/* Show List Only When Clicked */}
       {showFollowups && (
         <div className="mt-2">
           {loading ? (
             <p>Loading...</p>
-          ) : FollowToday.length > 0 ? (
+          ) : followToday.length > 0 ? (
             <ul className="list-disc pl-5 max-h-40 overflow-y-auto">
-              {FollowToday.map((contact) => (
-                <li key={contact.uid}>{contact.companyName}</li>
+              {followToday.map((contact) => (
+                <li key={contact.id}>
+                  {contact.company}
+                </li>
               ))}
             </ul>
           ) : (
-            <p className="text-sm">No follow-ups scheduled for today.</p>
+            <p className="text-sm">
+              No follow-ups scheduled for today.
+            </p>
           )}
         </div>
       )}

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import PushBtn from "./PushBtn";
-import Image from "next/image";
 import { useUser } from "@/app/context/UserContext";
 export default function InputForm({ toggleForm }) {
   const { user } = useUser();
@@ -17,8 +16,8 @@ export default function InputForm({ toggleForm }) {
     callMade: false,
     emailSent: false,
     followUpDate: "",
-    // callDate: "",
-    // emailDate: "",
+    callDate: "",
+    emailDate: "",
     assignedTo: user ? user.uid : "",
     notes: "",
   });
@@ -44,8 +43,8 @@ export default function InputForm({ toggleForm }) {
       callMade: false,
       emailSent: false,
       followUpDate: "",
-      // callDate: "",
-      // emailDate: "",
+      callDate: "",
+      emailDate: "",
       assignedTo: "",
       notes: "",
 

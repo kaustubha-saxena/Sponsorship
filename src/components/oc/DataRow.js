@@ -4,6 +4,7 @@ import { useState } from "react";
 import UpdateForm from "../UpdateContact/UpdateForm";
 import Image from "next/image";
 const DataRow = ({ item }) => {
+console.log("item,=", item.company);
 
 
   const [showUpdateForm, setshowUpdateForm] = useState(false);
@@ -39,7 +40,7 @@ const DataRow = ({ item }) => {
   return (
     <tr className="border-gray-200 border-1 text-sm text-black min-w-max">
     
-      <td  title={item.companyName}  className="p-4 font-medium whitespace-nowrap max-w-40 overflow-hidden text-ellipsis cursor-help">  {item.companyName}</td>
+      <td  title={item.company}  className="p-4 font-medium whitespace-nowrap max-w-40 overflow-hidden text-ellipsis cursor-help">  {item.company}</td>
  
       <td className="p-4 font-medium">{item.name}</td>
       <td className="p-4 w-fit font-medium">
