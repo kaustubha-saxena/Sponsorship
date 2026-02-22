@@ -28,6 +28,8 @@ const Right = () => {
         console.error("Error fetching contacts:", error);
       } else {
         setAssignedContacts(data);
+        console.log(data);
+        
       }
 
       setLoading(false);

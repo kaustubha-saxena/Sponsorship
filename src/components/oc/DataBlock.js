@@ -7,9 +7,9 @@ import AddBtn from "@/components/AddBtn";
 import InputForm from "@/components/AddContact/InputForm";
 const DataBlock = ({ setshowUpdateForm, assignedContacts, loading }) => {
     const { user } = useUser();
-  
+
     const [search, setSearch] = useState("")
- 
+
     const [emailSend, setEmailSend] = useState(null);
     const [callDone, setCallDone] = useState(null);
 
@@ -29,13 +29,13 @@ const DataBlock = ({ setshowUpdateForm, assignedContacts, loading }) => {
         );
     };
 
-;
+    ;
     const [openForm, setOpenForm] = useState(false);
 
 
     const toggleForm = () => {
         setOpenForm(prev => !prev);
-    
+
 
     };
 
@@ -47,12 +47,12 @@ const DataBlock = ({ setshowUpdateForm, assignedContacts, loading }) => {
             filtered = filtered.filter((contact) =>
                 contact.name?.toLowerCase().includes(searchLower) ||
                 contact.email?.toLowerCase().includes(searchLower) ||
-                contact.companyName?.toLowerCase().includes(searchLower) 
-               
+                contact.companyName?.toLowerCase().includes(searchLower)
+
             );
         }
 
-       
+
         if (emailSend !== null) {
             filtered = filtered.filter(
                 (contact) => contact.emailSent === emailSend
@@ -74,7 +74,7 @@ const DataBlock = ({ setshowUpdateForm, assignedContacts, loading }) => {
     const handleSearchChange = (e) => {
         setSearch(e.target.value)
     }
-    
+
 
     return (
         <>
@@ -82,7 +82,7 @@ const DataBlock = ({ setshowUpdateForm, assignedContacts, loading }) => {
                 <div className='flex justify-between items-center rounded-lg px-4'>
                     <div className='flex items-center justify-start gap-2  w-[60%] text-black'>
                         <input value={search} onChange={handleSearchChange} className=" text-black m-2 px-1 py-2 w-[60%] rounded-md border-none bg-white  " type="text" placeholder='Search by company, name or email' />
-                       
+
                         <button
                             onClick={handleToggleEmail}
                             className={`font-semibold text-sm cursor-pointer border-none shadow-sm border rounded-2xl px-3 py-1 transition-colors duration-200
