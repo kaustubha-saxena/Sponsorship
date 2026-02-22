@@ -5,7 +5,7 @@ import ProgressBarBox from "./ProgressBarBox";
 
 import ProgressBarBox2 from "./ProgressBarBox2";
 import { supabase } from "@/lib/supabase";
-
+import SponsorReport from "./SponsorReport";
 import { useUser } from "@/app/context/UserContext";
 
 import AddSponsor from "./AddSponsor";
@@ -15,6 +15,7 @@ const MySponsor = () => {
   const [mySponsors, setMySponsors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [toggleForm, setToggleForm] = useState(false)
+  const [dealCompleted, setdealCompleted] = useState(false);
   
   const { user } = useUser();
   
@@ -58,13 +59,13 @@ const MySponsor = () => {
   
   return (
     <div className="bg-gray-50 w-5/6 min-h-full absolute right-0 p-5 text-black flex gap-5 flex-col">
-      
       <div  className="flex justify-between items-center ">
       <h3 className="font-bold text-2xl">Sponsor Progress</h3>
       <button onClick={handleToggle}  className="px-3 py-2 font-semibold text-white bg-[#0B1324] rounded-lg cursor-pointer">
         Add Sponsor
       </button>
       </div>
+      <SponsorReport mySponsors={mySponsors}/>
 
      
       {mySponsors.length === 0 ? (
@@ -74,17 +75,13 @@ const MySponsor = () => {
           <ProgressBarBox 
           key={sponsor.company}
           sponsor={sponsor}
+          dealCompleted={sponsor.dealCompleted}
+          setdealCompleted={setdealCompleted}
           />
-          // <ProgressBarBox2 
-          // key={sponsor.company}
-          // sponsor={sponsor}
-          // />
+         
         ))
       )}
 
-
-  
-     
 <div >
   {toggleForm?<AddSponsor handleToggle={handleToggle}/>:<></>}
   

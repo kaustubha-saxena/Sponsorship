@@ -1,8 +1,11 @@
 "use client";
+import React from "react";
+import Image from "next/image";
+import { px } from "motion";
+export default function ProgressBar({ steps = [], dealCompleted }) {
+    console.log(dealCompleted, "aksdjhfaksfhaksdfh");
 
-export default function ProgressBar({ steps = [] }) {
 
-    
     if (!steps || steps.length === 0) {
         return (
             <div className="text-gray-400 text-sm">
@@ -10,15 +13,17 @@ export default function ProgressBar({ steps = [] }) {
             </div>
         );
     }
-
-    const progressWidth =
-        steps.length === 1
-            ? "50%"
-            : `${(steps.length / (steps.length+1 )) * 100}%`;
+const progressWidth =
+  dealCompleted
+    ? "100%"
+    : steps.length === 1
+      ? "50%"
+      : `${(steps.length / (steps.length + 1)) * 100}%`;
+            
 
     return (
-         <div className="w-full bg-gray-100 p-4 rounded-xl shadow-sm hover:shadow-md transition">
-      <div className="relative flex justify-between items-center">
+        <div className="w-full bg-gray-100 p-4 rounded-xl shadow-sm hover:shadow-md transition">
+            <div className="relative flex justify-between items-center">
 
                 {/* Background Line */}
                 <div className="absolute top-4 left-0 w-full h-1 bg-white" />
@@ -49,14 +54,8 @@ export default function ProgressBar({ steps = [] }) {
 
 
 
-
-
-
-
-
-
                 {steps.map((step, index) => {
-                    const isActive =false;
+                    const isActive = false;
 
                     return (
                         <div
@@ -109,8 +108,24 @@ export default function ProgressBar({ steps = [] }) {
                 <div className="relative flex flex-col items-center group" >
                     {/* Circle */}
                     <div
-                        className={`w-8 h-8 rounded-full flex items-center bg-green-500 border-green-500 text-white justify-center border-2 transition-all duration-300 cursor-pointer`}>
-                        
+                        className={`w-8 h-8 rounded-full flex items-center bg-gray-300 border-gray-300 text-white justify-center border-2 transition-all duration-300 cursor-pointer`}>
+
+
+                        {dealCompleted ? <Image
+                            src="/check.png"
+                            alt="tick"
+                            width={32}
+                            height={32}
+                            
+                        /> : <Image
+                            src="/tickUnselected.svg"
+                            alt="tick"
+                            width={32}
+                            height={32}
+                          
+                        />
+
+                        }
                     </div>
 
                     {/* Label Below Circle */}

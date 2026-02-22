@@ -11,8 +11,7 @@ console.log("item,=", item.company);
 
   const toggleUpdateForm = () => {
     setshowUpdateForm(prev => !prev);
-   
-  }
+     }
 
   const formatDate = (date) => {
  

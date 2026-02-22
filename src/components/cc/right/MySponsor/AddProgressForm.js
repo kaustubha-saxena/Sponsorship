@@ -3,7 +3,7 @@ import { supabase } from "@/lib/supabase";
 
 import { useState } from "react";
 
-export default function AddProgressForm({ id, setToggleForm, toggleForm }) {
+export default function AddProgressForm({ id, setToggleForm, toggleForm, dealCompleted, setdealCompleted }) {
   const [formData, setFormData] = useState({
     heading: "",
     notes: "",
@@ -46,6 +46,7 @@ const handleChange = (e) => {
 
 const handleUpdate = async (e) => {
   e.preventDefault();
+  setdealCompleted(formData.dealCompleted);
 
   try {
     const { data, error } = await supabase.rpc("append_progress", {

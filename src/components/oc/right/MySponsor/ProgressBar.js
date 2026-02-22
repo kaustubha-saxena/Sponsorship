@@ -1,6 +1,6 @@
 "use client";
-
-export default function ProgressBar({ steps = [] }) {
+import Image from "next/image";
+export default function ProgressBar({ steps = [], dealCompleted }) {
 
     
     if (!steps || steps.length === 0) {
@@ -46,11 +46,6 @@ export default function ProgressBar({ steps = [] }) {
                         Call
                     </span>
                 </div>
-
-
-
-
-
 
 
 
@@ -109,8 +104,24 @@ export default function ProgressBar({ steps = [] }) {
                 <div className="relative flex flex-col items-center group" >
                     {/* Circle */}
                     <div
-                        className={`w-8 h-8 rounded-full flex items-center bg-green-500 border-green-500 text-white justify-center border-2 transition-all duration-300 cursor-pointer`}>
+                        className={`w-8 h-8 rounded-full flex items-center bg-gray-300 border-gray-300 text-white justify-center border-2 transition-all duration-300 cursor-pointer`}>
                         
+                        { dealCompleted?<Image
+                                                    src="/check.png"
+                                                    alt="tick"
+                                                    width={24}
+                                                    height={24}
+                                                />:<Image
+                                                    src="/tickUnselected.svg"
+                                                    alt="tick"
+                                                    width={24}
+                                                    height={24}
+                                                />
+                                                
+                                                }
+                                             
+                         
+                                                
                     </div>
 
                     {/* Label Below Circle */}

@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 const ProgressBarBox = ({sponsor}) => {
 
-
+const [dealCompleted, setdealCompleted] = useState(false)
  const nodes = (sponsor.progressHeading || []).map((heading, index) => ({
     heading,
     notes: sponsor.progressNotes?.[index] || "",
@@ -24,7 +24,7 @@ const handleToggle=()=>{
     <h3 className='font-semibold text-xl' >{sponsor.company}</h3>
     <h6>Alloted to: {sponsor.assignedOC}</h6>
           </div>
-    <ProgressBar steps={nodes}
+    <ProgressBar steps={nodes} dealCompleted={dealCompleted} 
  currentStep={1} />
     <div  className='w-full flex justify-end mt-3'>
     
@@ -33,9 +33,9 @@ const handleToggle=()=>{
     </button>
 
     </div>
-    {toggleForm?<AddProgressForm id={sponsor.id} setToggleForm={setToggleForm} toggleForm={toggleForm}/>: <></>}
+    {toggleForm?<AddProgressForm dealCompleted={dealCompleted} setdealCompleted={setdealCompleted} id={sponsor.id} setToggleForm={setToggleForm} toggleForm={toggleForm}/>: <></>}
         </div>
   )
-}
+} 
 
 export default ProgressBarBox

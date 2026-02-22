@@ -3,7 +3,7 @@
 import { supabase } from "@/lib/supabase";
 import { useState } from "react";
 
-export default function AddProgressForm({ id, setToggleForm, toggleForm }) {
+export default function AddProgressForm({ id, setToggleForm, toggleForm, dealCompleted, setdealCompleted }) {
 
   const [formData, setFormData] = useState({
     heading: "",
@@ -14,7 +14,7 @@ export default function AddProgressForm({ id, setToggleForm, toggleForm }) {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-
+    
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
@@ -23,6 +23,7 @@ export default function AddProgressForm({ id, setToggleForm, toggleForm }) {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    setdealCompleted(formData.dealCompleted);
 
     try {
       const { data, error } = await supabase.rpc("append_progress", {

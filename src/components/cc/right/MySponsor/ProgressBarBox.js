@@ -3,7 +3,8 @@ import ProgressBar2 from './ProgressBar';
 import AddProgressForm from './AddProgressForm';
 import { useState } from 'react';
 
-const ProgressBarBox = ({sponsor}) => {
+const ProgressBarBox = ({sponsor,dealCompleted,setdealCompleted}) => {
+
 
 
  const nodes = (sponsor.progressHeading || []).map((heading, index) => ({
@@ -24,16 +25,17 @@ const handleToggle=()=>{
     <h3 className='font-semibold text-xl' >{sponsor.company}</h3>
     <h6>Alloted to: {sponsor.assignedOC}</h6>
           </div>
-    <ProgressBar2 steps={nodes}
+    <ProgressBar2 steps={nodes} dealCompleted={dealCompleted}
  currentStep={1} />
     <div  className='w-full flex justify-end mt-3'>
     
-    <button onClick={handleToggle} className='  px-3 py-2 font-semibold text-white bg-[#0B1324] rounded-lg cursor-pointer'>
+   
+    {dealCompleted?<></>: <button onClick={handleToggle} className='  px-3 py-2 font-semibold text-white bg-[#0B1324] rounded-lg cursor-pointer'>
       + Add Progress
-    </button>
+    </button>}
 
     </div>
-    {toggleForm?<AddProgressForm id={sponsor.id} setToggleForm={setToggleForm} toggleForm={toggleForm}/>: <></>}
+    {toggleForm?<AddProgressForm dealCompleted={dealCompleted} setdealCompleted={setdealCompleted} id={sponsor.id} setToggleForm={setToggleForm} toggleForm={toggleForm}/>: <></>}
         </div>
   )
 }
