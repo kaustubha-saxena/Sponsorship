@@ -73,8 +73,8 @@ export default function CCPage() {
       <div className="flex min-h-screen bg-zinc-500 font-sans dark:bg-black">
         <Sidebar selectedOCid={selectedOCid} setSelectedOCid={setSelectedOCid} />
 
-        {/* <Right selectedOCid={selectedOCid} /> */}
-<TimeTableApp />
+        <Right selectedOCid={selectedOCid} />
+{/* <TimeTableApp /> */}
       </div>
     </ProtectedRoute>
   );

@@ -4,10 +4,10 @@ import React, { useEffect, useState } from "react";
 import ProgressBarBox from "./ProgressBarBox";
 
 import ProgressBarBox2 from "./ProgressBarBox2";
+import { supabase } from "@/lib/supabase";
 
-import { db } from "@/lib/firebase";
 import { useUser } from "@/app/context/UserContext";
-import { collection, query, where, getDocs } from "firebase/firestore";
+
 import AddSponsor from "./AddSponsor";
 
 
@@ -18,32 +18,32 @@ const MySponsor = () => {
   
   const { user } = useUser();
   
-  useEffect(() => {
-    if (!user) return;
-
-    const fetchAssignedSponsors = async () => {
-      try {
-        const q = query(
-          collection(db, "sponsorProgress")
-        );
-
-        const snapshot = await getDocs(q);
-
-        const sponsors = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        
-        setMySponsors(sponsors);
-      } catch (error) {
-        console.error("Error fetching sponsors:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    fetchAssignedSponsors();
-  }, [user]);
+  
+    useEffect(() => {
+      if (!user) return;
+  
+      const fetchAssignedSponsors = async () => {
+        try {
+          const { data, error } = await supabase
+            .from("sponsorProgress") // your table name
+            .select("*");
+            
+           
+            
+  
+          if (error) throw error;
+  console.log(data);
+  
+          setMySponsors(data || []);
+        } catch (error) {
+          console.error("Error fetching sponsors:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchAssignedSponsors();
+    }, [user]);
   
   if (loading) {
     return (
@@ -71,14 +71,14 @@ const MySponsor = () => {
         <div className="text-gray-500">No Sponsors Assigned</div>
       ) : (
         mySponsors.map((sponsor) => (
-          // <ProgressBarBox 
-          // key={sponsor.company}
-          // sponsor={sponsor}
-          // />
-          <ProgressBarBox2 
+          <ProgressBarBox 
           key={sponsor.company}
           sponsor={sponsor}
           />
+          // <ProgressBarBox2 
+          // key={sponsor.company}
+          // sponsor={sponsor}
+          // />
         ))
       )}
 

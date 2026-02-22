@@ -1,7 +1,6 @@
 import React from 'react'
 import Data from "@/components/oc/Data";
 import { useUser } from "@/app/context/UserContext";
-import Image from 'next/image';
 import { useEffect, useState } from "react";
 
 import AddBtn from "@/components/AddBtn";
