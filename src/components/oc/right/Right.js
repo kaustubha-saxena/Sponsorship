@@ -1,4 +1,4 @@
-"use client";
+
 
 import React, { useState, useEffect } from "react";
 import { useUser } from "@/app/context/UserContext";
@@ -28,7 +28,7 @@ const Right = () => {
         console.error("Error fetching contacts:", error);
       } else {
         setAssignedContacts(data);
-        console.log(data);
+       
         
       }
 

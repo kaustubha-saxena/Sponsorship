@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
@@ -9,7 +9,8 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@/app/context/UserContext";
 import { ChevronDown, Users } from "lucide-react";
 
-export default function Sidebar({ selectedOCid, setSelectedOCid }) {
+export default function Sidebar({  selectedOCid = null,
+  setSelectedOCid = null,}) {
 
   const { user } = useUser();
   const router = useRouter();
@@ -18,6 +19,7 @@ export default function Sidebar({ selectedOCid, setSelectedOCid }) {
   const [showOcs, setShowOcs] = useState(false)
 
   useEffect(() => {
+     if (!user) return;
     const fetchOCs = async () => {
       try {
         const q = query(
@@ -46,7 +48,7 @@ export default function Sidebar({ selectedOCid, setSelectedOCid }) {
 
 
     fetchOCs();
-  }, []);
+  }, [selectedOCid]);
 
 
   return (

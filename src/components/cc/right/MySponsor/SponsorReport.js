@@ -1,9 +1,6 @@
 import React from 'react'
 import { useEffect, useState } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "@/lib/firebase";
-import { Calendar } from "lucide-react";
-import { useUser } from "@/app/context/UserContext";
+
 
 const SponsorReport = ({ mySponsors }) => {
 console.log(mySponsors,"report");
@@ -100,7 +97,7 @@ useEffect(() => {
           <h2 className={`text-3xl font-bold mt-4 
     `}
           >
-            {inKind}
+           ₹{inKind}
           </h2>
         </div>
 
@@ -110,7 +107,7 @@ useEffect(() => {
             {/* <span className="text-orange-500 text-xl">⏳</span> */}
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mt-4">
-            {incash}
+            ₹{incash}
           </h2>
         </div>
 

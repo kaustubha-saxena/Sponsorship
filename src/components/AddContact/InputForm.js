@@ -20,6 +20,7 @@ export default function InputForm({ toggleForm }) {
     emailDate: "",
     assignedTo: user ? user.uid : "",
     notes: "",
+     
   });
 
   const handleChange = (e) => {
@@ -48,6 +49,7 @@ export default function InputForm({ toggleForm }) {
       assignedTo: "",
       notes: "",
 
+
     });
   };
 
@@ -60,7 +62,7 @@ export default function InputForm({ toggleForm }) {
 
           <div className="max-w-dull mx-auto bg-white rounded-xl shadow-md overflow-hidden">
             {/* Header */}
-            <div className="flex  justify-between  items-center bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-4">
+            <div className="flex  justify-between  items-center  from-slate-900 to-slate-800 px-6 py-4">
               <h2 className="text-white text-lg font-semibold flex items-center gap-2">
                 Add New Contact
               </h2>

@@ -1,6 +1,4 @@
-"use client";
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+
 import { useUser } from "@/app/context/UserContext";
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";

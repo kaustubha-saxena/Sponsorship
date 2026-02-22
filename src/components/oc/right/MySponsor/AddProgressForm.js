@@ -12,6 +12,7 @@ export default function AddProgressForm({ id, setToggleForm, toggleForm, dealCom
     inCash: false,
     inKind: false,
     amount: "",
+   
   });
 
 const handleChange = (e) => {
