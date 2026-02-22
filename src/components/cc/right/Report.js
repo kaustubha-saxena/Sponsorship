@@ -5,14 +5,14 @@ import { db } from "@/lib/firebase";
 import { Calendar } from "lucide-react";
 import { useUser } from "@/app/context/UserContext";
 
-const Report = ({assignedContacts}) => {
- 
-  
-const today = new Date().toISOString().split("T")[0];
+const Report = ({ assignedContacts }) => {
+
+
+  const today = new Date().toISOString().split("T")[0];
   const { user } = useUser();
 
 
-  
+
 
   const [mode, setMode] = useState("total"); // "total" | "range"
   const [fromDate, setFromDate] = useState(today);
@@ -20,7 +20,7 @@ const today = new Date().toISOString().split("T")[0];
   const [date, setDate] = useState()
   const [callsMade, setCallsMade] = useState(0)
   const [emailsSend, setEmailsSend] = useState(0)
-  const [followUpsleft, setFollowUpsleft] = useState(0)
+  const [followUpsmissed, setfollowUpsmissed] = useState(0)
   const [totalContacts, setTotalContacts] = useState(0)
   const [selected, setSelected] = useState("Monthly");
 
@@ -34,43 +34,43 @@ const today = new Date().toISOString().split("T")[0];
     setEmailsSend(
       assignedContacts.filter(contact => contact.emailSent === true).length
     );
-   setFollowUpsleft(
-  assignedContacts.filter(contact => {
-    if (!contact.followUpAt) return false;
+    setfollowUpsmissed(
+      assignedContacts.filter(contact => {
+        if (!contact.followUpAt) return false;
 
-    const today = new Date();
-    const followUpDate = new Date(contact.followUpAt);
+        const today = new Date();
+        const followUpDate = new Date(contact.followUpAt);
 
-    return followUpDate < today;
-  }).length
+        return followUpDate < today;
+      }).length
 
-  
-);
-if(mode=="range"){
-  setEmailsSend(
-  assignedContacts.filter(contact => {
-    if (!contact.emailDate) return false;
 
-    if (fromDate && contact.emailDate < fromDate) return false;
-    if (toDate && contact.emailDate > toDate) return false;
+    );
+    if (mode == "range") {
+      setEmailsSend(
+        assignedContacts.filter(contact => {
+          if (!contact.emailDate) return false;
 
-    return true;
-  }).length
-);
-setCallsMade(
-  assignedContacts.filter(contact => {
-    if (!contact.callMade || !contact.callDate) return false;
+          if (fromDate && contact.emailDate < fromDate) return false;
+          if (toDate && contact.emailDate > toDate) return false;
 
-    if (fromDate && contact.callDate < fromDate) return false;
-    if (toDate && contact.callDate > toDate) return false;
+          return true;
+        }).length
+      );
+      setCallsMade(
+        assignedContacts.filter(contact => {
+          if (!contact.callMade || !contact.callDate) return false;
 
-    return true;
-  }).length
-);
+          if (fromDate && contact.callDate < fromDate) return false;
+          if (toDate && contact.callDate > toDate) return false;
 
-}
+          return true;
+        }).length
+      );
 
-  }, [assignedContacts, toDate,fromDate,mode])
+    }
+
+  }, [assignedContacts, toDate, fromDate, mode])
 
   return (
     <div className=" absolute w-full h-[30%] px-6 py-6 bg-gray-50">
@@ -127,9 +127,10 @@ setCallsMade(
               <input
                 type="date"
                 value={toDate}
-                onChange={(e) => {setToDate(e.target.value)
-                 
-                  
+                onChange={(e) => {
+                  setToDate(e.target.value)
+
+
                 }}
                 className="outline-none text-sm"
               />
@@ -163,20 +164,20 @@ setCallsMade(
         </div>
 
         {/* Follow-ups Left */}
-       <div
-  className={`rounded-2xl shadow-sm border p-6 flex flex-col justify-between hover:shadow-md transition
-  ${followUpsleft > 1 ? "bg-red-50 border-red-200" : "bg-white"}`}
->
-  <div className="flex justify-between items-center">
-    <p className="text-gray-500 text-sm font-medium">Follow-ups Left</p>
-  </div>
+        <div
+          className={`rounded-2xl shadow-sm border p-6 flex flex-col justify-between hover:shadow-md transition
+  ${followUpsmissed >=1 ? "bg-red-50 border-red-200" : "bg-white"}`}
+        >
+          <div className="flex justify-between items-center">
+            <p className="text-gray-500 text-sm font-medium">Follow-ups Missed</p>
+          </div>
 
-  <h2 className={`text-3xl font-bold mt-4 
-    ${followUpsleft > 1 ? "text-red-600" : "text-gray-900"}`}
-  >
-    {followUpsleft}
-  </h2>
-</div>
+          <h2 className={`text-3xl font-bold mt-4 
+    ${followUpsmissed >= 1 ? "text-red-600" : "text-gray-900"}`}
+          >
+            {followUpsmissed}
+          </h2>
+        </div>
 
         <div className="bg-white rounded-2xl shadow-sm border p-6 flex flex-col justify-between hover:shadow-md transition">
           <div className="flex justify-between items-center">

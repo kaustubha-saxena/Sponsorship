@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { px } from "motion";
 export default function ProgressBar({ steps = [], dealCompleted }) {
-    console.log(dealCompleted, "aksdjhfaksfhaksdfh");
+  
 
 
     if (!steps || steps.length === 0) {

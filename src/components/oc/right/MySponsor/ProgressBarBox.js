@@ -4,8 +4,9 @@ import AddProgressForm from './AddProgressForm';
 import { useState } from 'react';
 
 const ProgressBarBox = ({sponsor}) => {
+console.log(sponsor);
 
-const [dealCompleted, setdealCompleted] = useState(false)
+const [dealCompleted, setdealCompleted] = useState(sponsor.dealCompleted || false);
  const nodes = (sponsor.progressHeading || []).map((heading, index) => ({
     heading,
     notes: sponsor.progressNotes?.[index] || "",
@@ -27,10 +28,9 @@ const handleToggle=()=>{
     <ProgressBar steps={nodes} dealCompleted={dealCompleted} 
  currentStep={1} />
     <div  className='w-full flex justify-end mt-3'>
-    
-    <button onClick={handleToggle} className='  px-3 py-2 font-semibold text-white bg-[#0B1324] rounded-lg cursor-pointer'>
+    {dealCompleted?<></>: <button onClick={handleToggle} className='  px-3 py-2 font-semibold text-white bg-[#0B1324] rounded-lg cursor-pointer'>
       + Add Progress
-    </button>
+    </button>}
 
     </div>
     {toggleForm?<AddProgressForm dealCompleted={dealCompleted} setdealCompleted={setdealCompleted} id={sponsor.id} setToggleForm={setToggleForm} toggleForm={toggleForm}/>: <></>}

@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 export default function ProgressBar({ steps = [], dealCompleted }) {
+console.log("deal", dealCompleted);
 
     
     if (!steps || steps.length === 0) {
@@ -11,10 +12,12 @@ export default function ProgressBar({ steps = [], dealCompleted }) {
         );
     }
 
-    const progressWidth =
-        steps.length === 1
-            ? "50%"
-            : `${(steps.length / (steps.length+1 )) * 100}%`;
+const progressWidth =
+  dealCompleted
+    ? "100%"
+    : steps.length === 1
+      ? "50%"
+      : `${(steps.length / (steps.length + 1)) * 100}%`;
 
     return (
          <div className="w-full bg-gray-100 p-4 rounded-xl shadow-sm hover:shadow-md transition">
@@ -109,13 +112,13 @@ export default function ProgressBar({ steps = [], dealCompleted }) {
                         { dealCompleted?<Image
                                                     src="/check.png"
                                                     alt="tick"
-                                                    width={24}
-                                                    height={24}
+                                                    width={32}
+                                                    height={32}
                                                 />:<Image
-                                                    src="/tickUnselected.svg"
+                                                     src="/tickUnselected.svg"
                                                     alt="tick"
-                                                    width={24}
-                                                    height={24}
+                                                    width={32}
+                                                    height={32}
                                                 />
                                                 
                                                 }

@@ -27,41 +27,6 @@ export default function AddSponsor({ handleToggle }) {
   };
 
 
-  // const addSponsor = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!user) return;
-
-  //   try {
-  //     await addDoc(collection(db, "sponsorProgress"), {
-  //       company: formData.company,
-  //       assignedTo: user.uid,
-  //       assignedOC: user.name,
-
-  //       progressHeading: [formData.heading],   // store as array
-  //       progressNotes: [formData.notes],
-  //       progressDates: [formData.date],
-  //       dealCompleted: false,
-
-  //     });
-
-  //     console.log("Sponsor added successfully ✅");
-
-  //     // Reset form
-  //     setFormData({
-  //       company: "",
-  //       heading: "",
-  //       notes: "",
-  //       date: "",
-  //       dealCompleted: false,
-  //     });
-
-  //     handleToggle(); // close modal
-
-  //   } catch (error) {
-  //     console.error("Error adding sponsor:", error);
-  //   }
-  // };
 
 
    const addSponsor = async (e) => {
@@ -80,7 +45,7 @@ console.log(formData);
             assignedOC: user.name,
             dealType: null,
             ammount: 0,
-            progressHeading: [formData.heading], // Postgres array
+            progressHeading: [formData.heading],
             progressNotes: [formData.notes],
             progressDates: [formData.date],
 
@@ -108,50 +73,9 @@ console.log(formData);
 
 
 
-  //   const addSponsor = async (e) => {
-  //     e.preventDefault();
-
-  //     if (!user) return;
-  // console.log(formData);
-
-  //     try {
-  //       const { data, error } = await supabase
-  //         .from("sponsorProgress")
-  //         .insert([
-  //           {
-  //             company: formData.company,
-  //             assignedTo: user.uid,
-  //             assignedOC: null,
-  //             type: null,
-  //             amount:0,
-  //             progressHeading: [formData.heading], // Postgres array
-  //             progressNotes: [formData.notes],
-  //             progressDates: [formData.date],
-
-  //             dealCompleted: false,
-  //           },
-  //         ]);
-
-  //       if (error) throw error;
-
-  //       console.log("Sponsor added successfully ✅", data);
-
-  //       setFormData({
-  //         company: "",
-  //         heading: "",
-  //         notes: "",
-  //         date: "",
-  //       });
-
-  //       handleToggle();
-
-  //     } catch (error) {
-  //       console.error("Error adding sponsor:", error);
-  //     }
-  //   }; 
-
+  
   return (
-    <div className="absolute top-0 w-full h-screen bg-white/60 left-0 flex justify-center items-center
+    <div className="absolute z-99 top-0 w-full h-screen bg-white/60 left-0 flex justify-center items-center
     ">
       <div className="relative z-20 w-[30%]  mt-6 bg-white p-6 rounded-xl shadow-md border">
         <h3 className="text-lg font-semibold mb-4">Add Sponsor</h3>
