@@ -57,16 +57,16 @@ export default function InputForm({ toggleForm }) {
     <>
       <div className="w-full h-full absolute  rounded-20ox top-0 left-0 bg-gray-100/60 flex items-center justify-center z-50">
 
-        <div className="w-[40%]   rounded-xl max-h-[80vh] overflow-y-scroll  no-scrollbar">
+        <div className="w-[40%]   rounded-xl max-h-[80vh] overflow-y-scroll   no-scrollbar">
 
 
           <div className="max-w-dull mx-auto bg-white rounded-xl shadow-md overflow-hidden">
             {/* Header */}
-            <div className="flex  justify-between  items-center  from-slate-900 to-slate-800 px-6 py-4">
+            <div className="flex bg-[#0B1324] text justify-between  items-center  from-slate-900 to-slate-800 px-6 py-4">
               <h2 className="text-white text-lg font-semibold flex items-center gap-2">
                 Add New Contact
               </h2>
-              <div>
+              <div className="">
                 <button className="cursor-pointer"
                   onClick={toggleForm}>
                   X
@@ -81,7 +81,7 @@ export default function InputForm({ toggleForm }) {
                   PERSONAL INFORMATION
                 </h3>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4  text-black">
                   <Input label="Name" name="name" value={form.name} onChange={handleChange} required />
                   <Input label="Email" name="email" value={form.email} onChange={handleChange} required />
                   <Input label="Phone" name="phone" value={form.phone} onChange={handleChange} />
@@ -100,7 +100,7 @@ export default function InputForm({ toggleForm }) {
                   COMPANY INFORMATION
                 </h3>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className=" text-black grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Input
                     label="Company Name"
                     name="companyName"
@@ -114,6 +114,7 @@ export default function InputForm({ toggleForm }) {
                     value={form.role}
                     onChange={handleChange}
                     placeholder="e.g., Manager, Director"
+                    required
                   />
                   <Input
                     label="Location"
@@ -128,6 +129,7 @@ export default function InputForm({ toggleForm }) {
                     value={form.linkedin}
                     onChange={handleChange}
                     placeholder="https://linkedin.com/in/..."
+                    
                   />
                 </div>
               </section>
@@ -154,18 +156,7 @@ export default function InputForm({ toggleForm }) {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {
-
-//             <Input
-//   label="Email Date"
-//   type="date"
-//   name="emailDate"
-//   value={form.emailDate}
-//   onChange={handleChange}
-//   required={form.emailSent}
-//   disabled={!form.emailSent}
-// />
-                  }
+                 
                   <Input
                     label="Follow Up Date"
                     type="date"
