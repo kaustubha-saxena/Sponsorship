@@ -9,6 +9,8 @@ console.log(mySponsors,"report");
   const [totalSponsors, setTotalSponsors] = useState(0)
   const [inKind, setinKind] = useState(0)
   const [incash, setIncash] = useState(0)
+  const [cashCount, setCashCount] = useState(0)
+  const [kinkCount, setKinkCount] = useState(0)
 
 useEffect(() => {
   updateStats();
@@ -21,6 +23,9 @@ useEffect(() => {
     count: 0,
     inkind: 0,
     cash: 0,
+    cashCount: 0,
+    inkindCount: 0,
+
   };
 
   // Safety check
@@ -39,9 +44,11 @@ useEffect(() => {
     const amount = Number(sponsor?.ammount) || 0;
 
     stats.total += amount;
+    stats.cashCount += sponsor?.dealType?.toLowerCase() === "cash" ? 1 : 0;
+    stats.inkindCount += sponsor?.dealType?.toLowerCase() === "kind" ? 1 : 0;
     stats.count += 1;
 
-    if (sponsor?.dealType?.toLowerCase() === "inkind") {
+    if (sponsor?.dealType?.toLowerCase() === "kind") {
       stats.inkind += amount;
     } else if (sponsor?.dealType?.toLowerCase() === "cash") {
       stats.cash += amount;
@@ -53,6 +60,8 @@ useEffect(() => {
   setTotalSponsors(stats.count);
   setinKind(stats.inkind);
   setIncash(stats.cash);
+  setCashCount(stats.cashCount);
+  setKinkCount(stats.inkindCount);
 };
 
 
@@ -92,6 +101,7 @@ useEffect(() => {
         >
           <div className="flex justify-between items-center">
             <p className="text-gray-500 text-sm font-medium">In Kind</p>
+                   <span className='text-sm font-medium'>{kinkCount} sponosrs</span>
           </div>
 
           <h2 className={`text-3xl font-bold mt-4 
@@ -104,6 +114,7 @@ useEffect(() => {
         <div className="bg-white rounded-2xl shadow-sm  p-6 flex flex-col justify-between hover:shadow-md transition">
           <div className="flex justify-between items-center">
             <p className="text-gray-500 text-sm font-medium">In Cash</p>
+            <span className='text-sm font-medium'>{cashCount} sponosrs</span>
             {/* <span className="text-orange-500 text-xl">⏳</span> */}
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mt-4">
