@@ -43,9 +43,17 @@ const DataRow = ({ item, refresh, setRefresh }) => {
  
       <td className="p-4 font-medium">{item.name}</td>
       <td className="p-4 w-fit font-medium">{
-      <Link href={item.linkedin} target="_blank">
-        Profile
-      </Link>
+      <a
+          href={
+            item.linkedin?.startsWith("http")
+              ? item.linkedin
+              : `https://${item.linkedin}`
+          }
+          target="_blank"
+
+        >
+          Profile
+        </a>
 
       }</td>
       
