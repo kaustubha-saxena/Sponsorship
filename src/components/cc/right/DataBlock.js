@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Data from "@/components/oc/Data";
+import Data from './Data';
 import { useUser } from "@/app/context/UserContext";
 
 import { useEffect, useState } from "react";
@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 
 
 
-const DataBlock = ({ assignedContacts }) => {
+const DataBlock = ({ assignedContacts ,refresh,setRefresh}) => {
     
     const [search, setSearch] = useState("")
 
@@ -117,7 +117,7 @@ const DataBlock = ({ assignedContacts }) => {
                 </div>
 
                 {
-                    <Data contacts={searchContacts(search, emailSend, callDone, assignedContacts)} />
+                    <Data refresh={refresh} setRefresh={setRefresh} contacts={searchContacts(search, emailSend, callDone, assignedContacts)} />
                 }
 
             </div>

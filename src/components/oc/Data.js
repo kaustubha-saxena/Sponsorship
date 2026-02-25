@@ -1,8 +1,6 @@
 import DataRow from "@/components/oc/DataRow";
 export default function Data({ contacts, refresh, setRefresh }) {
 
-
-  
   return (
     <div className="  shadow w-full h-[90%]  bg-white  top-0 left-0 border-none ">
           <div className="h-full  overflow-y-auto overflow-x-auto no-scrollbar">

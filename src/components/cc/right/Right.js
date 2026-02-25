@@ -6,7 +6,7 @@ import DataBlock from './DataBlock';
 import { supabase } from "@/lib/supabase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-const Right = ({selectedOCid}) => {
+const Right = ({selectedOCid , refresh, setRefresh}) => {
 
  console.log(selectedOCid, "selectedOCid in right component");
  
@@ -42,12 +42,12 @@ const Right = ({selectedOCid}) => {
     
         assignedContacts();
     
-      }, [selectedOCid]);
+      }, [  selectedOCid, refresh]);
   return (
     <div className='bg-gray-50 w-5/6 min-h-full h-full absolute right-0'>
       <Report assignedContacts={assignedContacts} />
-      {/* <AddContactBtn /> */}
-      <DataBlock assignedContacts={assignedContacts} />
+    
+      <DataBlock refresh={refresh} setRefresh={setRefresh} assignedContacts={assignedContacts} />
     </div>
   )
 }

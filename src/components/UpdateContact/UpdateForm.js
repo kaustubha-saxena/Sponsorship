@@ -76,7 +76,7 @@ export default function UpdateForm({ toggleForm, contact, refresh, setRefresh })
 
       console.log("Updated successfully ✅", data);
       toggleForm?.();
-      setRefresh(!refresh); // Trigger refresh in parent
+      setRefresh(!refresh); 
 
     } catch (err) {
       console.error("Unexpected Error:", err);

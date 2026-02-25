@@ -19,6 +19,7 @@ export default function CCPage() {
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState("");
   const { user } = useUser();
+  const [refresh, setRefresh] = useState(false)
 
   useEffect(() => {
 
@@ -71,9 +72,9 @@ export default function CCPage() {
   return (
     <ProtectedRoute allowedRole="cc">
       <div className="flex min-h-screen bg-zinc-500 font-sans dark:bg-black">
-        <Sidebar selectedOCid={selectedOCid} setSelectedOCid={setSelectedOCid} />
+        <Sidebar refresh={refresh} setRefresh={setRefresh} selectedOCid={selectedOCid} setSelectedOCid={setSelectedOCid} />
 
-        <Right selectedOCid={selectedOCid} />
+        <Right refresh={refresh} setRefresh={setRefresh} selectedOCid={selectedOCid} />
 {/* <TimeTableApp /> */}
       </div>
     </ProtectedRoute>
