@@ -3,7 +3,7 @@
 import React from "react";
 import { supabase } from "@/lib/supabase";
 
-export default function PushBtn({ contactForm, toggleForm }) {
+export default function PushBtn({ contactForm, toggleForm, refresh, setRefresh }) {
 
   const handleAddContact = async () => {
     try {
@@ -50,8 +50,9 @@ export default function PushBtn({ contactForm, toggleForm }) {
 
       console.log("Inserted:", data);
       toggleForm();
-
-    } catch (err) {
+      setRefresh(!refresh); 
+    }
+     catch (err) {
       console.error("Unexpected error:", err);
     }
   };

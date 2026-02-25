@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { px } from "motion";
+
 export default function ProgressBar({ steps = [], dealCompleted }) {
   
 
-
+ 
     if (!steps || steps.length === 0) {
         return (
             <div className="text-gray-400 text-sm">
@@ -17,7 +17,7 @@ const progressWidth =
   dealCompleted
     ? "100%"
     : steps.length === 1
-      ? "50%"
+      ? "50%" 
       : `${(steps.length / (steps.length + 1)) * 100}%`;
             
 

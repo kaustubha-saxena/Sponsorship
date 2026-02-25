@@ -56,7 +56,7 @@ const MySponsor = () => {
   const handleToggle = () => {
       setToggleForm(!toggleForm);
     }
-  
+    
   return (
     <div className="bg-gray-50 w-5/6 min-h-full absolute right-0 p-5 text-black flex gap-5 flex-col">
       <div  className="flex justify-between items-center ">

@@ -1,5 +1,5 @@
 import DataRow from "@/components/oc/DataRow";
-export default function Data({ contacts }) {
+export default function Data({ contacts, refresh, setRefresh }) {
 
 
   
@@ -26,7 +26,7 @@ export default function Data({ contacts }) {
           <tbody className="">
             {contacts.length === 0 ? <tr><td colSpan="11" className="text-center p-4">No contacts available</td></tr>:<></>}
             {contacts.map((item, index) => (
-              <DataRow key={index} item={item}  />
+              <DataRow refresh={refresh} setRefresh={setRefresh} key={index} item={item}  />
             ))}
           </tbody>
         </table>

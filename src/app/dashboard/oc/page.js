@@ -10,20 +10,8 @@ import { useState } from "react";
 export default function OCPage() {
   const { user } = useUser();
   const [menu, setMenu] = useState("contacts");
+const [refresh, setRefresh] = useState(false)
 
-  // const renderContent = () => {
-  //   console.log(menu);
-    
-  //   switch (menu) {
-  //     case "contacts":
-  //       return <Right />;
-
-  //     case "sponsors":
-  //       return <MySponosr/>
-
-  //     default:
-  //       return <Right />;
-  //   }
   
   
 
@@ -31,7 +19,7 @@ export default function OCPage() {
     <ProtectedRoute allowedRole="oc">
       <div className="flex min-h-screen bg-zinc-50 font-sans dark:bg-black">
         <Sidebar setMenu={setMenu} />
-       <Right/>
+       <Right refresh={refresh} setRefresh={setRefresh}/>
       </div>
       
     </ProtectedRoute>

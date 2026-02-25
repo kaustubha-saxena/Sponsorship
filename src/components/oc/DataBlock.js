@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import AddBtn from "@/components/AddBtn";
 import InputForm from "@/components/AddContact/InputForm";
-const DataBlock = ({ setshowUpdateForm, assignedContacts, loading }) => {
+const DataBlock = ({ setshowUpdateForm, assignedContacts, loading , refresh, setRefresh}) => {
     const { user } = useUser();
 
     const [search, setSearch] = useState("")
@@ -113,12 +113,12 @@ const DataBlock = ({ setshowUpdateForm, assignedContacts, loading }) => {
                     </div>
                     <div>
                         <AddBtn toggleForm={toggleForm} />
-                        {openForm && <InputForm toggleForm={toggleForm} />}
+                        {openForm && <InputForm refresh={refresh} setRefresh={setRefresh} toggleForm={toggleForm} />}
                     </div>
 
 
                 </div>
-                <Data contacts={searchContacts(search, emailSend, callDone, assignedContacts)} setshowUpdateForm={setshowUpdateForm} />
+                <Data refresh={refresh} setRefresh={setRefresh} contacts={searchContacts(search, emailSend, callDone, assignedContacts)} setshowUpdateForm={setshowUpdateForm} />
             </div>
         </>
     )

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import UpdateForm from "../UpdateContact/UpdateForm";
 import Image from "next/image";
-const DataRow = ({ item }) => {
+const DataRow = ({ item, refresh, setRefresh }) => {
 console.log("item,=", item.company);
 
 
@@ -43,8 +43,10 @@ console.log("item,=", item.company);
  
       <td className="p-4 font-medium">{item.name}</td>
       <td className="p-4 w-fit font-medium">
-        {
+        { item.linkedin ?
       <Link href={item.linkedin} target="_blank">
+        Profile
+      </Link>:<Link href="#" target="_blank">
         Profile
       </Link>
     }
@@ -67,12 +69,11 @@ console.log("item,=", item.company);
       </button>
      
      
-
        {
        showUpdateForm && 
        <>
         <div className="bg-gray-500 w-5/6 min-h-full ">
-       <UpdateForm toggleForm={toggleUpdateForm} contact={item}/>
+       <UpdateForm refresh={refresh} setRefresh={setRefresh} toggleForm={toggleUpdateForm} contact={item}/>
        </div>
        </>
        }

@@ -6,7 +6,7 @@ import WelcomeDashboard from "./WelcomeDashboard";
 import DataBlock from "@/components/oc/DataBlock";
 import { supabase } from "@/lib/supabase";
 
-const Right = () => {
+const Right = ({refresh, setRefresh}) => {
 
   const { user } = useUser();
   const [assignedContacts, setAssignedContacts] = useState([]);
@@ -37,7 +37,7 @@ const Right = () => {
 
     fetchAssignedContacts();
 
-  }, [user]);
+  }, [refresh]);
 
   return (
     <div className="bg-gray-50 w-5/6 min-h-full h-full absolute right-0">
@@ -46,8 +46,8 @@ const Right = () => {
         <div className="p-10 text-gray-500">Loading...</div>
       ) : (
         <>
-          <WelcomeDashboard assignedContacts={assignedContacts} />
-          <DataBlock assignedContacts={assignedContacts}/>
+          <WelcomeDashboard refresh={refresh} setRefresh={setRefresh} assignedContacts={assignedContacts} />
+          <DataBlock refresh={refresh} setRefresh={setRefresh} assignedContacts={assignedContacts}/>
         </>
       )}
 

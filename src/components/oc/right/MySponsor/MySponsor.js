@@ -67,7 +67,7 @@ console.log(data);
         mySponsors.map((sponsor) => (
           <ProgressBarBox
             key={sponsor.id}  // ⚠ important change
-            sponsor={sponsor}
+            sponsor={sponsor} 
           />
         ))
       )}

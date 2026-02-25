@@ -1,11 +1,9 @@
 import React from 'react'
-import ProgressBar2 from './ProgressBar';
+import ProgressBar from './ProgressBar';
 import AddProgressForm from './AddProgressForm';
 import { useState } from 'react';
 import DeliverablesCard from './DeliverablesBlock';
 const ProgressBarBox = ({ sponsor, dealCompleted, setdealCompleted }) => {
-
-
 
   const nodes = (sponsor.progressHeading || []).map((heading, index) => ({
     heading,
@@ -43,11 +41,11 @@ const ProgressBarBox = ({ sponsor, dealCompleted, setdealCompleted }) => {
         <h3 className='font-semibold text-xl' >{sponsor.company}</h3>
         <h6 className='text-sm font-medium'>Alloted to: {sponsor.assignedOC}</h6>
       </div> */}
-      <ProgressBar2 steps={nodes} dealCompleted={dealCompleted}
+      <ProgressBar steps={nodes} dealCompleted={dealCompleted}
         currentStep={1} />
       <div className='w-full flex justify-end mt-3'>
 
-
+ 
         {dealCompleted ? <></> : <button onClick={handleToggle} className='  px-3 py-2 font-semibold text-white bg-[#0B1324] rounded-lg cursor-pointer'>
           + Add Progress
         </button>}

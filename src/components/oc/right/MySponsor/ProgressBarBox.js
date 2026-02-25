@@ -2,6 +2,7 @@ import React from 'react'
 import ProgressBar from './ProgressBar';
 import AddProgressForm from './AddProgressForm';
 import { useState } from 'react';
+import DeliverablesCard from './DeliverablesBlock';
 
 const ProgressBarBox = ({sponsor}) => {
 console.log(sponsor);
@@ -17,14 +18,27 @@ const handleToggle=()=>{
     setToggleForm(!toggleForm);
 }
 
-
+ 
   return (
      <div className='relative w-full shadow-sm  bg-white p-4 rounded-xl hover:shadow-md transition '>
-          <div className='w-full flex justify-between items-center'>
-    
-    <h3 className='font-semibold text-xl' >{sponsor.company}</h3>
-    <h6>Alloted to: {sponsor.assignedOC}</h6>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold">
+            {sponsor.company}
+          </h2>
+        
+          <div className="flex items-center justify-center  gap-4 ">
+            <p className="text-sm text-gray-600">
+              Alloted to: <span className="font-medium">{sponsor.assignedOC}</span>
+            </p>
+        
+            {sponsor.dealCompleted? <>
+            <DeliverablesCard sponsor={sponsor} />
+            <p className="text-sm  bg-green-50 text-green-700 px-3 py-1 rounded-full font-bold">
+              ₹{sponsor.ammount}
+            </p>
+            </>:<></>}
           </div>
+        </div>
     <ProgressBar steps={nodes} dealCompleted={dealCompleted} 
  currentStep={1} />
     <div  className='w-full flex justify-end mt-3'>

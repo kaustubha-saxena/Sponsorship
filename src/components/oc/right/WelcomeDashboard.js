@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useUser } from "@/app/context/UserContext";
 import { useState } from 'react';
-const WelcomeDashboard = ({assignedContacts}) => {
+const WelcomeDashboard = ({assignedContacts, refresh, setRefresh}) => {
 
     const { user } = useUser();
 const [callsMade, setCallsMade] = useState(0)
@@ -25,7 +25,7 @@ setfollowUpsleft(
 );
 
   
-}, [assignedContacts])
+}, [assignedContacts,refresh])
 
 
 

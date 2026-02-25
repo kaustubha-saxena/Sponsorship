@@ -186,7 +186,7 @@ export default function InputForm({ toggleForm }) {
 
               <div className="flex justify-end gap-3">
 
-                <PushBtn contactForm={form} toggleForm={toggleForm} />
+                <PushBtn contactForm={form} refresh={refresh} setRefresh={setRefresh} toggleForm={toggleForm} />
 
               </div>
             </div>

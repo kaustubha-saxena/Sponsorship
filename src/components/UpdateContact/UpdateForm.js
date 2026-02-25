@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 
-export default function UpdateForm({ toggleForm, contact }) {
+export default function UpdateForm({ toggleForm, contact, refresh, setRefresh }) {
 
   const [form, setForm] = useState({
     name: contact?.name || "",
@@ -76,6 +76,7 @@ export default function UpdateForm({ toggleForm, contact }) {
 
       console.log("Updated successfully ✅", data);
       toggleForm?.();
+      setRefresh(!refresh); // Trigger refresh in parent
 
     } catch (err) {
       console.error("Unexpected Error:", err);
