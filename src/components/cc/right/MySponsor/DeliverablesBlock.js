@@ -1,51 +1,91 @@
 "use client";
+
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, Trash2, Plus } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
-export default function DeliverablesCard() {
+export default function DeliverablesCard({ sponsor }) {
   const [open, setOpen] = useState(false);
-  const [deliverables, setDeliverables] = useState([
-    "2 reels for Instagram",
-    "1 LinkedIn post",
-    "1 blog post",
-    "1 YouTube video",
-  ]);
+  const [deliverablesArray, setDeliverablesArray] = useState([]);
   const [newItem, setNewItem] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const boxRef = useRef(null);
 
-  // Close when clicking outside
+  /* ===============================
+     Sync sponsor → local state
+  =============================== */
+  useEffect(() => {
+    if (!sponsor) return;
+
+    // Ensure it is ALWAYS an array
+    if (Array.isArray(sponsor.deliverables)) {
+      setDeliverablesArray(sponsor.deliverables);
+    } else {
+      setDeliverablesArray([]);
+    }
+  }, [sponsor]);
+
+  /* ===============================
+     Close dropdown on outside click
+  =============================== */
   useEffect(() => {
     function handleClickOutside(e) {
       if (boxRef.current && !boxRef.current.contains(e.target)) {
         setOpen(false);
       }
     }
+
     document.addEventListener("mousedown", handleClickOutside);
     return () =>
       document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Add Deliverable
-  const handleAdd = () => {
-    if (!newItem.trim()) return;
-    setDeliverables((prev) => [...prev, newItem]);
-    setNewItem("");
-    console.log(deliverables);
+  /* ===============================
+     Update DB
+  =============================== */
+  const updateDeliverablesInDB = async () => {
+    if (!sponsor?.id) return;
+
+    setLoading(true);
+
+    const safeArray = [...deliverablesArray]; // ensure array copy
+
+    const { error } = await supabase
+      .from("sponsorProgress")
+      .update({
+        deliverables: safeArray,
+        
+      })
+      .eq("id", sponsor.id);
+
+    if (error) {
+      // console.error("Update error:", error.message);
+    }
+
+    setLoading(false);
   };
 
-  // Delete Deliverable
-  const handleDelete = (index) => {
-    setDeliverables((prev) =>
-      prev.filter((_, i) => i !== index)
+  /* ===============================
+     Add Deliverable
+  =============================== */
+  const handleAdd = () => {
+    if (!newItem.trim()) return;
 
+    setDeliverablesArray((prev) => [...prev, newItem.trim()]);
+    setNewItem("");
+  };
+
+  /* ===============================
+     Delete Deliverable
+  =============================== */
+  const handleDelete = (index) => {
+    setDeliverablesArray((prev) =>
+      prev.filter((_, i) => i !== index)
     );
-    console.log(deliverables);
-}    ;
+  };
 
   return (
     <div className="relative inline-block" ref={boxRef}>
-      
       {/* Trigger */}
       <div
         onClick={() => setOpen(!open)}
@@ -60,9 +100,9 @@ export default function DeliverablesCard() {
         />
       </div>
 
-      {/* Floating Box */}
+      {/* Dropdown */}
       {open && (
-        <div className="absolute left-0 mt-3 w-80 bg-white border border-gray-200 rounded-2xl shadow-xl p-5 z-50">
+        <div className="absolute left-[-50px] z-99 mt-3 w-80 bg-white border border-gray-200 rounded-2xl shadow-xl p-5 z-50">
           
           {/* Add Section */}
           <div className="flex gap-2 mb-4">
@@ -83,13 +123,13 @@ export default function DeliverablesCard() {
 
           {/* List */}
           <div className="space-y-3 max-h-60 overflow-y-auto">
-            {deliverables.length === 0 && (
+            {deliverablesArray.length === 0 && (
               <p className="text-sm text-gray-400 text-center">
                 No deliverables yet
               </p>
             )}
 
-            {deliverables.map((item, index) => (
+            {deliverablesArray.map((item, index) => (
               <div
                 key={index}
                 className="flex items-center justify-between p-3 rounded-lg border border-gray-100 bg-gray-50"
@@ -104,6 +144,21 @@ export default function DeliverablesCard() {
                 </button>
               </div>
             ))}
+          </div>
+
+          {/* Update Button */}
+          <div className="flex justify-end mt-4">
+            <button
+              onClick={updateDeliverablesInDB}
+              disabled={loading}
+              className={`px-4 py-2 rounded-xl text-white transition ${
+                loading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700"
+              }`}
+            >
+              {loading ? "Updating..." : "Update"}
+            </button>
           </div>
         </div>
       )}

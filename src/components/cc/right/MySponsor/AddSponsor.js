@@ -12,6 +12,10 @@ export default function AddSponsor({ handleToggle }) {
     heading: "",
     notes: "",
     date: "",
+    deliverables: [],
+    dealType: null,
+    ammount: 0,
+    dealCompleted: false,
 
   });
 
@@ -48,6 +52,11 @@ console.log(formData);
             progressDates: [formData.date],
 
             dealCompleted: false,
+            deliverables: [],
+            dealType: null,
+    ammount: 0,
+    dealCompleted: false,
+
           },
         ]);
 

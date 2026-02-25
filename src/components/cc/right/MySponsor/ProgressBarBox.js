@@ -31,7 +31,7 @@ const ProgressBarBox = ({ sponsor, dealCompleted, setdealCompleted }) => {
     </p>
 
     {sponsor.dealCompleted? <>
-    <DeliverablesCard />
+    <DeliverablesCard sponsor={sponsor} />
     <p className="text-sm  bg-green-50 text-green-700 px-3 py-1 rounded-full font-bold">
       ₹{sponsor.ammount}
     </p>
