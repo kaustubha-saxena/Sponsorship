@@ -1,11 +1,12 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import { Trash2 } from "lucide-react";
 
 export default function ProgressBar({ steps = [], dealCompleted }) {
-  
 
- 
+
+
     if (!steps || steps.length === 0) {
         return (
             <div className="text-gray-400 text-sm">
@@ -13,13 +14,13 @@ export default function ProgressBar({ steps = [], dealCompleted }) {
             </div>
         );
     }
-const progressWidth =
-  dealCompleted
-    ? "100%"
-    : steps.length === 1
-      ? "50%" 
-      : `${(steps.length / (steps.length + 1)) * 100}%`;
-            
+    const progressWidth =
+        dealCompleted
+            ? "100%"
+            : steps.length === 1
+                ? "50%"
+                : `${(steps.length / (steps.length + 1)) * 100}%`;
+
 
     return (
         <div className="w-full bg-gray-100 p-4 rounded-xl shadow-sm hover:shadow-md transition">
@@ -73,27 +74,40 @@ const progressWidth =
 
                             {/* Hover Card */}
                             <div
-                                className="
-                  absolute top-12 opacity-0 translate-y-2
-                  group-hover:opacity-100 group-hover:translate-y-0
-                  transition-all duration-300
-                  bg-white text-black text-sm
-                  w-64 p-4 rounded-xl shadow-xl border
-                  z-50
-                "
-                            >
-                                <h4 className="font-semibold mb-2">
-                                    {step.heading}
-                                </h4>
+  className="
+    absolute top-12 opacity-0 translate-y-2
+    group-hover:opacity-100 group-hover:translate-y-0
+    transition-all duration-300
+    bg-white text-black text-sm
+    w-64 p-4 rounded-xl shadow-xl border
+    z-50
+  "
+>
+  {/* Header with delete icon */}
+  <div className="flex justify-between items-start mb-2">
+    <h4 className="font-semibold">
+      {step.heading}
+    </h4>
 
-                                <p className="text-gray-600 text-xs leading-relaxed mb-2">
-                                    {step.notes}
-                                </p>
+    <button
+      onClick={(e) => {
+        e.stopPropagation();   // prevent parent click
+        handleDeleteStep(step.id);
+      }}
+      className="text-gray-400 hover:text-red-500 transition"
+    >
+      <Trash2 size={16} />
+    </button>
+  </div>
 
-                                <p className="text-gray-400 text-xs">
-                                    {step.date}
-                                </p>
-                            </div>
+  <p className="text-gray-600 text-xs leading-relaxed mb-2">
+    {step.notes}
+  </p>
+
+  <p className="text-gray-400 text-xs">
+    {step.date}
+  </p>
+</div>
 
                             {/* Label Below Circle */}
                             <span
@@ -116,13 +130,13 @@ const progressWidth =
                             alt="tick"
                             width={32}
                             height={32}
-                            
+
                         /> : <Image
                             src="/tickUnselected.svg"
                             alt="tick"
                             width={32}
                             height={32}
-                          
+
                         />
 
                         }

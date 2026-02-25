@@ -123,7 +123,7 @@ const handleUpdate = async (e) => {
             onChange={handleChange}
             required
             
-disabled={formData.dealCompleted}
+
             className="w-full rounded-xl border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
             placeholder="Enter progress title"
           />
@@ -140,7 +140,7 @@ disabled={formData.dealCompleted}
             onChange={handleChange}
             rows="4"
             required
-            disabled={formData.dealCompleted}
+           
             className="w-full rounded-xl border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition resize-none"
             placeholder="Enter details..."
           />
@@ -157,8 +157,8 @@ disabled={formData.dealCompleted}
             value={formData.date}
             onChange={handleChange}
             required={!formData.dealCompleted}
-            disabled={formData.dealCompleted}
-            className="w-full rounded-xl border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition disabled:bg-gray-100 disabled:text-gray-400"
+         
+            className="w-full rounded-xl border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition "
           />
         </div>
 
@@ -171,9 +171,9 @@ disabled={formData.dealCompleted}
               <p className="text-sm font-medium text-gray-700">
                 Mark Deal as Completed
               </p>
-              <p className="text-xs text-gray-500">
+              {/* <p className="text-xs text-gray-500">
                 This will disable the date field
-              </p>
+              </p> */}
             </div>
 
             <input
