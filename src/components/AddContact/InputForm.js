@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PushBtn from "./PushBtn";
 import { useUser } from "@/app/context/UserContext";
-export default function InputForm({ toggleForm }) {
+export default function InputForm({ toggleForm ,refresh, setRefresh}) {
   const { user } = useUser();
 
   const [form, setForm] = useState({
