@@ -10,7 +10,7 @@ import {
 import { db } from "@/lib/firebase";
 import { supabase } from "@/lib/supabase";
 
-export default function TransferContactsBetweenOCs() {
+export default function TransferContactsBetweenOCs({setshowTransfer ,showTransfer}) {
   const [ocs, setOcs] = useState([]);
   const [fromOC, setFromOC] = useState("");
   const [toOC, setToOC] = useState("");
@@ -92,10 +92,16 @@ export default function TransferContactsBetweenOCs() {
   };
 
   return (
-    <div className="p-6 text-black bg-white rounded-xl shadow-md border w-[400px]">
-      <h3 className="text-lg font-semibold mb-4">
-        Transfer Contacts Between OCs
-      </h3>
+    <div className=" absolute top-0  flex justify-center items-center w-full h-full bg-white/60">
+
+    <div className=" text-black  bg-white flex  flex-col rounded-xl shadow-md  w-[400px]">
+      <div className="flex justify-between rounded-t-2xl items-center bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-4">
+          <h2 className="text-white text-lg font-semibold">Transfer Contacts</h2>
+          <button onClick={() => setshowTransfer(!showTransfer)} className="text-white hover:cursor-pointer" >X</button>
+        </div>
+        <div className="p-6">
+
+       
 
       {/* From OC */}
       <div className="mb-4">
@@ -106,7 +112,7 @@ export default function TransferContactsBetweenOCs() {
           value={fromOC}
           onChange={(e) => setFromOC(e.target.value)}
           className="w-full border rounded-lg p-2"
-        >
+          >
           <option value="">Select OC</option>
           {ocs.map((oc) => (
             <option key={oc.uid} value={oc.uid}>
@@ -125,7 +131,7 @@ export default function TransferContactsBetweenOCs() {
           value={toOC}
           onChange={(e) => setToOC(e.target.value)}
           className="w-full border rounded-lg p-2"
-        >
+          >
           <option value="">Select OC</option>
           {ocs.map((oc) => (
             <option key={oc.uid} value={oc.uid}>
@@ -138,8 +144,8 @@ export default function TransferContactsBetweenOCs() {
       <button
         onClick={transferContacts}
         disabled={loading}
-        className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
-      >
+        className="w-full hover:cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+        >
         {loading ? "Transferring..." : "Transfer Contacts"}
       </button>
 
@@ -149,5 +155,6 @@ export default function TransferContactsBetweenOCs() {
         </p>
       )}
     </div>
+      </div> </div>
   );
 }

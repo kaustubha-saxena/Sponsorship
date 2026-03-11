@@ -1,85 +1,91 @@
 "use client";
 
 import { useState } from "react";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-} from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { supabase } from "@/lib/supabase";
 
 export default function AllotContactsButton() {
+
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const allotContactsEqually = async () => {
-    setLoading(true);
-    setMessage("");
+ const allotContactsEqually = async () => {
 
-    try {
-      // 🔥 1️⃣ Fetch OCs from Firebase
-      const ocQuery = query(
-        collection(db, "users"),
-        where("role", "==", "oc")
-      );
+  setLoading(true);
+  setMessage("");
 
-      const ocSnapshot = await getDocs(ocQuery);
+  try {
 
-      const ocs = ocSnapshot.docs.map((doc) => ({
-        uid: doc.id,
-        ...doc.data(),
-      }));
+    const ocQuery = query(
+      collection(db, "users"),
+      where("role", "==", "oc")
+    );
 
-      if (ocs.length === 0) {
-        setMessage("No OCs found");
-        setLoading(false);
-        return;
-      }
+    const ocSnapshot = await getDocs(ocQuery);
 
-      // 🔥 2️⃣ Fetch ONLY unassigned contacts from Supabase
+    const ocs = ocSnapshot.docs.map(doc => ({
+      uid: doc.id,
+      ...doc.data(),
+    }));
+
+    if (ocs.length === 0) {
+      setMessage("No OCs found");
+      setLoading(false);
+      return;
+    }
+
+    const batchSize = 500;
+    let assignedCount = 0;
+
+    while (true) {
+
       const { data: contacts, error } = await supabase
         .from("contacts")
         .select("id")
-        .is("assignedTo", null); // 👈 important
+        .is("assignedTo", null)
+        .limit(batchSize);
 
       if (error) throw error;
 
-      if (!contacts || contacts.length === 0) {
-        setMessage("No unassigned contacts found");
-        setLoading(false);
-        return;
-      }
+      if (!contacts || contacts.length === 0) break;
 
-      // 🔥 3️⃣ Round Robin Distribution
-      const updatePromises = contacts.map((contact, index) => {
-        const ocIndex = index % ocs.length;
+      const updates = contacts.map((contact, index) => {
+
+        const ocIndex = (assignedCount + index) % ocs.length;
         const assignedOC = ocs[ocIndex];
 
         return supabase
           .from("contacts")
-          .update({ assignedTo: assignedOC.uid }) // must match column case
+          .update({ assignedTo: assignedOC.uid })
           .eq("id", contact.id);
+
       });
 
-      await Promise.all(updatePromises);
+      await Promise.all(updates);
 
-      setMessage("Contacts allotted successfully 🎉");
-    } catch (error) {
-      console.error("Allotment Error:", error);
-      setMessage("Something went wrong");
+      assignedCount += contacts.length;
+
     }
 
-    setLoading(false);
-  };
+    setMessage("Contacts allotted successfully 🎉");
 
+  } catch (error) {
+
+    console.error("Allotment Error:", error);
+    setMessage("Something went wrong");
+
+  }
+
+  setLoading(false);
+};
   return (
-    <div className="p-6">
+    <div className="w-full h-full">
+
       <button
         onClick={allotContactsEqually}
         disabled={loading}
-        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+        className="px-4 py-2 w-full h-full bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
       >
         {loading ? "Allotting..." : "Allot Contacts"}
       </button>
@@ -87,6 +93,7 @@ export default function AllotContactsButton() {
       {message && (
         <p className="mt-4 text-sm text-green-600">{message}</p>
       )}
+
     </div>
   );
 }
