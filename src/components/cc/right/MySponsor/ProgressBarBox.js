@@ -1,9 +1,11 @@
 import React from 'react'
+import { Trash2 } from "lucide-react";
 import ProgressBar from './ProgressBar';
 import AddProgressForm from './AddProgressForm';
 import { useState } from 'react';
 import DeliverablesCard from './DeliverablesBlock';
-const ProgressBarBox = ({ sponsor, dealCompleted, setdealCompleted }) => {
+const ProgressBarBox = ({ sponsor, dealCompleted, setdealCompleted, onDelete }) => {
+
 
   const nodes = (sponsor.progressHeading || []).map((heading, index) => ({
     heading,
@@ -34,6 +36,14 @@ const ProgressBarBox = ({ sponsor, dealCompleted, setdealCompleted }) => {
       ₹{sponsor.ammount}
     </p>
     </>:<></>}
+    
+          <button
+        onClick={() => onDelete(sponsor.id)}
+      className="p-1 rounded hover:cursor-pointer hover:bg-red-100 text-red-500"
+    >
+      <Trash2 size={18} />
+    </button>
+    
   </div>
 </div>
       {/* <div className='w-full flex flex-col justify-start items-start mb-2 '>

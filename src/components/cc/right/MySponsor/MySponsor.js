@@ -33,7 +33,7 @@ const MySponsor = () => {
             
   
           if (error) throw error;
-  console.log(data);
+
   
           setMySponsors(data || []);
         } catch (error) {
@@ -57,6 +57,27 @@ const MySponsor = () => {
       setToggleForm(!toggleForm);
     }
     
+const deleteSponsor = async (id) => {
+  const confirmDelete = confirm("Are you sure you want to delete this sponsor?");
+  if (!confirmDelete) return;
+
+  try {
+    const { error } = await supabase
+      .from("sponsorProgress")
+      .delete()
+      .eq("id", id);
+
+    if (error) throw error;
+
+    // remove from UI
+    setMySponsors((prev) => prev.filter((s) => s.id !== id));
+
+  } catch (err) {
+    console.error("Error deleting sponsor:", err);
+    alert("Failed to delete sponsor");
+  }
+};
+
   return (
     <div className="bg-gray-50 w-5/6 min-h-full absolute right-0 p-5 text-black flex gap-5 flex-col">
       <div  className="flex justify-between items-center ">
@@ -75,6 +96,8 @@ const MySponsor = () => {
           <ProgressBarBox 
           key={sponsor.company}
           sponsor={sponsor}
+          
+    onDelete={deleteSponsor}
           dealCompleted={sponsor.dealCompleted}
           setdealCompleted={setdealCompleted}
           />

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 
 const SponsorReport = ({ mySponsors }) => {
-console.log(mySponsors,"report");
+
 
   const [totalSponsorship, settotalSponsorship] = useState(0)
   const [totalSponsors, setTotalSponsors] = useState(0)

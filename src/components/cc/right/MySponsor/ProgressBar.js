@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { Trash2 } from "lucide-react";
+import { Trash2, Pencil } from "lucide-react";
 
 export default function ProgressBar({ steps = [], dealCompleted }) {
 
@@ -74,7 +74,7 @@ export default function ProgressBar({ steps = [], dealCompleted }) {
 
                             {/* Hover Card */}
                             <div
-  className="
+                                className="
     absolute top-12 opacity-0 translate-y-2
     group-hover:opacity-100 group-hover:translate-y-0
     transition-all duration-300
@@ -82,32 +82,44 @@ export default function ProgressBar({ steps = [], dealCompleted }) {
     w-64 p-4 rounded-xl shadow-xl border
     z-50
   "
->
-  {/* Header with delete icon */}
-  <div className="flex justify-between items-start mb-2">
-    <h4 className="font-semibold">
-      {step.heading}
-    </h4>
+                            >
+                                {/* Header with delete icon */}
+                                <div className="flex justify-between items-start mb-2">
+                                    <h4 className="font-semibold">
+                                        {step.heading}
+                                    </h4>
 
-    <button
-      onClick={(e) => {
-        e.stopPropagation();   // prevent parent click
-        handleDeleteStep(step.id);
-      }}
-      className="text-gray-400 hover:text-red-500 transition"
-    >
-      <Trash2 size={16} />
-    </button>
-  </div>
+                                    <div className="flex gap-2">
+                                        <button
+                                            // onClick={(e) => {
+                                            //     e.stopPropagation();
+                                            //     onEditStep(step);
+                                            // }}
+                                            className="text-gray-400 hover:text-blue-500 transition"
+                                        >
+                                            <Pencil size={16} />
+                                        </button>
 
-  <p className="text-gray-600 text-xs leading-relaxed mb-2">
-    {step.notes}
-  </p>
+                                        <button
+                                            // onClick={(e) => {
+                                            //     e.stopPropagation();
+                                            //     onDeleteStep(step.id);
+                                            // }}
+                                            className="text-gray-400 hover:text-red-500 transition"
+                                        >
+                                            <Trash2 size={16} />
+                                        </button>
+                                    </div>
+                                </div>
 
-  <p className="text-gray-400 text-xs">
-    {step.date}
-  </p>
-</div>
+                                <p className="text-gray-600 text-xs leading-relaxed mb-2">
+                                    {step.notes}
+                                </p>
+
+                                <p className="text-gray-400 text-xs">
+                                    {step.date}
+                                </p>
+                            </div>
 
                             {/* Label Below Circle */}
                             <span

@@ -7,6 +7,7 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useUser } from "@/app/context/UserContext";
 import { Info } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import AllotContactsButton from './AllotContactsButton'
 import TransferContactsBetweenOCs from './TransferContactsBetweenOCs'
@@ -14,7 +15,7 @@ import ResetConfirmation from './ResetConfirmation';
 import ManageUsers from './ManageUsers';
 import DbData from './DbData';
 const Right = () => {
-
+  const router = useRouter();
   const { user } = useUser();
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
@@ -87,7 +88,16 @@ const Right = () => {
     try {
       const { data, error } = await supabase
         .from("contacts")
-        .update({ assignedTo: null })
+        .update({
+          assignedTo: null,
+          callMade: false,
+          callDate: null,
+          emailDate: null,
+          emailSent: false,
+          followUpAt: null,
+          note: null,
+          interested: null
+        })
         .not("id", "is", null);
 
       if (error) {
@@ -119,26 +129,45 @@ const Right = () => {
         <div className="bg-white hover:cursor-pointer  rounded-2xl shadow-sm border h-35  flex flex-col justify-between hover:shadow-md transition">
           <AllotContactsButton />
         </div>
-        <div className="bg-white rounded-2xl font-semibold text-lg shadow-sm border h-35  flex flex-col justify-between hover:shadow-md transition">
+        {/* <div className="bg-white rounded-2xl font-semibold text-lg shadow-sm border h-35  flex flex-col justify-between hover:shadow-md transition">
           <button onClick={() => setShowTransfer(!showTransfer)} className='w-full h-full bg-green-300 rounded-2xl hover:cursor-pointer hover:bg-green-500 font-semibold transition'>
             Transfer Contacts between OCs
           </button>
-        </div>
-        <div className="bg-white rounded-2xl font-semibold text-lg shadow-sm border h-35  flex flex-col justify-between hover:shadow-md transition">
+        </div> */}
+        {/* <div className="bg-white rounded-2xl font-semibold text-lg shadow-sm border h-35  flex flex-col justify-between hover:shadow-md transition">
           <button onClick={() => setShowManageUser(!showManageUser)} className='w-full h-full bg-pink-300 rounded-2xl hover:cursor-pointer hover:bg-pink-500 font-semibold transition'>
             Manage OCs and CCs
           </button>
-        </div>
-        <div className="bg-white rounded-2xl font-semibold text-lg shadow-sm border h-35  hover:bg-gray-200  flex flex-col justify-between hover:shadow-md transition">
+        </div> */}
+        {/* <div className="bg-white hover:bg-gray-200  rounded-2xl font-semibold text-lg shadow-sm border h-35   flex flex-col justify-between hover:shadow-md transition">
           <button onClick={() => setShowResetModal(true)} className='w-full h-full text-black  hover:cursor-pointer  font-semibold transition'>
             Reset Database
           </button>
-        </div>
-        <div className="bg-white rounded-2xl font-semibold text-lg shadow-sm border h-35  flex flex-col justify-between hover:shadow-md transition">
-          <button className='w-full h-full bg-orange-300 rounded-2xl hover:cursor-pointer hover:bg-orange-500 font-semibold transition'>
+        </div> */}
+        {/* <div className="bg-white hover:bg-gray-200 rounded-2xl font-semibold text-lg shadow-sm border h-35  flex flex-col justify-between hover:shadow-md transition">
+          <button onClick={() => router.push("/dashboard/admin/addcontacts")}
+           className=' text-black w-full h-full rounded-2xl hover:cursor-pointer font-semibold transition'>
             Add Contacts via excel
           </button>
-        </div>
+        </div> */}
+        <button  onClick={() => setShowTransfer(!showTransfer)} className='bg-white  hover:bg-blue-50 rounded-2xl font-semibold text-cyan-950 border-none hover:cursor-pointer text-lg shadow-sm  border h-35  flex  justify-center items-center hover:shadow-md transition  '>
+          Transfer Contacts between OCs
+         </button>
+        <button onClick={() => setShowManageUser(!showManageUser)} className='bg-white  hover:bg-blue-50 rounded-2xl font-semibold text-cyan-950 border-none hover:cursor-pointer text-lg shadow-sm  border h-35  flex  justify-center items-center hover:shadow-md transition  '>
+          Manage OCs and CCs
+         </button>
+        <button onClick={() => setShowResetModal(true)} className='bg-white  hover:bg-blue-50 rounded-2xl font-semibold text-cyan-950 border-none hover:cursor-pointer text-lg shadow-sm  border h-35  flex  justify-center items-center hover:shadow-md transition  '>
+          
+
+          Reset Database
+        
+        </button>
+        <button onClick={() => router.push("/dashboard/admin/addcontacts")} className='bg-white  hover:bg-blue-50 rounded-2xl font-semibold text-cyan-950 border-none hover:cursor-pointer text-lg shadow-sm  border h-35  flex  justify-center items-center hover:shadow-md transition  '>
+          
+
+          Add Contacts via excel
+        
+        </button>
 
 
 
