@@ -11,15 +11,17 @@ import { supabase } from "@/lib/supabase";
 import AllotContactsButton from './AllotContactsButton'
 import TransferContactsBetweenOCs from './TransferContactsBetweenOCs'
 import ResetConfirmation from './ResetConfirmation';
+import ManageUsers from './ManageUsers';
 import DbData from './DbData';
 const Right = () => {
 
   const { user } = useUser();
   const [loading, setLoading] = useState(true);
-  const [ocs, setOcs] = useState([]);
+  const [users, setUsers] = useState([]);
   const [Contacts, setContacts] = useState([]);
-const [showResetModal, setShowResetModal] = useState(false);
+  const [showResetModal, setShowResetModal] = useState(false);
   const [showTransfer, setShowTransfer] = useState(false);
+  const [showManageUser, setShowManageUser] = useState(false)
   useEffect(() => {
     if (!user) return;
     const fetchOCs = async () => {
@@ -31,12 +33,12 @@ const [showResetModal, setShowResetModal] = useState(false);
 
         const snapshot = await getDocs(q);
 
-        const ocList = snapshot.docs.map(doc => ({
+        const userList = snapshot.docs.map(doc => ({
           uid: doc.id,
           ...doc.data(),
         }));
 
-        setOcs(ocList);
+        setUsers(userList);
 
 
       } catch (error) {
@@ -62,7 +64,7 @@ const [showResetModal, setShowResetModal] = useState(false);
       const { data, error } = await supabase
         .from("contacts")
         .select("*");
-        
+
 
       if (error) {
         console.error("Error fetching contacts:", error);
@@ -78,26 +80,26 @@ const [showResetModal, setShowResetModal] = useState(false);
   }, []);
 
 
- const resetDatabase = async () => {
-  const confirmReset = confirm("Are you sure you want to reset callMade for all contacts?");
-  if (!confirmReset) return;
+  const resetDatabase = async () => {
+    const confirmReset = confirm("Are you sure you want to reset callMade for all contacts?");
+    if (!confirmReset) return;
 
-  try {
-    const { data, error } = await supabase
-      .from("contacts")
-      .update({ assignedTo: null })
-      .not("id","is",null); // ensures update runs for all rows
+    try {
+      const { data, error } = await supabase
+        .from("contacts")
+        .update({ assignedTo: null })
+        .not("id", "is", null);
 
-    if (error) {
-      console.error("Reset failed:", error);
-      alert("Failed to reset database");
-    } else {
-      alert("Database reset successfully");
+      if (error) {
+        console.error("Reset failed:", error);
+        alert("Failed to reset database");
+      } else {
+        alert("Database reset successfully");
+      }
+    } catch (err) {
+      console.error(err);
     }
-  } catch (err) {
-    console.error(err);
-  }
-};
+  };
 
   return (
     <div className=' relative w-full min-h-full bg-gray-50'>
@@ -105,7 +107,7 @@ const [showResetModal, setShowResetModal] = useState(false);
 
 
 
-      <DbData contactslength={Contacts.length} cclength={ocs.filter((oc) => oc.role === "cc").length} oclength={ocs.filter((oc) => oc.role === "oc").length} />
+      <DbData contactslength={Contacts.length} cclength={users.filter((user) => user.role === "cc").length} oclength={users.filter((user) => user.role === "oc").length} />
 
 
 
@@ -114,7 +116,7 @@ const [showResetModal, setShowResetModal] = useState(false);
         <div className="bg-white  rounded-2xl shadow-sm border h-35  flex flex-col justify-between hover:shadow-md transition">
           <AddUser />
         </div>
-        <div className="bg-white  rounded-2xl shadow-sm border h-35  flex flex-col justify-between hover:shadow-md transition">
+        <div className="bg-white hover:cursor-pointer  rounded-2xl shadow-sm border h-35  flex flex-col justify-between hover:shadow-md transition">
           <AllotContactsButton />
         </div>
         <div className="bg-white rounded-2xl font-semibold text-lg shadow-sm border h-35  flex flex-col justify-between hover:shadow-md transition">
@@ -123,12 +125,12 @@ const [showResetModal, setShowResetModal] = useState(false);
           </button>
         </div>
         <div className="bg-white rounded-2xl font-semibold text-lg shadow-sm border h-35  flex flex-col justify-between hover:shadow-md transition">
-          <button className='w-full h-full bg-pink-300 rounded-2xl hover:cursor-pointer hover:bg-pink-500 font-semibold transition'>
+          <button onClick={() => setShowManageUser(!showManageUser)} className='w-full h-full bg-pink-300 rounded-2xl hover:cursor-pointer hover:bg-pink-500 font-semibold transition'>
             Manage OCs and CCs
           </button>
         </div>
-        <div className="bg-white rounded-2xl font-semibold text-lg shadow-sm border h-35  flex flex-col justify-between hover:shadow-md transition">
-          <button  onClick={() => setShowResetModal(true)} className='w-full h-full bg-pink-300 rounded-2xl hover:cursor-pointer hover:bg-pink-500 font-semibold transition'>
+        <div className="bg-white rounded-2xl font-semibold text-lg shadow-sm border h-35  hover:bg-gray-200  flex flex-col justify-between hover:shadow-md transition">
+          <button onClick={() => setShowResetModal(true)} className='w-full h-full text-black  hover:cursor-pointer  font-semibold transition'>
             Reset Database
           </button>
         </div>
@@ -137,7 +139,7 @@ const [showResetModal, setShowResetModal] = useState(false);
             Add Contacts via excel
           </button>
         </div>
-       
+
 
 
 
@@ -146,9 +148,12 @@ const [showResetModal, setShowResetModal] = useState(false);
 
 
       {/* <AddUser /> */}
-{showResetModal && (
+      {showResetModal && (
         <ResetConfirmation setShowResetModal={setShowResetModal} resetDatabase={resetDatabase} />
-)}
+      )}
+      {showManageUser && (
+        <ManageUsers showManageUser={showManageUser} setShowManageUser={setShowManageUser} ocs={users.filter((user) => user.role === "oc")} ccs={users.filter((user) => user.role === "cc")} />
+      )}
       {showTransfer && (
         <TransferContactsBetweenOCs
           setshowTransfer={setShowTransfer}
