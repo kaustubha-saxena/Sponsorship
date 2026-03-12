@@ -94,7 +94,7 @@ export default function TransferContactsBetweenOCs({setshowTransfer ,showTransfe
   return (
     <div className=" absolute top-0  flex justify-center items-center w-full h-full bg-black/40">
 
-    <div className=" text-black  bg-white flex  flex-col rounded-xl shadow-md  w-[400px]">
+    <div className=" text-black  bg-white flex  flex-col rounded-2xl shadow-md  w-[400px]">
       <div className="flex justify-between rounded-t-2xl items-center bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-4">
           <h2 className="text-white text-lg font-semibold">Transfer Contacts</h2>
           <button onClick={() => setshowTransfer(!showTransfer)} className="text-white hover:cursor-pointer" >X</button>

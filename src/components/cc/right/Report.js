@@ -106,24 +106,24 @@ const Report = ({ assignedContacts }) => {
 
         {/* Date Inputs (Only Show When Range Selected) */}
         {mode === "range" && (
-          <div className="flex items-center gap-3 ml-4">
+          <div className="flex items-center gap-3 ml-4 ">
 
 
             <div className="flex items-center gap-2 bg-white border rounded-lg px-3 py-2">
-              <Calendar size={16} className="text-gray-500" />
+              <Calendar size={16} className="text-black" />
               <input
                 type="date"
                 value={fromDate}
                 onChange={(e) => setFromDate(e.target.value)}
-                className="outline-none text-sm"
+                className="outline-none text-sm text-black"
               />
             </div>
 
-            <span className="text-gray-500">to</span>
+            <span className="text-black">to</span>
 
             {/* To */}
             <div className="flex items-center gap-2 bg-white border rounded-lg px-3 py-2">
-              <Calendar size={16} className="text-gray-500" />
+              <Calendar size={16} className="text-black" />
               <input
                 type="date"
                 value={toDate}
@@ -132,7 +132,7 @@ const Report = ({ assignedContacts }) => {
 
 
                 }}
-                className="outline-none text-sm"
+                className="outline-none text-sm text-black"
               />
             </div>
 

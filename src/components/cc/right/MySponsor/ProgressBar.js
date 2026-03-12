@@ -2,9 +2,18 @@
 import React from "react";
 import Image from "next/image";
 import { Trash2, Pencil } from "lucide-react";
+import { useState } from "react";
+import EditProgressForm from "./EditProgressForm";
+import { supabase } from "@/lib/supabase";
 
-export default function ProgressBar({ steps = [], dealCompleted }) {
+export default function ProgressBar({ id,
+    steps = [],
+    dealCompleted,
+    setdealCompleted }) {
 
+    const [toggleForm, setToggleForm] = useState(false);
+    const [editStep, setEditStep] = useState(null);
+    const [editIndex, setEditIndex] = useState(null);
 
 
     if (!steps || steps.length === 0) {
@@ -20,6 +29,47 @@ export default function ProgressBar({ steps = [], dealCompleted }) {
             : steps.length === 1
                 ? "50%"
                 : `${(steps.length / (steps.length + 1)) * 100}%`;
+
+
+
+
+
+    const handleDeleteStep = async (index) => {
+        try {
+
+            const { data, error } = await supabase
+                .from("sponsorProgress")
+                .select("progressHeading, progressNotes, progressDates")
+                .eq("id", id)
+                .single();
+
+            if (error) throw error;
+
+            const headings = [...data.progressHeading];
+            const notes = [...data.progressNotes];
+            const dates = [...data.progressDates];
+
+            headings.splice(index, 1);
+            notes.splice(index, 1);
+            dates.splice(index, 1);
+
+            const { error: updateError } = await supabase
+                .from("sponsorProgress")
+                .update({
+                    progressHeading: headings,
+                    progressNotes: notes,
+                    progressDates: dates
+                })
+                .eq("id", id);
+
+            if (updateError) throw updateError;
+
+            window.location.reload(); // simple refresh (can improve later)
+
+        } catch (err) {
+           
+        }
+    };
 
 
     return (
@@ -91,24 +141,26 @@ export default function ProgressBar({ steps = [], dealCompleted }) {
 
                                     <div className="flex gap-2">
                                         <button
-                                            // onClick={(e) => {
-                                            //     e.stopPropagation();
-                                            //     onEditStep(step);
-                                            // }}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setEditStep(step);
+                                                setEditIndex(index);
+                                                setToggleForm(true);
+                                            }}
                                             className="text-gray-400 hover:text-blue-500 transition"
                                         >
                                             <Pencil size={16} />
                                         </button>
 
                                         <button
-                                            // onClick={(e) => {
-                                            //     e.stopPropagation();
-                                            //     onDeleteStep(step.id);
-                                            // }}
-                                            className="text-gray-400 hover:text-red-500 transition"
-                                        >
-                                            <Trash2 size={16} />
-                                        </button>
+  onClick={(e) => {
+    e.stopPropagation();
+    handleDeleteStep(index);
+  }}
+  className="text-gray-400 hover:text-red-500 transition"
+>
+  <Trash2 size={16} />
+</button>
                                     </div>
                                 </div>
 
@@ -163,6 +215,17 @@ export default function ProgressBar({ steps = [], dealCompleted }) {
                 </div>
 
             </div>
+            {toggleForm && (
+                <EditProgressForm
+                    id={id}
+                    stepData={editStep}
+                    stepIndex={editIndex}
+                    toggleForm={toggleForm}
+                    setToggleForm={setToggleForm}
+                    dealCompleted={dealCompleted}
+                    setdealCompleted={setdealCompleted}
+                />
+            )}
         </div>
     );
 }

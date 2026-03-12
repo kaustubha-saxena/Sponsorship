@@ -66,7 +66,7 @@ useEffect(() => {
 
 
   return (
-    <div className="  z-50 top-0 w-full h-[30%] px-6 py-6 bg-gray-50 sticky">
+    <div className="  z-50 top-0 w-full h-[30%]  px-6 py-6 bg-gray-50 sticky">
 
 
 
