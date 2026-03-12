@@ -1,7 +1,7 @@
 "use client";
-
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+
 import { auth, db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
@@ -13,6 +13,22 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
+
+  const handleForgotPassword = async () => {
+  if (!email) {
+    setError("Enter your email first to reset password.");
+    return;
+  }
+
+  try {
+    setError("Check spam folder if you don't see the email in inbox.");
+    await sendPasswordResetEmail(auth, email);
+    alert("Password reset email sent!");
+  } catch (err) {
+    setError("Failed to send reset email");
+  }
+};
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -88,6 +104,15 @@ export default function LoginPage() {
               required
             />
           </div>
+          <div className="flex justify-end">
+  <button
+    type="button"
+    onClick={handleForgotPassword}
+    className="text-sm text-blue-600 hover:underline"
+  >
+    Forgot Password?
+  </button>
+</div>
 
           <button
             type="submit"
