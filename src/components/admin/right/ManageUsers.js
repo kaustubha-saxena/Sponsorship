@@ -5,6 +5,8 @@ import { db } from "@/lib/firebase";
 import { supabase } from "@/lib/supabase";
 import { Trash2 } from "lucide-react";
 import DeleteUserConfirmation from './DeleteUserConfirmation';
+import { X } from "lucide-react";
+
 const ManageUsers = ({ showManageUser, setShowManageUser, ocs , ccs }) => {
 const [showDeleteModal, setShowDeleteModal] = useState(false);
 const [selectedUser, setSelectedUser] = useState(null);
@@ -38,7 +40,8 @@ const deleteUser = async (uid) => {
       <div className=" text-black fixed  bg-white flex  flex-col rounded-2xl shadow-md max-h-[500px]   w-[400px]">
         <div className="flex justify-between rounded-t-2xl items-center bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-4">
           <h2 className="text-white text-lg font-semibold">Manage Users</h2>
-          <button onClick={() => setShowManageUser(false)} className="text-white hover:cursor-pointer" >X</button>
+          <button onClick={() => setShowManageUser(false)} className="text-white hover:cursor-pointer" ><X />
+</button>
         </div>
         <div className="p-6 overflow-scroll   no-scrollbar">
 

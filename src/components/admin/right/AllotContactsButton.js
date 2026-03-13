@@ -80,19 +80,19 @@ export default function AllotContactsButton() {
   setLoading(false);
 };
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full hover:cursor-pointer">
 
       <button
         onClick={allotContactsEqually}
         disabled={loading}
-        className="px-4 py-2 w-full h-full bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+        className="px-4 py-2 w-full h-full hover:cursor-pointer  text-black text-lg   disabled:opacity-50"
       >
         {loading ? "Allotting..." : "Allot Contacts"}
-      </button>
-
       {message && (
         <p className="mt-4 text-sm text-green-600">{message}</p>
       )}
+      </button>
+
 
     </div>
   );

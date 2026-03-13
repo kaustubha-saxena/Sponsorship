@@ -1,6 +1,9 @@
 import { useState } from "react";
 import PushBtn from "./PushBtn";
 import { useUser } from "@/app/context/UserContext";
+import { X } from "lucide-react";
+
+
 export default function InputForm({ toggleForm ,refresh, setRefresh}) {
   const { user } = useUser();
 
@@ -55,7 +58,7 @@ export default function InputForm({ toggleForm ,refresh, setRefresh}) {
 
   return (
     <>
-      <div className="w-full h-full absolute  rounded-20ox top-0 left-0 bg-black/40 flex items-center justify-center z-50">
+      <div className="w-full h-full absolute text-black rounded-20ox top-0 left-0 bg-black/40 flex items-center justify-center z-50">
 
         <div className="w-[40%]   rounded-xl max-h-[80vh] overflow-y-scroll   no-scrollbar">
 
@@ -67,9 +70,10 @@ export default function InputForm({ toggleForm ,refresh, setRefresh}) {
                 Add New Contact
               </h2>
               <div className="">
-                <button className="cursor-pointer"
+                <button className="cursor-pointer text-white"
                   onClick={toggleForm}>
-                  X
+                  <X />
+
                 </button>
               </div>
             </div>

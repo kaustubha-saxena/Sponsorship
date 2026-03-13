@@ -1,5 +1,6 @@
 "use client";
 import { supabase } from "@/lib/supabase";
+import { X } from "lucide-react";
 
 import { useState } from "react";
 
@@ -104,7 +105,8 @@ const handleUpdate = async (e) => {
           onClick={handleToggle}
           className="text-gray-400 hover:text-gray-600 transition"
         >
-          ✕
+          <X />
+
         </button>
       </div>
 

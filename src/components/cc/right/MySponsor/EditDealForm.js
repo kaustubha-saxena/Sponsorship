@@ -2,6 +2,9 @@
 import { supabase } from "@/lib/supabase";
 import { useState } from "react";
 import { useEffect } from "react";
+import { X } from "lucide-react";
+
+
 export default function EditDealForm({
   id,
   setToggleForm,
@@ -104,7 +107,8 @@ const [formData, setFormData] = useState({
           onClick={handleToggle}
           className="text-gray-400 hover:text-gray-600 transition"
         >
-          ✕
+          <X />
+
         </button>
       </div>
 

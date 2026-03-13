@@ -16,6 +16,12 @@ const DeleteUserConfirmation = ({ setShowDeleteModal, deleteUser, user }) => {
           <br />
           This action is <span className="font-semibold text-red-500">irreversible</span>.
         </p>
+        <p className="text-sm bg-yellow-50 border border-yellow-200 text-yellow-800 rounded-lg p-3 mb-6">
+          After deletion, all contacts assigned to this user will become 
+          <span className="font-semibold"> unallocated</span>.  
+          Please click the <span className="font-semibold">“Allot Contacts”</span> button to
+          distribute these contacts equally among the remaining OCs.
+        </p>
 
         <div className="flex justify-end gap-3">
 

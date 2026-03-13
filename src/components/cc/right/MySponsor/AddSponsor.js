@@ -82,7 +82,7 @@ console.log(formData);
 
   
   return (
-    <div className="absolute z-99 top-0 w-full h-screen bg-white/60 left-0 flex justify-center items-center
+    <div className="absolute text-black  z-99 top-0 w-full h-screen bg-white/60 left-0 flex justify-center items-center
     ">
       <div className="relative z-20 w-[30%]  mt-6 bg-white p-6 rounded-xl shadow-md border">
         <h3 className="text-lg font-semibold mb-4">Add Sponsor</h3>

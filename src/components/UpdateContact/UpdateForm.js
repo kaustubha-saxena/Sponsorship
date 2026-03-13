@@ -2,6 +2,11 @@
 
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { X } from "lucide-react";
+
+
+
+
 
 export default function UpdateForm({ toggleForm, contact, refresh, setRefresh }) {
 
@@ -89,7 +94,8 @@ export default function UpdateForm({ toggleForm, contact, refresh, setRefresh })
 
         <div className="flex justify-between items-center bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-4">
           <h2 className="text-white text-lg font-semibold">Update Contact</h2>
-          <button className="text-white" onClick={toggleForm}>X</button>
+          <button className="text-white" onClick={toggleForm}>
+<X /></button>
         </div>
 
         <div className="p-6 space-y-6">

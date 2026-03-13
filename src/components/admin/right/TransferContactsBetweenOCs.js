@@ -9,6 +9,9 @@ import {
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { supabase } from "@/lib/supabase";
+import { X } from "lucide-react";
+
+
 
 export default function TransferContactsBetweenOCs({setshowTransfer ,showTransfer}) {
   const [ocs, setOcs] = useState([]);
@@ -97,7 +100,8 @@ export default function TransferContactsBetweenOCs({setshowTransfer ,showTransfe
     <div className=" text-black  bg-white flex  flex-col rounded-2xl shadow-md  w-[400px]">
       <div className="flex justify-between rounded-t-2xl items-center bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-4">
           <h2 className="text-white text-lg font-semibold">Transfer Contacts</h2>
-          <button onClick={() => setshowTransfer(!showTransfer)} className="text-white hover:cursor-pointer" >X</button>
+          <button onClick={() => setshowTransfer(!showTransfer)} className="text-white hover:cursor-pointer" ><X />
+</button>
         </div>
         <div className="p-6">
 

@@ -8,7 +8,7 @@ export default function AddUserButton() {
   return (
     <button
       onClick={() => router.push("/dashboard/admin/register-user")}
-      className="px-4 py-2 bg-amber-600 text-white rounded-md cursor-pointer hover:bg-amber-700 transition h-full w-full"
+      className="px-4 py-2 bg-amber-600 text-white cursor-pointer hover:bg-amber-700 transition h-full w-full"
     >
       Add User
     </button>
