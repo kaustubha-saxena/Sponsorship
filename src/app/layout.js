@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import { UserProvider } from "@/app/context/UserContext";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
          <UserProvider>
 
         {children}
+        <Footer />
          </UserProvider>
       </body>
     </html>

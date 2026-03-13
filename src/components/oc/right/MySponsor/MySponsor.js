@@ -10,7 +10,7 @@ const MySponsor = () => {
   const [mySponsors, setMySponsors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [toggleForm, setToggleForm] = useState(false);
-
+ const [dealCompleted, setdealCompleted] = useState(false);
   const { user } = useUser();
 
   useEffect(() => {
@@ -51,6 +51,28 @@ console.log(data);
     setToggleForm(!toggleForm);
   };
 
+  const deleteSponsor = async (id) => {
+    const confirmDelete = confirm("Are you sure you want to delete this sponsor?");
+    if (!confirmDelete) return;
+  
+    try {
+      const { error } = await supabase
+        .from("sponsorProgress")
+        .delete()
+        .eq("id", id);
+  
+      if (error) throw error;
+  
+      // remove from UI
+      setMySponsors((prev) => prev.filter((s) => s.id !== id));
+  
+    } catch (err) {
+      console.error("Error deleting sponsor:", err);
+      alert("Failed to delete sponsor");
+    }
+  };
+  
+
   return (
     <div className="bg-gray-50 w-5/6 min-h-full absolute right-0 p-5 text-black flex gap-5 flex-col">
       
@@ -65,9 +87,13 @@ console.log(data);
         <div className="text-gray-500">No Sponsors Assigned</div>
       ) : (
         mySponsors.map((sponsor) => (
-          <ProgressBarBox
-            key={sponsor.id}  // ⚠ important change
-            sponsor={sponsor} 
+          <ProgressBarBox 
+          key={sponsor.company}
+          sponsor={sponsor}
+          
+    onDelete={deleteSponsor}
+          dealCompleted={sponsor.dealCompleted}
+          setdealCompleted={setdealCompleted}
           />
         ))
       )}

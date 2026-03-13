@@ -15,7 +15,6 @@ export default function ProgressBar({ id,
     const [editStep, setEditStep] = useState(null);
     const [editIndex, setEditIndex] = useState(null);
 
-
     if (!steps || steps.length === 0) {
         return (
             <div className="text-gray-400 text-sm">
@@ -29,11 +28,6 @@ export default function ProgressBar({ id,
             : steps.length === 1
                 ? "50%"
                 : `${(steps.length / (steps.length + 1)) * 100}%`;
-
-
-
-
-
     const handleDeleteStep = async (index) => {
         try {
 

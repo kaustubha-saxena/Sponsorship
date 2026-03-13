@@ -5,7 +5,7 @@ import AddProgressForm from './AddProgressForm';
 import { useState } from 'react';
 import DeliverablesCard from './DeliverablesBlock';
 import { useMemo } from 'react';
-import  EditDealForm from './EditDealForm';
+import EditDealForm from './EditDealForm';
 const ProgressBarBox = ({ sponsor, dealCompleted, setdealCompleted, onDelete }) => {
 
 
@@ -20,7 +20,7 @@ const ProgressBarBox = ({ sponsor, dealCompleted, setdealCompleted, onDelete }) 
   const handleToggle = () => {
     setToggleForm(!toggleForm);
   }
-const [toggleDealForm, setToggleDealForm] = useState(false)
+  const [toggleDealForm, setToggleDealForm] = useState(false)
 
   return (
     <div className='relative w-full shadow-sm  bg-white p-4 rounded-xl hover:shadow-md transition '>
@@ -41,15 +41,15 @@ const [toggleDealForm, setToggleDealForm] = useState(false)
             </p>
           </> : <></>}
 
-         <button
-  onClick={(e) => {
-    e.stopPropagation();
-    setToggleDealForm(!toggleDealForm);
-  }}
-  className="text-gray-400 hover:text-blue-500 transition"
->
-  <Pencil size={16} />
-</button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setToggleDealForm(!toggleDealForm);
+            }}
+            className="text-gray-400 hover:text-blue-500 transition"
+          >
+            <Pencil size={16} />
+          </button>
 
           <button
             onClick={() => onDelete(sponsor.id)}
@@ -70,20 +70,20 @@ const [toggleDealForm, setToggleDealForm] = useState(false)
       <div className='w-full flex justify-end mt-3'>
 
 
-         <button onClick={handleToggle} className='  px-3 py-2 font-semibold text-white bg-[#0B1324] rounded-lg cursor-pointer'>
+        <button onClick={handleToggle} className='  px-3 py-2 font-semibold text-white bg-[#0B1324] rounded-lg cursor-pointer'>
           + Add Progress
         </button>
 
       </div>
       {toggleDealForm && (
- <EditDealForm
-  id={sponsor.id}
-  sponsor={sponsor}
-  toggleForm={toggleDealForm}
-  setToggleForm={setToggleDealForm}
-  setdealCompleted={setdealCompleted}
-/>
-)}
+        <EditDealForm
+          id={sponsor.id}
+          sponsor={sponsor}
+          toggleForm={toggleDealForm}
+          setToggleForm={setToggleDealForm}
+          setdealCompleted={setdealCompleted}
+        />
+      )}
       {toggleForm ? <AddProgressForm dealCompleted={dealCompleted} setdealCompleted={setdealCompleted} id={sponsor.id} setToggleForm={setToggleForm} toggleForm={toggleForm} /> : <></>}
     </div>
   )

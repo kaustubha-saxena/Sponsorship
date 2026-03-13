@@ -6,7 +6,7 @@ import { supabase } from "@/lib/supabase";
 import { useUser } from "@/app/context/UserContext";
 
 export default function AddContact() {
-  const { user } = useUser(); // Firebase Auth
+  const { user } = useUser();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -35,7 +35,6 @@ export default function AddContact() {
           return;
         }
 
-        // 🔥 Transform Excel rows safely
         const contactsToInsert = jsonData.map((row) => ({
           name: row.name?.toString().trim() || "",
           email: row.email?.toString().trim() || "",
@@ -51,22 +50,28 @@ export default function AddContact() {
           note: "",
           callDate: null,
           emailDate: null,
-          assignedTo: null, // intentionally null
+          assignedTo: null,
         }));
 
-        // 🔥 Insert into Supabase
-        const { error } = await supabase
-          .from("contacts")
-          .insert(contactsToInsert, { returning: "minimal" });
+        const batchSize = 500;
+        const total = contactsToInsert.length;
 
-        if (error) {
-          console.error("SUPABASE ERROR:", error);
-          throw error;
+        for (let i = 0; i < total; i += batchSize) {
+          const batch = contactsToInsert.slice(i, i + batchSize);
+
+          setMessage(
+            `Uploading ${Math.min(i + batchSize, total)} of ${total} contacts...`
+          );
+
+          const { error } = await supabase.from("contacts").insert(batch);
+
+          if (error) {
+            console.error("SUPABASE ERROR:", error);
+            throw error;
+          }
         }
 
-        setMessage(
-          `${contactsToInsert.length} contacts uploaded successfully 🎉`
-        );
+        setMessage(`${total} contacts uploaded successfully 🎉`);
       } catch (err) {
         console.error("Upload Error:", err);
         setMessage("Error uploading file. Check console.");
@@ -81,7 +86,22 @@ export default function AddContact() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6 text-black">
       <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+
         <h1 className="text-xl font-semibold mb-4">Upload Contacts</h1>
+
+        {/* Download Template */}
+        <a
+          href="/template.xlsx"
+          download
+          className="block mb-4 w-full text-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+        >
+          Download Excel Template
+        </a>
+
+        <p className="text-sm text-gray-500 mb-4">
+          Download the template, add contacts, and upload it.
+          <b> Do not change the column names.</b>
+        </p>
 
         {message && (
           <div
@@ -103,8 +123,11 @@ export default function AddContact() {
         />
 
         {loading && (
-          <p className="mt-3 text-sm text-gray-500">Uploading...</p>
+          <p className="mt-3 text-sm text-gray-500">
+            Uploading contacts...
+          </p>
         )}
+
       </div>
     </div>
   );
