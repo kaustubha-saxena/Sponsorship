@@ -4,7 +4,7 @@ import { Mail, Linkedin, Phone } from "lucide-react";
 
 export default function Footer() {
     return (
-        <footer className="w-full bg-[#0B1324] text-gray-300 border-t border-[#1F2A44] mt-1">
+        <footer className="w-5/6 right-0 absolute bg-[#0B1324] text-gray-300 border-t border-[#1F2A44] mt-1">
             <div className="max-w-7xl mx-auto px-6 py-8 text-center">
 
                 <p className="text-sm font-semibold text-white">

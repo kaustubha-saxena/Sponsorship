@@ -37,11 +37,6 @@ export default function Home() {
           Get Started
         </Link>
       </div>
-
-      {/* Footer */}
-      <footer className="text-center py-4 text-gray-500 text-sm">
-        © {new Date().getFullYear()} Sponsorship & Marketing. All rights reserved.
-      </footer>
     </div>
   );
 }

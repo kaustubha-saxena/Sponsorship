@@ -193,7 +193,7 @@ export default function AddSponsor({ handleToggle }) {
     e.preventDefault();
 
     if (!user) return;
-console.log(formData);
+
 
     try {
       const { data, error } = await supabase
@@ -231,7 +231,7 @@ console.log(formData);
   };
 
   return (
-    <div className="absolute top-0 w-full h-full bg-white/60 left-0 flex justify-center items-center">
+    <div className="text-black    absolute top-0 w-full h-full bg-white/60 left-0 flex justify-center items-center">
       <div className="relative z-20 w-[30%] mt-6 bg-white p-6 rounded-xl shadow-md border">
         <h3 className="text-lg font-semibold mb-4">Add Sponsor</h3>
 

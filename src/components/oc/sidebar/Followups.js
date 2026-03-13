@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useUser } from "@/app/context/UserContext";
 import { supabase } from "@/lib/supabase";
 
-const Followups = () => {
+const Followups = ({refresh}) => {
   const { user } = useUser();
 
   const [followToday, setFollowToday] = useState([]);
@@ -36,7 +36,7 @@ const formattedToday = `${today.getMonth() + 1}/${today.getDate()}/${today.getFu
     };
 
     fetchFollowToday();
-  }, [user]);
+  }, [user, refresh]);
 
   return (
     <div className="bg-[#15213c] rounded-lg px-4 py-3 text-white">
@@ -60,7 +60,7 @@ const formattedToday = `${today.getMonth() + 1}/${today.getDate()}/${today.getFu
           {loading ? (
             <p>Loading...</p>
           ) : followToday.length > 0 ? (
-            <ul className="list-disc pl-5 max-h-40 overflow-y-auto">
+            <ul className="list-disc pl-5 text-left max-h-40 overflow-y-auto">
               {followToday.map((contact) => (
                 <li key={contact.id}>
                   {contact.company}

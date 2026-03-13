@@ -8,9 +8,10 @@ export default function AdminPage() {
       
  <div className="flex min-h-screen bg-zinc-500 font-sans dark:bg-black">
 
-    <Sidebar/>
-    <Right/>
-
+      <div className="flex flex-1">
+          <Sidebar />
+          <Right />
+        </div>
  </div>
 
     </ProtectedRoute>

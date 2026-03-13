@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect, useState } from "react";
 
 
-const SponsorReport = ({ mySponsors }) => {
+const SponsorReport = ({ mySponsors, refreshSponsorProgress }) => {
 
 
   const [totalSponsorship, settotalSponsorship] = useState(0)
@@ -66,7 +66,7 @@ useEffect(() => {
 
 
   return (
-    <div className="  z-50 top-0 w-full h-[30%]  px-6 py-6 bg-gray-50 sticky">
+    <div className="text-black bg-gray-50  z-50 top-0 w-full h-fit  px-6 py-6 sticky">
 
 
 

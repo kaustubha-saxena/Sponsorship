@@ -10,7 +10,7 @@ const MySponsor = () => {
   const [mySponsors, setMySponsors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [toggleForm, setToggleForm] = useState(false);
- const [dealCompleted, setdealCompleted] = useState(false);
+  const [dealCompleted, setdealCompleted] = useState(false);
   const { user } = useUser();
 
   useEffect(() => {
@@ -22,11 +22,11 @@ const MySponsor = () => {
           .from("sponsorProgress") // your table name
           .select("*")
           .eq("assignedTo", user.uid);
-         
-          
+
+
 
         if (error) throw error;
-console.log(data);
+
 
         setMySponsors(data || []);
       } catch (error) {
@@ -54,49 +54,51 @@ console.log(data);
   const deleteSponsor = async (id) => {
     const confirmDelete = confirm("Are you sure you want to delete this sponsor?");
     if (!confirmDelete) return;
-  
+
     try {
       const { error } = await supabase
         .from("sponsorProgress")
         .delete()
         .eq("id", id);
-  
+
       if (error) throw error;
-  
+
       // remove from UI
       setMySponsors((prev) => prev.filter((s) => s.id !== id));
-  
+
     } catch (err) {
       console.error("Error deleting sponsor:", err);
       alert("Failed to delete sponsor");
     }
   };
-  
+
 
   return (
-    <div className="bg-gray-50 w-5/6 min-h-full absolute right-0 p-5 text-black flex gap-5 flex-col">
-      
-      <div  className="flex justify-between items-center ">
-      <h3 className="font-bold text-2xl">Sponsor Progress</h3>
-      <button onClick={handleToggle}  className="px-3 py-2 font-semibold text-white bg-[#0B1324] rounded-lg cursor-pointer">
-        Add Sponsor
-      </button>
-      </div>
+    <div className='bg-gray-50  w-5/6 min-h-full h-full absolute right-0 p-5 '>
 
-      {mySponsors.length === 0 ? (
-        <div className="text-gray-500">No Sponsors Assigned</div>
-      ) : (
-        mySponsors.map((sponsor) => (
-          <ProgressBarBox 
-          key={sponsor.company}
-          sponsor={sponsor}
-          
-    onDelete={deleteSponsor}
-          dealCompleted={sponsor.dealCompleted}
-          setdealCompleted={setdealCompleted}
-          />
-        ))
-      )}
+      <div className="flex justify-between items-center h-[10%] ">
+        <h3 className="font-bold text-2xl text-black">Sponsor Progress</h3>
+        <button onClick={handleToggle} className="px-3 py-2 font-semibold text-white bg-[#0B1324] rounded-lg cursor-pointer">
+          Add Sponsor
+        </button>
+      </div>
+      <div className="w-full  flex flex-col gap-2 h-[90%] overflow-scroll no-scrollbar ">
+
+        {mySponsors.length === 0 ? (
+          <div className="text-gray-500">No Sponsors Assigned</div>
+        ) : (
+          mySponsors.map((sponsor) => (
+            <ProgressBarBox
+              key={sponsor.company}
+              sponsor={sponsor}
+
+              onDelete={deleteSponsor}
+              dealCompleted={sponsor.dealCompleted}
+              setdealCompleted={setdealCompleted}
+            />
+          ))
+        )}
+      </div>
 
       <div>
         {toggleForm && <AddSponsor handleToggle={handleToggle} />}

@@ -10,7 +10,7 @@ const Right = ({selectedOCid , refresh, setRefresh}) => {
 
  console.log(selectedOCid, "selectedOCid in right component");
  
-
+ 
   const [assignedContacts, setassignedContacts] = useState([]);
       const [loading, setLoading] = useState(true);
       const [noOfCalls, setNoOfCalls] = useState(0);

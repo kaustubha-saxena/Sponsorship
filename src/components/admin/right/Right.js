@@ -112,7 +112,7 @@ const Right = () => {
   };
 
   return (
-    <div className=' relative w-full min-h-full bg-gray-50'>
+    <div className="w-full bg-gray-50 flex flex-col flex-1">
 
 
 

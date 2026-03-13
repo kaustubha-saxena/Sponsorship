@@ -25,12 +25,12 @@ const ProgressBarBox = ({ sponsor, dealCompleted, setdealCompleted, onDelete }) 
   return (
     <div className='relative w-full shadow-sm  bg-white p-4 rounded-xl hover:shadow-md transition '>
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold">
+        <h2 className="text-xl font-semibold text-black">
           {sponsor.company}
         </h2>
 
         <div className="flex items-center justify-center  gap-4 ">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-black">
             Alloted to: <span className="font-medium">{sponsor.assignedOC}</span>
           </p>
 
@@ -46,7 +46,7 @@ const ProgressBarBox = ({ sponsor, dealCompleted, setdealCompleted, onDelete }) 
               e.stopPropagation();
               setToggleDealForm(!toggleDealForm);
             }}
-            className="text-gray-400 hover:text-blue-500 transition"
+            className="hover:cursor-pointer text-gray-400 hover:text-blue-500 transition"
           >
             <Pencil size={16} />
           </button>

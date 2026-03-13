@@ -4,7 +4,7 @@ import { useState } from "react";
 import UpdateForm from "../UpdateContact/UpdateForm";
 import Image from "next/image";
 const DataRow = ({ item, refresh, setRefresh }) => {
-  console.log("item,=", item.company);
+ 
 
 
   const [showUpdateForm, setshowUpdateForm] = useState(false);
@@ -59,12 +59,12 @@ const DataRow = ({ item, refresh, setRefresh }) => {
 
       </td>
 
-      <td className="p-4 font-medium flex justify-center ">{item.email}</td>
-      <td className="p-4 font-medium">{item.phone || "-"}</td>
-      <td className="p-4 font-medium">{item.role || "-"}</td>
-      <td className="p-4 font-medium flex justify-start">{item.emailSent ? "Yes" : "No"}</td>
-      <td className="p-4 font-medium">{item.callMade ? "Yes" : "No"}</td>
-      <td className="p-4 font-medium">{formatDate(item.followUpAt)}</td>
+      <td className="p-4 font-medium flex justify-center max-w-lg ">{item.email}</td>
+      <td className="p-4 font-medium max-w-sm">{item.phone || "-"}</td>
+      <td className="p-4 font-medium max-w-xs ">{item.role || "-"}</td>
+      <td className="p-4 font-medium max-w-xs flex justify-start">{item.emailSent ? "Yes" : "No"}</td>
+      <td className="p-4 font-medium max-w-xs">{item.callMade ? "Yes" : "No"}</td>
+      <td className="p-4 font-medium max-w-xs">{formatDate(item.followUpAt)}</td>
       <td title={item.note} className="p-4 font-medium whitespace-nowrap max-w-xs overflow-hidden text-ellipsis cursor-help">  {item.note}</td>
       <td className="">
         <div className="flex justify-center items-center w-full ">

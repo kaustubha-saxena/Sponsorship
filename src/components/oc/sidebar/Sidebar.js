@@ -8,7 +8,7 @@ import Followups from "./Followups";
 import { useRouter } from "next/navigation";  
 import { useUser } from "@/app/context/UserContext";
 
-export default function Sidebar({setMenu}) {
+export default function Sidebar({setMenu, refresh}) {
   
   const {user } = useUser();
 const router = useRouter();
@@ -27,7 +27,7 @@ const router = useRouter();
   router.push("/dashboard/oc");
 }} className="w-full h-10  bg-[#15213c] rounded-lg ">
    
-<Followups/>  
+<Followups refresh ={refresh}/>  
     </button>
   </li>
   <li>
@@ -40,9 +40,9 @@ const router = useRouter();
     </button>
   </li>
 </ul>
-      <div className="absolute bottom-0 left-0 right-0  w-full h-12">
-      <LogoutButton  />
-      </div>
+     <div className="absolute bottom-0  left-0 right-0  w-full h-12">
+             <LogoutButton />
+           </div>
     </aside>
   );
 }

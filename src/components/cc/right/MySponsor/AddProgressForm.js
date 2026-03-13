@@ -92,7 +92,7 @@ const handleUpdate = async (e) => {
     setToggleForm(!toggleForm);
   };
   return (
-    <div className="relative w-full  bg-white rounded-2xl shadow-lg border border-gray-200 p-8 transition-all duration-300">
+    <div className="text-black relative w-full  bg-white rounded-2xl shadow-lg border border-gray-200 p-8 transition-all duration-300">
 
       {/* Header */}
       <div className="flex justify-between items-center mb-6">

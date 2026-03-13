@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from "react";
 import { useUser } from "@/app/context/UserContext";
 import WelcomeDashboard from "./WelcomeDashboard";
@@ -40,8 +38,7 @@ const Right = ({refresh, setRefresh}) => {
   }, [refresh]);
 
   return (
-    <div className="bg-gray-50 w-5/6 min-h-full h-full absolute right-0">
-
+     <div className='bg-gray-50 w-5/6 min-h-full h-full absolute right-0'>
       {loading ? (
         <div className="p-10 text-gray-500">Loading...</div>
       ) : (
@@ -54,5 +51,5 @@ const Right = ({refresh, setRefresh}) => {
     </div>
   );
 };
-
+ 
 export default Right;

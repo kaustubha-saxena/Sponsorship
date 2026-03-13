@@ -23,7 +23,7 @@ const ProgressBarBox = ({ sponsor, dealCompleted, setdealCompleted, onDelete}) =
   return (
     <div className='relative w-full shadow-sm  bg-white p-4 rounded-xl hover:shadow-md transition '>
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold">
+        <h2 className="text-xl font-semibold text-black">
           {sponsor.company}
         </h2>
 
