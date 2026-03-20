@@ -7,9 +7,12 @@ import EditProgressForm from "./EditProgressForm";
 import { supabase } from "@/lib/supabase";
 
 export default function ProgressBar({ id,
+    sponsor,
     steps = [],
     dealCompleted,
-    setdealCompleted }) {
+    setdealCompleted,
+    refreshSponsorReport,
+    setRefreshSponsorReport }) {
 
     const [toggleForm, setToggleForm] = useState(false);
     const [editStep, setEditStep] = useState(null);
@@ -58,7 +61,7 @@ export default function ProgressBar({ id,
 
             if (updateError) throw updateError;
 
-            window.location.reload(); // simple refresh (can improve later)
+            setRefreshSponsorReport(!refreshSponsorReport);
 
         } catch (err) {
            
@@ -212,12 +215,15 @@ export default function ProgressBar({ id,
             {toggleForm && (
                 <EditProgressForm
                     id={id}
+                    sponsor={sponsor}
                     stepData={editStep}
                     stepIndex={editIndex}
                     toggleForm={toggleForm}
                     setToggleForm={setToggleForm}
                     dealCompleted={dealCompleted}
                     setdealCompleted={setdealCompleted}
+                    refreshSponsorReport={refreshSponsorReport}
+                    setRefreshSponsorReport={setRefreshSponsorReport}
                 />
             )}
         </div>

@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 
 import { useState } from "react";
 
-export default function AddProgressForm({ id, setToggleForm, toggleForm, dealCompleted, setdealCompleted }) {
+export default function AddProgressForm({ id, setToggleForm, toggleForm, dealCompleted, setdealCompleted, refreshSponsorReport, setRefreshSponsorReport }) {
   const [formData, setFormData] = useState({
     heading: "",
     notes: "",
@@ -14,81 +14,86 @@ export default function AddProgressForm({ id, setToggleForm, toggleForm, dealCom
     inKind: false,
     amount: "",
   });
+  const showDealTypeWarning = formData.dealCompleted && !formData.inCash && !formData.inKind;
 
-const handleChange = (e) => {
-  const { name, type, checked, value } = e.target;
+  const handleChange = (e) => {
+    const { name, type, checked, value } = e.target;
 
-  if (name === "inCash" && checked) {
-    setFormData((prev) => ({
-      ...prev,
-      inCash: true,
-      inKind: false,
-    }));
-    return;
-  }
-
-  if (name === "inKind" && checked) {
-    setFormData((prev) => ({
-      ...prev,
-      inCash: false,
-      inKind: true,
-    }));
-    return;
-  }
-
-  setFormData((prev) => ({
-    ...prev,
-    [name]: type === "checkbox" ? checked : value,
-  }));
-};
-
-
-
-
-const handleUpdate = async (e) => {
-  e.preventDefault();
-  setdealCompleted(formData.dealCompleted);
-
-  try {
-    const { data, error } = await supabase.rpc("append_progress", {
-      row_id: id,
-      new_heading: formData.heading,
-      new_notes: formData.notes,
-      new_date: formData.date || null, 
-      new_deal_completed: formData.dealCompleted,
-      new_deal_type: formData.inCash
-        ? "cash"
-        : formData.inKind
-        ? "kind"
-        : "none",
-      new_amount: formData.inCash
-        ? Number(formData.amount) || 0
-        : 0,
-    });
-
-    if (error) {
-      console.error("Supabase Error:", error);
+    if (name === "inCash" && checked) {
+      setFormData((prev) => ({
+        ...prev,
+        inCash: true,
+        inKind: false,
+      }));
       return;
     }
 
-    console.log("Updated successfully ✅", data);
+    if (name === "inKind" && checked) {
+      setFormData((prev) => ({
+        ...prev,
+        inCash: false,
+        inKind: true,
+      }));
+      return;
+    }
 
-    setFormData({
-      heading: "",
-      notes: "",
-      date: "",
-      dealCompleted: false,
-      inCash: false,
-      inKind: false,
-      amount: "",
-    });
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
 
-    setToggleForm(false);
 
-  } catch (error) {
-    console.error("Unexpected Error:", error);
-  }
-};
+
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+
+    if (showDealTypeWarning) {
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase.rpc("append_progress", {
+        row_id: id,
+        new_heading: formData.heading,
+        new_notes: formData.notes,
+        new_date: formData.date || null,
+        new_deal_completed: formData.dealCompleted,
+        new_deal_type: formData.inCash
+          ? "cash"
+          : formData.inKind
+            ? "kind"
+            : "none",
+        new_amount: formData.amount,
+      });
+
+      if (error) {
+        console.error("Supabase Error:", error);
+        return;
+      }
+
+      console.log("Updated successfully ✅", data);
+
+      setdealCompleted(formData.dealCompleted);
+      setRefreshSponsorReport(!refreshSponsorReport);
+
+      setFormData({
+        heading: "",
+        notes: "",
+        date: "",
+        dealCompleted: false,
+        inCash: false,
+        inKind: false,
+        amount: "",
+      });
+
+      setToggleForm(false);
+
+    } catch (error) {
+      console.error("Unexpected Error:", error);
+    }
+  };
   const handleToggle = () => {
     setToggleForm(!toggleForm);
   };
@@ -123,7 +128,7 @@ const handleUpdate = async (e) => {
             value={formData.heading}
             onChange={handleChange}
             required
-            
+
 
             className="w-full rounded-xl border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
             placeholder="Enter progress title"
@@ -141,7 +146,7 @@ const handleUpdate = async (e) => {
             onChange={handleChange}
             rows="4"
             required
-     
+
             className="w-full rounded-xl border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition resize-none"
             placeholder="Enter details..."
           />
@@ -158,7 +163,7 @@ const handleUpdate = async (e) => {
             value={formData.date}
             onChange={handleChange}
             required={!formData.dealCompleted}
-          
+
             className="w-full rounded-xl border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition "
           />
         </div>
@@ -214,22 +219,28 @@ const handleUpdate = async (e) => {
                 />
               </div>
 
-             
-            
-                <div className="flex flex-col gap-1">
-                  <label className="text-sm text-gray-600">
-                    Enter Amount
-                  </label>
-                  <input
-                    type="number"
-                    name="amount"
-                    value={formData.amount}
-                    onChange={handleChange}
-                    placeholder="Enter price"
-                    className="border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  />
-                </div>
-              
+
+
+              <div className="flex flex-col gap-1">
+                <label className="text-sm text-gray-600">
+                  Enter Amount
+                </label>
+                <input
+                  type="number"
+                  name="amount"
+                  value={formData.amount}
+                  onChange={handleChange}
+                  placeholder="Enter price"
+                  className="border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+              </div>
+
+              {showDealTypeWarning && (
+                <p className="text-sm text-red-500">
+                  Select at least one deal type.
+                </p>
+              )}
+
 
             </div>
           )}

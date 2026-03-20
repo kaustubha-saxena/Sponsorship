@@ -4,35 +4,40 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 export default function EditProgressForm({   id,
+  sponsor,
   stepData,
   stepIndex,
   setToggleForm,
   toggleForm,
   dealCompleted,
-  setdealCompleted}) {
+  setdealCompleted,
+  refreshSponsorReport,
+  setRefreshSponsorReport,
+}) {
  const [formData, setFormData] = useState({
   heading: stepData?.heading || "",
   notes: stepData?.notes || "",
   date: stepData?.date || "",
-  dealCompleted: stepData?.dealCompleted || false,
-  inCash: false,
-  inKind: false,
-  amount: "",
+  dealCompleted: sponsor?.dealCompleted || false,
+  inCash: sponsor?.dealType === "cash",
+  inKind: sponsor?.dealType === "kind",
+  amount: sponsor?.ammount || "",
 });
+const showDealTypeWarning = formData.dealCompleted && !formData.inCash && !formData.inKind;
 
 useEffect(() => {
-  if (stepData) {
+  if (stepData || sponsor) {
     setFormData({
-      heading: stepData.heading || "",
-      notes: stepData.notes || "",
-      date: stepData.date || "",
-      dealCompleted: stepData.dealCompleted || false,
-      inCash: false,
-      inKind: false,
-      amount: "",
+      heading: stepData?.heading || "",
+      notes: stepData?.notes || "",
+      date: stepData?.date || "",
+      dealCompleted: sponsor?.dealCompleted || false,
+      inCash: sponsor?.dealType === "cash",
+      inKind: sponsor?.dealType === "kind",
+      amount: sponsor?.ammount || "",
     });
   }
-}, [stepData]);
+}, [stepData, sponsor]);
 
 
 const handleChange = (e) => {
@@ -68,6 +73,11 @@ const handleChange = (e) => {
 const handleUpdate = async (e) => {
   e.preventDefault();
 
+  if (showDealTypeWarning) {
+    return;
+  }
+  const hasValidDealType = formData.inCash || formData.inKind;
+
   try {
 
     const { data, error } = await supabase
@@ -91,12 +101,23 @@ const handleUpdate = async (e) => {
       .update({
         progressHeading: headings,
         progressNotes: notes,
-        progressDates: dates
+        progressDates: dates,
+        dealCompleted: formData.dealCompleted && hasValidDealType,
+        dealType: formData.dealCompleted && hasValidDealType
+          ? formData.inCash
+            ? "cash"
+            : formData.inKind
+              ? "kind"
+              : "none"
+          : "none",
+        ammount: formData.dealCompleted && hasValidDealType ? Number(formData.amount) || 0 : 0,
       })
       .eq("id", id);
 
     if (updateError) throw updateError;
 
+    setdealCompleted(formData.dealCompleted && hasValidDealType);
+    setRefreshSponsorReport(!refreshSponsorReport);
     setToggleForm(false);
 
   } catch (err) {
@@ -242,7 +263,13 @@ const handleUpdate = async (e) => {
                     className="border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                   />
                 </div>
-              
+
+                {showDealTypeWarning && (
+                  <p className="text-sm text-red-500">
+                    Select at least one deal type.
+                  </p>
+                )}
+               
 
             </div>
           )}

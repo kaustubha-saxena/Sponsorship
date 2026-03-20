@@ -85,7 +85,7 @@ export default function DeliverablesCard({ sponsor }) {
   };
 
   return (
-    <div className="relative inline-block" ref={boxRef}>
+    <div className="relative inline-block text-black" ref={boxRef}>
       {/* Trigger */}
       <div
         onClick={() => setOpen(!open)}

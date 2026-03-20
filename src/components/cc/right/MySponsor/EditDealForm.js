@@ -10,7 +10,9 @@ export default function EditDealForm({
   setToggleForm,
   toggleForm,
   sponsor,
-  setdealCompleted
+  setdealCompleted,
+  refreshSponsorReport,
+  setRefreshSponsorReport,
 }) {
 const [formData, setFormData] = useState({
   dealCompleted: sponsor?.dealCompleted || false,
@@ -18,6 +20,7 @@ const [formData, setFormData] = useState({
   inKind: sponsor?.dealType === "kind",
   amount: sponsor?.ammount || "",
 });
+  const showDealTypeWarning = formData.dealCompleted && !formData.inCash && !formData.inKind;
   const handleChange = (e) => {
     const { name, type, checked, value } = e.target;
 
@@ -48,20 +51,25 @@ const [formData, setFormData] = useState({
   const handleUpdate = async (e) => {
     e.preventDefault();
 
+    if (showDealTypeWarning) {
+      return;
+    }
+    const hasValidDealType = formData.inCash || formData.inKind;
+
     try {
 
       const { error } = await supabase
         .from("sponsorProgress") // change if needed
         .update({
-          dealCompleted: formData.dealCompleted,
-          dealType: formData.inCash
+          dealCompleted: formData.dealCompleted && hasValidDealType,
+          dealType: formData.dealCompleted && hasValidDealType
+            ? formData.inCash
             ? "cash"
             : formData.inKind
             ? "kind"
+            : "none"
             : "none",
-          ammount: formData.inCash
-            ? Number(formData.amount) || 0
-            : 0,
+          ammount: formData.dealCompleted && hasValidDealType ? Number(formData.amount) || 0 : 0,
         })
         .eq("id", id);
 
@@ -70,7 +78,8 @@ const [formData, setFormData] = useState({
         return;
       }
 
-      setdealCompleted(formData.dealCompleted);
+      setdealCompleted(formData.dealCompleted && hasValidDealType);
+      setRefreshSponsorReport(!refreshSponsorReport);
       setToggleForm(false);
 
     } catch (error) {
@@ -157,7 +166,7 @@ const [formData, setFormData] = useState({
             </div>
 
             {/* Amount */}
-            {formData.inCash && (
+            {formData.dealCompleted && (
               <div className="flex flex-col gap-1">
                 <label className="text-sm text-gray-600">
                   Enter Amount
@@ -172,6 +181,12 @@ const [formData, setFormData] = useState({
                   className="border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
               </div>
+            )}
+
+            {showDealTypeWarning && (
+              <p className="text-sm text-red-500">
+                Select at least one deal type.
+              </p>
             )}
 
           </div>

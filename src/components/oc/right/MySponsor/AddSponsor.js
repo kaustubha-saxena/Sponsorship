@@ -169,7 +169,7 @@ import { supabase } from "@/lib/supabase";
 import { useUser } from "@/app/context/UserContext";
 import { useState } from "react";
 
-export default function AddSponsor({ handleToggle }) {
+export default function AddSponsor({ handleToggle, refreshSponsorReport, setRefreshSponsorReport }) {
 
   const { user } = useUser();
 
@@ -223,6 +223,7 @@ export default function AddSponsor({ handleToggle }) {
         date: "",
       });
 
+      setRefreshSponsorReport(!refreshSponsorReport);
       handleToggle();
 
     } catch (error) {

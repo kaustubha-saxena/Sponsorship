@@ -8,7 +8,7 @@ export default function Footer() {
             <div className="max-w-7xl mx-auto px-6 py-8 text-center">
 
                 <p className="text-sm font-semibold text-white">
-                    © 2026 Sponsorship & Marketing Portal 
+                    © 2026 Sponsorship & Marketing Portal
                 </p>
 
                 <p className="mt-3 text-sm">
@@ -78,7 +78,7 @@ export default function Footer() {
                         rel="noopener noreferrer"
                         className="hover:text-blue-400 transition"
                     >
-                       Dhruveel Shah
+                        Dhruveel Shah
 
                     </a>
                     •
@@ -129,6 +129,30 @@ export default function Footer() {
                     <span className="font-semibold text-white"> Sponsorship Team 2025–26</span>.
                 </p>
 
+                <p className="mt-2 text-sm text-gray-300">
+                    Special thanks to{" "}
+                    <span className="font-semibold text-white">
+                     
+                          <a
+                        href="https://www.linkedin.com/in/pranshu-bhale/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-blue-400 transition"
+                    >
+                        Pranshu Bhale
+                    </a>
+                     <span> & </span>
+                      <a
+                        href="https://www.linkedin.com/in/rishi-balhara-147a77288/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-blue-400 transition"
+                    >
+                         Rishi Balhara
+                    </a>
+                    </span>{" "}
+                    for their valuable support.
+                </p>
                 <p className="mt-4 text-sm">
                     Developed by <span className="font-semibold text-white">Kaustubha Saxena</span>
                 </p>
@@ -141,21 +165,21 @@ export default function Footer() {
                 {/* Contact Links */}
                 <div className="flex justify-center gap-6 mt-4">
 
-                     <a
-            href="mailto:kaustubha@example.com"
-            className="flex items-center gap-2 hover:text-blue-400 transition"
-          >
-            <Mail size={18} />
-            kaustubhasaxena@gmail.com
-          </a>
+                    <a
+                        href="mailto:kaustubha@example.com"
+                        className="flex items-center gap-2 hover:text-blue-400 transition"
+                    >
+                        <Mail size={18} />
+                        kaustubhasaxena@gmail.com
+                    </a>
 
-          <a
-            href="tel:+91XXXXXXXXXX"
-            className="flex items-center gap-2 hover:text-blue-400 transition"
-          >
-            <Phone size={18} />
-            +91 9555331875
-          </a>
+                    <a
+                        href="tel:+91XXXXXXXXXX"
+                        className="flex items-center gap-2 hover:text-blue-400 transition"
+                    >
+                        <Phone size={18} />
+                        +91 9555331875
+                    </a>
 
                     <a
                         href="https://www.linkedin.com/in/kaustubha-saxena/"

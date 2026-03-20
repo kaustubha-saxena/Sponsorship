@@ -6,7 +6,7 @@ import { X } from "lucide-react";
 
 import { useState } from "react";
 
-export default function AddProgressForm({ id, setToggleForm, toggleForm, dealCompleted, setdealCompleted }) {
+export default function AddProgressForm({ id, setToggleForm, toggleForm, dealCompleted, setdealCompleted, refreshSponsorReport, setRefreshSponsorReport }) {
   const [formData, setFormData] = useState({
     heading: "",
     notes: "",
@@ -17,6 +17,7 @@ export default function AddProgressForm({ id, setToggleForm, toggleForm, dealCom
     amount: "",
    
   });
+const showDealTypeWarning = formData.dealCompleted && !formData.inCash && !formData.inKind;
 
 const handleChange = (e) => {
   const { name, type, checked, value } = e.target;
@@ -50,7 +51,10 @@ const handleChange = (e) => {
 
 const handleUpdate = async (e) => {
   e.preventDefault();
-  setdealCompleted(formData.dealCompleted);
+
+  if (showDealTypeWarning) {
+    return;
+  }
 
   try {
     const { data, error } = await supabase.rpc("append_progress", {
@@ -64,9 +68,7 @@ const handleUpdate = async (e) => {
         : formData.inKind
         ? "kind"
         : "none",
-      new_amount: formData.inCash
-        ? Number(formData.amount) || 0
-        : 0,
+      new_amount: formData.amount,
     });
 
     if (error) {
@@ -76,6 +78,8 @@ const handleUpdate = async (e) => {
 
     console.log("Updated successfully ✅", data);
 
+    setdealCompleted(formData.dealCompleted);
+    setRefreshSponsorReport(!refreshSponsorReport);
     setFormData({
       heading: "",
       notes: "",
@@ -232,6 +236,12 @@ const handleUpdate = async (e) => {
                     className="border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                   />
                 </div>
+
+              {showDealTypeWarning && (
+                <p className="text-sm text-red-500">
+                  Select at least one deal type.
+                </p>
+              )}
               
             </div>
           )}

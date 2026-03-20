@@ -5,9 +5,12 @@ import { useState } from "react";
 import EditProgressForm from "@/components/cc/right/MySponsor/EditProgressForm";
 import { supabase } from "@/lib/supabase";
 export default function ProgressBar({ id,
+    sponsor,
     steps = [],
     dealCompleted,
-    setdealCompleted }) {
+    setdealCompleted,
+    refreshSponsorReport,
+    setRefreshSponsorReport }) {
 
  const [toggleForm, setToggleForm] = useState(false);
     const [editStep, setEditStep] = useState(null);
@@ -58,7 +61,7 @@ const progressWidth =
       
                   if (updateError) throw updateError;
       
-                  window.location.reload(); // simple refresh (can improve later)
+                  setRefreshSponsorReport(!refreshSponsorReport);
       
               } catch (err) {
                  
@@ -213,12 +216,15 @@ const progressWidth =
                     {toggleForm && (
                         <EditProgressForm
                             id={id}
+                            sponsor={sponsor}
                             stepData={editStep}
                             stepIndex={editIndex}
                             toggleForm={toggleForm}
                             setToggleForm={setToggleForm}
                             dealCompleted={dealCompleted}
                             setdealCompleted={setdealCompleted}
+                            refreshSponsorReport={refreshSponsorReport}
+                            setRefreshSponsorReport={setRefreshSponsorReport}
                         />
                     )}
                 </div>

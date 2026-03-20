@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect, useState } from "react";
 
 
-const SponsorReport = ({ mySponsors, refreshSponsorProgress }) => {
+const SponsorReport = ({ mySponsors, refreshSponsorReport, setRefreshSponsorReport }) => {
 
 
   const [totalSponsorship, settotalSponsorship] = useState(0)
@@ -12,57 +12,59 @@ const SponsorReport = ({ mySponsors, refreshSponsorProgress }) => {
   const [cashCount, setCashCount] = useState(0)
   const [kinkCount, setKinkCount] = useState(0)
 
-useEffect(() => {
-  updateStats();
-}, [mySponsors]); 
+  useEffect(() => {
+    updateStats();
+  }, [mySponsors, refreshSponsorReport]);
 
   const updateStats = () => {
-  // Default stats object
-  const stats = {
-    total: 0,
-    count: 0,
-    inkind: 0,
-    cash: 0,
-    cashCount: 0,
-    inkindCount: 0,
+    // Default stats object
+    const stats = {
+      total: 0,
+      count: 0,
+      inkind: 0,
+      cash: 0,
+      cashCount: 0,
+      inkindCount: 0,
 
-  };
+    };
 
-  // Safety check
-  if (!Array.isArray(mySponsors) || mySponsors.length === 0) {
-    settotalSponsorship(0);
-    setTotalSponsors(0);
-    setinKind(0);
-    setIncash(0);
-    return;
-  }
-
-  mySponsors.forEach((sponsor) => {
-    // Only count completed deals
-    if (!sponsor?.dealCompleted) return;
-
-    const amount = Number(sponsor?.ammount) || 0;
-
-    stats.total += amount;
-    stats.cashCount += sponsor?.dealType?.toLowerCase() === "cash" ? 1 : 0;
-    stats.inkindCount += sponsor?.dealType?.toLowerCase() === "kind" ? 1 : 0;
-    stats.count += 1;
-
-    if (sponsor?.dealType?.toLowerCase() === "kind") {
-      stats.inkind += amount;
-    } else if (sponsor?.dealType?.toLowerCase() === "cash") {
-      stats.cash += amount;
+    // Safety check
+    if (!Array.isArray(mySponsors) || mySponsors.length === 0) {
+      settotalSponsorship(0);
+      setTotalSponsors(0);
+      setinKind(0);
+      setIncash(0);
+      return;
     }
-  });
 
-  // Update state
-  settotalSponsorship(stats.total);
-  setTotalSponsors(stats.count);
-  setinKind(stats.inkind);
-  setIncash(stats.cash);
-  setCashCount(stats.cashCount);
-  setKinkCount(stats.inkindCount);
-};
+    mySponsors.forEach((sponsor) => {
+      // Only count completed deals
+      if (!sponsor?.dealCompleted) return;
+
+      const amount = Number(sponsor?.ammount) || 0;
+      const dealType = sponsor?.dealType?.toLowerCase();
+      const hasValidDealType = dealType === "cash" || dealType === "kind";
+
+      stats.total += hasValidDealType ? amount : 0;
+      stats.cashCount += dealType === "cash" ? 1 : 0;
+      stats.inkindCount += dealType === "kind" ? 1 : 0;
+      stats.count += 1;
+
+      if (dealType === "kind") {
+        stats.inkind += amount;
+      } else if (dealType === "cash") {
+        stats.cash += amount;
+      }
+    });
+
+    // Update state
+    settotalSponsorship(stats.total);
+    setTotalSponsors(stats.count);
+    setinKind(stats.inkind);
+    setIncash(stats.cash);
+    setCashCount(stats.cashCount);
+    setKinkCount(stats.inkindCount);
+  };
 
 
   return (
@@ -74,7 +76,7 @@ useEffect(() => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-   
+
         <div className="bg-white rounded-2xl shadow-sm  p-6 flex flex-col justify-between hover:shadow-md transition">
           <div className="flex justify-between items-center">
             <p className="text-gray-500 text-sm font-medium">Total Sponosrship</p>
@@ -101,13 +103,13 @@ useEffect(() => {
         >
           <div className="flex justify-between items-center">
             <p className="text-gray-500 text-sm font-medium">In Kind</p>
-                   <span className='text-sm font-medium'>{kinkCount} sponosrs</span>
+            <span className='text-sm font-medium'>{kinkCount} sponosrs</span>
           </div>
 
           <h2 className={`text-3xl font-bold mt-4 
     `}
           >
-           ₹{inKind}
+            ₹{inKind}
           </h2>
         </div>
 

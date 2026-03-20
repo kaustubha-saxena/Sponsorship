@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import Link from "next/link";   
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen  bg-gray-50 flex flex-col">
       
       {/* Navbar */}
       <nav className="flex justify-between items-center px-8 py-5 bg-white shadow-sm">

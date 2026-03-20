@@ -4,16 +4,13 @@ import AddProgressForm from './AddProgressForm';
 import { useState } from 'react';
 import DeliverablesCard from './DeliverablesBlock';
 import { Trash2, Pencil } from "lucide-react";
-import { useMemo } from 'react';
 import EditDealForm from '@/components/cc/right/MySponsor/EditDealForm';
-const ProgressBarBox = ({ sponsor, dealCompleted, setdealCompleted, onDelete}) => {
-  const nodes = useMemo(() =>
-    (sponsor.progressHeading || []).map((heading, index) => ({
-      heading,
-      notes: sponsor.progressNotes?.[index] || "",
-      date: sponsor.progressDates?.[index] || "",
-    })),
-    [sponsor]);
+const ProgressBarBox = ({ sponsor, dealCompleted, setdealCompleted, onDelete, refreshSponsorReport, setRefreshSponsorReport}) => {
+  const nodes = (sponsor.progressHeading || []).map((heading, index) => ({
+    heading,
+    notes: sponsor.progressNotes?.[index] || "",
+    date: sponsor.progressDates?.[index] || "",
+  }));
   const [toggleForm, setToggleForm] = useState(false);
   const handleToggle = () => {
     setToggleForm(!toggleForm);
@@ -23,9 +20,20 @@ const ProgressBarBox = ({ sponsor, dealCompleted, setdealCompleted, onDelete}) =
   return (
     <div className='relative w-full shadow-sm  bg-white p-4 rounded-xl hover:shadow-md transition '>
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold text-black">
-          {sponsor.company}
-        </h2>
+        <div className="flex items-center gap-3">
+          <h2 className="text-xl font-semibold text-black">
+            {sponsor.company}
+          </h2>
+          {sponsor.dealCompleted && sponsor.dealType === "cash" ? (
+            <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-700">
+              Cash
+            </span>
+          ) : sponsor.dealCompleted && sponsor.dealType === "kind" ? (
+            <span className="px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-700">
+              Kind
+            </span>
+          ) : null}
+        </div>
 
         <div className="flex items-center justify-center  gap-4 ">
           <p className="text-sm text-gray-600">
@@ -58,14 +66,17 @@ const ProgressBarBox = ({ sponsor, dealCompleted, setdealCompleted, onDelete}) =
       </div>
       <ProgressBar
         id={sponsor.id}
+        sponsor={sponsor}
         steps={nodes}
         dealCompleted={dealCompleted}
         setdealCompleted={setdealCompleted}
+        refreshSponsorReport={refreshSponsorReport}
+        setRefreshSponsorReport={setRefreshSponsorReport}
       />
       <div className='w-full flex justify-end mt-3'>
-        {dealCompleted ? <></> : <button onClick={handleToggle} className='  px-3 py-2 font-semibold text-white bg-[#0B1324] rounded-lg cursor-pointer'>
+         <button onClick={handleToggle} className='  px-3 py-2 font-semibold text-white bg-[#0B1324] rounded-lg cursor-pointer'>
           + Add Progress
-        </button>}
+        </button>
 
       </div>
       {toggleDealForm && (
@@ -75,10 +86,12 @@ const ProgressBarBox = ({ sponsor, dealCompleted, setdealCompleted, onDelete}) =
                 toggleForm={toggleDealForm}
                 setToggleForm={setToggleDealForm}
                 setdealCompleted={setdealCompleted}
+                refreshSponsorReport={refreshSponsorReport}
+                setRefreshSponsorReport={setRefreshSponsorReport}
               />
             )}
 
-      {toggleForm ? <AddProgressForm dealCompleted={dealCompleted} setdealCompleted={setdealCompleted} id={sponsor.id} setToggleForm={setToggleForm} toggleForm={toggleForm} /> : <></>}
+      {toggleForm ? <AddProgressForm refreshSponsorReport={refreshSponsorReport} setRefreshSponsorReport={setRefreshSponsorReport} dealCompleted={dealCompleted} setdealCompleted={setdealCompleted} id={sponsor.id} setToggleForm={setToggleForm} toggleForm={toggleForm} /> : <></>}
     </div>
   )
 }

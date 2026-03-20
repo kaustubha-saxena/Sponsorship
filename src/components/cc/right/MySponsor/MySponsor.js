@@ -16,35 +16,30 @@ const MySponsor = () => {
   const [loading, setLoading] = useState(true);
   const [toggleForm, setToggleForm] = useState(false)
   const [dealCompleted, setdealCompleted] = useState(false);
-
+const [refreshSponsorReport, setRefreshSponsorReport] = useState(false)
   const { user } = useUser();
 
+  const fetchAssignedSponsors = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("sponsorProgress")
+        .select("*");
+
+      if (error) throw error;
+
+      setMySponsors(data || []);
+    } catch (error) {
+      console.error("Error fetching sponsors:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (!user) return;
 
-    const fetchAssignedSponsors = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("sponsorProgress") // your table name
-          .select("*");
-
-
-
-
-        if (error) throw error;
-
-
-        setMySponsors(data || []);
-      } catch (error) {
-        console.error("Error fetching sponsors:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchAssignedSponsors();
-  }, [user]);
+  }, [user, refreshSponsorReport]);
 
   if (loading) {
     return (
@@ -86,7 +81,7 @@ const MySponsor = () => {
           Add Sponsor
         </button>
       </div>
-      <SponsorReport mySponsors={mySponsors} />
+      <SponsorReport mySponsors={mySponsors} refreshSponsorReport={refreshSponsorReport} setRefreshSponsorReport={setRefreshSponsorReport} />
 
       <div className="w-full  flex flex-col gap-2 h-[70%] overflow-scroll no-scrollbar ">
         {mySponsors.length === 0 ? (
@@ -94,9 +89,10 @@ const MySponsor = () => {
         ) : (
           mySponsors.map((sponsor) => (
             <ProgressBarBox
-              key={sponsor.company}
+              key={sponsor.id}
               sponsor={sponsor}
-
+              refreshSponsorReport={refreshSponsorReport}
+              setRefreshSponsorReport={setRefreshSponsorReport}
               onDelete={deleteSponsor}
               dealCompleted={sponsor.dealCompleted}
               setdealCompleted={setdealCompleted}
@@ -107,7 +103,7 @@ const MySponsor = () => {
       </div>
 
       <div >
-        {toggleForm ? <AddSponsor handleToggle={handleToggle} /> : <></>}
+        {toggleForm ? <AddSponsor handleToggle={handleToggle} refreshSponsorReport={refreshSponsorReport} setRefreshSponsorReport={setRefreshSponsorReport} /> : <></>}
 
       </div>
     </div>
